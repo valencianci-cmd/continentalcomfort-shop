@@ -1,0 +1,659 @@
+<title>ContinentalComfort.Shop</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Saira:wght@400;500;600;700&family=Saira+Condensed:wght@500;600;700&display=swap">
+<style>
+/* Dark-first identity drawn from the Continental brochure: warm near-black ground,
+   steel-blue + brass-gold accents, condensed display type, diagonal geometry. */
+:root{
+  --bg:#1A1718; --surface:#232021; --surface-2:#2B2729; --surface-3:#343031;
+  --fg:#F2EFEC; --muted:#9E9794; --line:#393536;
+  --brand:#F2EFEC; --accent:#6E9EC0; --accent-2:#8FBAD6; --warm:#CE9A4C; --good:#5FB389; --bad:#D9736B;
+  --media:#FFFFFF;
+  --shadow:0 1px 2px rgba(0,0,0,.4),0 10px 28px rgba(0,0,0,.4);
+  --head:"Saira Condensed",system-ui,sans-serif; --body:"Saira","Segoe UI",system-ui,sans-serif;
+  --wrap:1200px; --radius:12px; color-scheme:dark;
+}
+@media (prefers-color-scheme:light){:root:not([data-theme="dark"]){
+  --bg:#F2F0EC; --surface:#FFFFFF; --surface-2:#EBE8E3; --surface-3:#E1DDD7;
+  --fg:#211D1E; --muted:#6B645F; --line:#DAD5CF;
+  --brand:#211D1E; --accent:#3C6E8C; --accent-2:#2F5970; --warm:#B07E2E; --good:#2E7D5B; --bad:#B23B3B;
+  --shadow:0 1px 2px rgba(20,18,18,.06),0 8px 22px rgba(20,18,18,.07); color-scheme:light;
+}}
+:root[data-theme="light"]{
+  --bg:#F2F0EC; --surface:#FFFFFF; --surface-2:#EBE8E3; --surface-3:#E1DDD7;
+  --fg:#211D1E; --muted:#6B645F; --line:#DAD5CF;
+  --brand:#211D1E; --accent:#3C6E8C; --accent-2:#2F5970; --warm:#B07E2E; --good:#2E7D5B; --bad:#B23B3B;
+  --shadow:0 1px 2px rgba(20,18,18,.06),0 8px 22px rgba(20,18,18,.07); color-scheme:light;
+}
+:root[data-theme="dark"]{
+  --bg:#1A1718; --surface:#232021; --surface-2:#2B2729; --surface-3:#343031;
+  --fg:#F2EFEC; --muted:#9E9794; --line:#393536;
+  --brand:#F2EFEC; --accent:#6E9EC0; --accent-2:#8FBAD6; --warm:#CE9A4C; --good:#5FB389; --bad:#D9736B;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);font-family:var(--body);line-height:1.5;-webkit-font-smoothing:antialiased}
+h1,h2,h3,h4{font-family:var(--head);font-weight:700;line-height:1.04;text-wrap:balance;margin:0;letter-spacing:.01em}
+a{color:inherit;text-decoration:none}
+button{font-family:inherit;cursor:pointer;border:0;background:none;color:inherit}
+img{max-width:100%}
+.wrap{max-width:var(--wrap);margin:0 auto;padding-left:max(18px,env(safe-area-inset-left,0px));padding-right:max(18px,env(safe-area-inset-right,0px))}
+.eyebrow{font-family:var(--head);text-transform:uppercase;letter-spacing:.18em;font-size:.74rem;font-weight:600;color:var(--accent)}
+.tnum{font-variant-numeric:tabular-nums}
+.btn{display:inline-flex;align-items:center;gap:.5rem;font-family:var(--head);font-weight:600;font-size:.95rem;text-transform:uppercase;letter-spacing:.04em;padding:.72rem 1.25rem;border-radius:8px;background:var(--accent);color:#10171d;transition:filter .15s,transform .05s;white-space:nowrap}
+.btn:hover{filter:brightness(1.08)}.btn:active{transform:translateY(1px)}
+.btn.ghost{background:transparent;color:var(--fg);border:1px solid var(--line)}
+.btn.ghost:hover{background:var(--surface-2);filter:none}
+.btn.warm{background:var(--warm);color:#1c1406}
+.btn.sm{padding:.5rem .85rem;font-size:.82rem}
+:focus-visible{outline:2.5px solid var(--accent);outline-offset:2px;border-radius:4px}
+
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:40;background:var(--surface)}
+header.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:30;background:var(--surface);border-bottom:1px solid var(--line)}
+.topbar{display:flex;align-items:center;gap:1rem;padding-block:.7rem}
+.brand{display:flex;align-items:center;gap:.65rem;flex:0 0 auto}
+.brand img{height:30px;display:block;filter:brightness(0) invert(1)}
+@media (prefers-color-scheme:light){:root:not([data-theme="dark"]) .brand img{filter:none}}
+:root[data-theme="light"] .brand img{filter:none}
+:root[data-theme="dark"] .brand img{filter:brightness(0) invert(1)}
+.brand .op{font-size:.58rem;color:var(--muted);text-transform:uppercase;letter-spacing:.12em;line-height:1.15;font-family:var(--head);font-weight:600;border-left:1px solid var(--line);padding-left:.65rem}
+.search{flex:1 1 auto;position:relative;min-width:0;max-width:430px}
+.search input{width:100%;border:1px solid var(--line);background:var(--surface-2);color:var(--fg);border-radius:8px;padding:.6rem .8rem .6rem 2.1rem;font:inherit;font-size:.9rem}
+.search svg{position:absolute;left:.65rem;top:50%;transform:translateY(-50%);width:16px;height:16px;color:var(--muted)}
+.top-actions{display:flex;align-items:center;gap:.5rem;margin-left:auto;flex:0 0 auto}
+.tier{position:relative}
+.tier select{appearance:none;font-family:var(--head);font-weight:600;font-size:.82rem;text-transform:uppercase;letter-spacing:.04em;border:1px solid var(--line);background:var(--surface-2);color:var(--fg);border-radius:8px;padding:.52rem 1.9rem .52rem .75rem}
+.tier::after{content:"▾";position:absolute;right:.65rem;top:50%;transform:translateY(-50%);pointer-events:none;color:var(--muted);font-size:.7rem}
+.icon-btn{position:relative;width:40px;height:40px;border-radius:8px;border:1px solid var(--line);background:var(--surface-2);display:grid;place-items:center}
+.icon-btn svg{width:18px;height:18px}
+.cart-count{position:absolute;top:-6px;right:-6px;min-width:18px;height:18px;padding:0 4px;border-radius:9px;background:var(--warm);color:#1c1406;font-family:var(--head);font-weight:700;font-size:.68rem;display:grid;place-items:center}
+nav.cats{border-top:1px solid var(--line);background:var(--surface);overflow-x:auto}
+nav.cats .row{display:flex;gap:.25rem;padding-block:.4rem}
+nav.cats a{font-family:var(--head);font-weight:600;font-size:.86rem;text-transform:uppercase;letter-spacing:.04em;color:var(--muted);padding:.4rem .75rem;border-radius:6px;white-space:nowrap}
+nav.cats a:hover{color:var(--fg);background:var(--surface-2)}
+nav.cats a.on{color:var(--accent);background:var(--surface-2)}
+
+/* hero with brochure-style diagonal */
+.hero{position:relative;overflow:hidden;background:
+  linear-gradient(120deg,#141011 0%,#1b1718 46%,#242a2e 100%)}
+:root[data-theme="light"] .hero,:root:not([data-theme="dark"]) .hero{background:linear-gradient(120deg,#17131400,#201c1d)}
+:root[data-theme="light"] .hero{background:linear-gradient(120deg,#141011,#232a2f)}
+.hero::after{content:"";position:absolute;top:0;right:0;width:44%;height:100%;
+  background:linear-gradient(115deg,transparent 46%,rgba(110,158,192,.22) 47% 52%,transparent 53%),
+             radial-gradient(60% 80% at 80% 10%,rgba(110,158,192,.25),transparent 60%);
+  pointer-events:none}
+.hero .wrap{position:relative;z-index:1;padding-block:clamp(2.4rem,6vw,4.2rem)}
+.hero h1{font-size:clamp(2.1rem,6vw,3.6rem);color:#fff;max-width:15ch;text-transform:none}
+.hero .rule{width:92px;height:4px;background:var(--warm);margin:1rem 0 1.1rem;border-radius:2px}
+.hero p{color:#d5cfca;max-width:48ch;margin:0 0 1.4rem;font-size:1.03rem}
+.hero .cta{display:flex;gap:.7rem;flex-wrap:wrap}
+.flagchip{display:inline-flex;align-items:center;gap:.45rem;font-family:var(--head);font-weight:600;text-transform:uppercase;letter-spacing:.1em;font-size:.72rem;color:#fff;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.16);padding:.35rem .7rem;border-radius:7px;margin-bottom:1rem}
+.flagchip b{color:var(--warm);font-weight:700}
+
+.trust{background:var(--surface);border-bottom:1px solid var(--line)}
+.trust .row{display:flex;flex-wrap:wrap;gap:.8rem 2rem;padding-block:.9rem;justify-content:space-between}
+.trust .it{display:flex;align-items:center;gap:.5rem;font-size:.82rem;color:var(--muted)}
+.trust .it b{color:var(--fg);font-family:var(--head);font-weight:600}
+.trust .it svg{width:17px;height:17px;color:var(--accent);flex:0 0 auto}
+
+section{padding-block:clamp(1.8rem,4vw,2.8rem)}
+.sec-head{display:flex;align-items:flex-end;justify-content:space-between;gap:1rem;margin-bottom:1.1rem}
+.sec-head h2{font-size:clamp(1.4rem,3.2vw,1.9rem);text-transform:uppercase;letter-spacing:.02em}
+.sec-head p{color:var(--muted);font-size:.92rem;margin:.3rem 0 0}
+.link{font-family:var(--head);font-weight:600;font-size:.86rem;text-transform:uppercase;letter-spacing:.04em;color:var(--accent);white-space:nowrap}
+
+.cat-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:.8rem}
+.cat-tile{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:1rem;display:flex;flex-direction:column;gap:.5rem;transition:border-color .15s,transform .1s;box-shadow:var(--shadow)}
+.cat-tile:hover{border-color:var(--accent);transform:translateY(-2px)}
+.cat-tile .ph{aspect-ratio:4/3;background:var(--media);border-radius:8px;display:grid;place-items:center;overflow:hidden}
+.cat-tile .ph img{width:100%;height:100%;object-fit:contain}
+.cat-tile h3{font-size:1.02rem;text-transform:uppercase;letter-spacing:.02em}
+.cat-tile span{font-size:.76rem;color:var(--muted)}
+
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(232px,1fr));gap:1rem}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;display:flex;flex-direction:column;box-shadow:var(--shadow);transition:border-color .15s,transform .1s}
+.card:hover{border-color:var(--accent);transform:translateY(-2px)}
+.card .media{aspect-ratio:1;background:var(--media);display:grid;place-items:center;padding:1rem;cursor:pointer}
+.card .media img{max-height:100%;object-fit:contain}
+.card .body{padding:.85rem;display:flex;flex-direction:column;gap:.45rem;flex:1}
+.card .kicker{font-size:.68rem;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);font-family:var(--head);font-weight:600}
+.card h3{font-size:1.05rem;cursor:pointer;text-transform:uppercase;letter-spacing:.01em;line-height:1.08}
+.card .model{font-size:.72rem;color:var(--muted);font-family:var(--head);letter-spacing:.02em}
+.badges{display:flex;flex-wrap:wrap;gap:.35rem;margin-top:.1rem}
+.badge{font-family:var(--head);font-weight:600;font-size:.72rem;padding:.2rem .5rem;border-radius:6px;background:var(--surface-2);color:var(--accent-2);border:1px solid var(--line);letter-spacing:.02em}
+.badge.warm{color:var(--warm)}
+.card .foot{margin-top:auto;display:flex;align-items:center;justify-content:space-between;gap:.5rem;padding-top:.5rem}
+.price .lab{font-size:.64rem;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;font-family:var(--head)}
+.price .val{font-family:var(--head);font-weight:700;font-size:1.18rem}
+.price .from{font-size:.72rem;color:var(--muted);font-weight:500}
+
+.finder{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden}
+.finder .fhead{display:flex;flex-wrap:wrap;align-items:center;gap:.6rem 1rem;padding:1rem 1.1rem;border-bottom:1px solid var(--line);background:var(--surface-2)}
+.finder .fhead h3{font-size:1.15rem;text-transform:uppercase;letter-spacing:.02em}
+.filters{display:flex;flex-wrap:wrap;gap:.7rem;padding:1rem 1.1rem;border-bottom:1px solid var(--line)}
+.field{display:flex;flex-direction:column;gap:.25rem;min-width:140px;flex:1}
+.field label{font-size:.66rem;text-transform:uppercase;letter-spacing:.09em;color:var(--muted);font-family:var(--head);font-weight:600}
+.field select{appearance:none;border:1px solid var(--line);background:var(--surface);color:var(--fg);border-radius:8px;padding:.55rem .7rem;font:inherit;font-size:.88rem}
+.notice{display:flex;gap:.6rem;align-items:flex-start;margin:0;padding:.85rem 1.1rem;background:color-mix(in srgb,var(--warm) 15%,var(--surface));border-bottom:1px solid var(--line);font-size:.85rem;color:var(--fg)}
+.notice svg{width:17px;height:17px;color:var(--warm);flex:0 0 auto;margin-top:1px}
+.bundles{display:grid;grid-template-columns:repeat(auto-fill,minmax(262px,1fr));gap:1rem;padding:1.1rem}
+.bundle{border:1px solid var(--line);border-radius:10px;overflow:hidden;display:flex;flex-direction:column;background:var(--bg)}
+.bundle .bh{padding:.8rem .9rem;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:flex-start;gap:.5rem}
+.bundle .bh h4{font-size:1rem;text-transform:uppercase;letter-spacing:.01em;line-height:1.08}
+.bundle .bh .ton{font-family:var(--head);font-weight:700;color:var(--accent);font-size:.84rem;white-space:nowrap}
+.bundle .parts{padding:.7rem .9rem;display:flex;flex-direction:column;gap:.5rem;flex:1}
+.part{display:flex;gap:.6rem;align-items:center}
+.part .pimg{width:42px;height:42px;border-radius:7px;background:var(--media);display:grid;place-items:center;padding:4px;flex:0 0 auto;border:1px solid var(--line)}
+.part .pimg img{max-width:100%;max-height:100%;object-fit:contain}
+.part .pt{font-size:.8rem;line-height:1.25}
+.part .pt span{display:block;color:var(--muted);font-size:.7rem;font-family:var(--head)}
+.bundle .rate{display:flex;gap:.4rem;flex-wrap:wrap;padding:0 .9rem .3rem}
+.bundle .bf{margin-top:auto;padding:.8rem .9rem;border-top:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;gap:.5rem}
+
+.cross{background:linear-gradient(135deg,var(--surface),var(--surface-2));border:1px solid var(--line);border-radius:var(--radius);padding:1.5rem;box-shadow:var(--shadow)}
+.cross h2{text-transform:uppercase}
+.cross .xin{display:flex;gap:.6rem;flex-wrap:wrap;margin:.9rem 0}
+.cross input{flex:1;min-width:200px;border:1px solid var(--line);background:var(--surface);color:var(--fg);border-radius:9px;padding:.7rem .9rem;font:inherit}
+.xresult{margin-top:.6rem;display:flex;flex-direction:column;gap:.6rem}
+.xrow{display:flex;align-items:center;gap:.8rem;background:var(--surface);border:1px solid var(--line);border-radius:9px;padding:.7rem .8rem;flex-wrap:wrap}
+.xrow .arr{color:var(--accent);font-weight:700;font-family:var(--head)}
+.xrow .cm{font-family:var(--head);font-weight:600}
+.xrow img{width:44px;height:44px;object-fit:contain;background:var(--media);border-radius:6px;padding:3px;border:1px solid var(--line)}
+
+.detail{display:grid;grid-template-columns:1fr 1fr;gap:1.8rem}
+.detail .dimg{background:var(--media);border:1px solid var(--line);border-radius:var(--radius);aspect-ratio:1;display:grid;place-items:center;padding:2rem}
+.detail .dimg img{max-height:100%;object-fit:contain}
+.detail h1{font-size:clamp(1.6rem,3.6vw,2.2rem);margin:.3rem 0;text-transform:uppercase;letter-spacing:.01em}
+.spec{width:100%;border-collapse:collapse;margin:1rem 0;font-size:.9rem}
+.spec th,.spec td{text-align:left;padding:.55rem .2rem;border-bottom:1px solid var(--line)}
+.spec th{color:var(--muted);font-family:var(--head);font-weight:600;width:42%;text-transform:uppercase;letter-spacing:.03em;font-size:.82rem}
+.feat{list-style:none;padding:0;margin:.8rem 0;display:flex;flex-direction:column;gap:.4rem}
+.feat li{display:flex;gap:.55rem;font-size:.9rem}
+.feat li svg{width:16px;height:16px;color:var(--good);flex:0 0 auto;margin-top:3px}
+.buybox{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:1.1rem;display:flex;flex-direction:column;gap:.7rem;margin-top:1rem;box-shadow:var(--shadow)}
+.buybox .big{font-family:var(--head);font-weight:700;font-size:1.8rem}
+.crumb{display:flex;gap:.4rem;font-size:.8rem;color:var(--muted);margin-bottom:.5rem;flex-wrap:wrap;font-family:var(--head);letter-spacing:.02em}
+.crumb a:hover{color:var(--accent)}
+
+.scrim{position:fixed;inset:0;background:rgba(8,6,6,.6);z-index:50;opacity:0;pointer-events:none;transition:opacity .2s}
+.scrim.open{opacity:1;pointer-events:auto}
+.drawer{position:fixed;top:0;right:0;height:100%;width:min(400px,92vw);background:var(--surface);z-index:60;transform:translateX(100%);transition:transform .25s ease;display:flex;flex-direction:column;box-shadow:-10px 0 30px rgba(0,0,0,.35);padding-right:env(safe-area-inset-right,0px)}
+.drawer.open{transform:none}
+.drawer .dh{display:flex;align-items:center;justify-content:space-between;padding:1.1rem;border-bottom:1px solid var(--line)}
+.drawer .dh h3{font-size:1.15rem;text-transform:uppercase;letter-spacing:.02em}
+.drawer .items{flex:1;overflow:auto;padding:1rem;display:flex;flex-direction:column;gap:.8rem}
+.citem{display:flex;gap:.7rem}
+.citem .ci-img{width:56px;height:56px;background:var(--media);border:1px solid var(--line);border-radius:8px;display:grid;place-items:center;padding:5px;flex:0 0 auto}
+.citem .ci-img img{max-width:100%;max-height:100%;object-fit:contain}
+.citem .ci-b{flex:1;min-width:0}
+.citem h4{font-size:.88rem;font-family:var(--body);font-weight:600}
+.citem .ci-m{font-size:.72rem;color:var(--muted);font-family:var(--head)}
+.qty{display:inline-flex;align-items:center;border:1px solid var(--line);border-radius:7px;overflow:hidden;margin-top:.3rem}
+.qty button{width:26px;height:26px;background:var(--surface-2);font-family:var(--head);font-weight:700}
+.qty span{width:30px;text-align:center;font-size:.82rem;font-variant-numeric:tabular-nums}
+.citem .ci-p{font-family:var(--head);font-weight:700;font-size:.92rem;text-align:right;white-space:nowrap}
+.rm{font-size:.7rem;color:var(--bad);margin-top:.3rem;cursor:pointer}
+.drawer .df{border-top:1px solid var(--line);padding:1.1rem;display:flex;flex-direction:column;gap:.7rem;padding-bottom:max(1.1rem,env(safe-area-inset-bottom,0px))}
+.drawer .df .trow{display:flex;justify-content:space-between;font-size:.86rem;color:var(--muted)}
+.drawer .df .trow.tot{font-family:var(--head);font-weight:700;font-size:1.2rem;color:var(--fg)}
+.empty{color:var(--muted);text-align:center;padding:2rem 1rem;font-size:.9rem}
+
+footer{background:#141011;color:#cfc9c4;margin-top:1rem;border-top:1px solid var(--line)}
+footer .wrap{padding-block:2.2rem}
+footer .fg{display:grid;grid-template-columns:1.5fr 1fr 1fr;gap:1.5rem}
+footer h4{color:#fff;font-size:1rem;margin-bottom:.6rem;text-transform:uppercase;letter-spacing:.03em}
+footer a,footer p{color:#a9a39e;font-size:.85rem;display:block;padding:.15rem 0}
+footer a:hover{color:#fff}
+.foot-note{border-top:1px solid rgba(255,255,255,.1);margin-top:1.4rem;padding-top:1rem;font-size:.76rem;color:#8a837e;display:flex;justify-content:space-between;flex-wrap:wrap;gap:.6rem}
+.sample-tag{display:inline-block;font-family:var(--head);font-weight:600;font-size:.64rem;letter-spacing:.06em;text-transform:uppercase;color:var(--warm);border:1px solid var(--warm);border-radius:5px;padding:.08rem .4rem;vertical-align:middle}
+
+@media (max-width:820px){.detail{grid-template-columns:1fr}.hero::after{width:60%;opacity:.7}}
+@media (max-width:620px){
+  .brand .op{display:none}.search{order:5;flex-basis:100%;max-width:none}
+  .topbar{flex-wrap:wrap}footer .fg{grid-template-columns:1fr}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+
+<header class="top">
+  <div class="wrap topbar">
+    <a class="brand" href="#/" aria-label="Shop Continental home">
+      <img src="data:image/png;base64,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" alt="Continental" width="72" height="30">
+      <span class="op">Exclusive online<br>distributor</span>
+    </a>
+    <form class="search" onsubmit="return doSearch(event)">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
+      <input id="q" type="search" placeholder="Search equipment or competitor model…" aria-label="Search">
+    </form>
+    <div class="top-actions">
+      <div class="tier" title="Pricing tier">
+        <select id="tier" onchange="setTier(this.value)" aria-label="Pricing tier">
+          <option value="home">Homeowner</option>
+          <option value="contractor">Contractor</option>
+          <option value="distributor">Distributor</option>
+        </select>
+      </div>
+      <button class="icon-btn" onclick="toggleTheme()" aria-label="Toggle theme" title="Theme">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v2m0 14v2M5.6 5.6l1.4 1.4m10 10 1.4 1.4M3 12h2m14 0h2M5.6 18.4l1.4-1.4m10-10 1.4-1.4"/><circle cx="12" cy="12" r="4"/></svg>
+      </button>
+      <button class="icon-btn" onclick="openCart()" aria-label="Open cart" title="Cart">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="20" r="1.4"/><circle cx="18" cy="20" r="1.4"/><path d="M2 3h2.2l2.1 12.3a2 2 0 0 0 2 1.7h8.4a2 2 0 0 0 2-1.6L21 7H6"/></svg>
+        <span class="cart-count" id="cartCount" hidden>0</span>
+      </button>
+    </div>
+  </div>
+  <nav class="cats"><div class="wrap"><div class="row" id="catNav"></div></div></nav>
+</header>
+
+<main id="view"></main>
+
+<footer>
+  <div class="wrap">
+    <div class="fg">
+      <div>
+        <h4>ContinentalComfort.Shop</h4>
+        <p>The exclusive online distributor for Continental HVAC, operated by Skip The Warehouse. Made in the Americas. American owned, veteran operated.</p>
+        <p style="margin-top:.5rem">Support: (215) 316-5893<br>Downingtown, PA</p>
+      </div>
+      <div>
+        <h4>Shop</h4>
+        <a href="#/c/furnaces">Gas Furnaces</a>
+        <a href="#/c/air-conditioners">Air Conditioners</a>
+        <a href="#/c/heat-pumps">Heat Pumps</a>
+        <a href="#/c/ductless">Ductless Systems</a>
+        <a href="#/bundles">AHRI System Bundles</a>
+      </div>
+      <div>
+        <h4>Support</h4>
+        <a href="#/crossover">Crossover Finder</a>
+        <a href="#/bundles">Build a System</a>
+        <p>Live 24-hour text support</p>
+        <p>Technical parts help</p>
+      </div>
+    </div>
+    <div class="foot-note">
+      <span>© 2026 Continental is a Napoleon / Wolf Steel Ltd. brand, private-labeled for the Americas. Store operated by Skip The Warehouse.</span>
+      <span>Prototype — sample pricing and placeholder bundles for layout review.</span>
+    </div>
+  </div>
+</footer>
+
+<div class="scrim" id="scrim" onclick="closeCart()"></div>
+<aside class="drawer" id="drawer" aria-label="Shopping cart">
+  <div class="dh"><h3>Your Cart</h3><button class="icon-btn" onclick="closeCart()" aria-label="Close">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 6l12 12M18 6 6 18"/></svg></button></div>
+  <div class="items" id="cartItems"></div>
+  <div class="df" id="cartFoot"></div>
+</aside>
+
+<script>
+const IMG="https://images.salsify.com/image/upload/";
+const CAT_IMG="https://www.continentalcomfort.com/wp-content/uploads/";
+const CATS=[
+  {id:"furnaces",name:"Gas Furnaces",img:CAT_IMG+"2026/07/category-furnaces-no-lables.png"},
+  {id:"air-conditioners",name:"Air Conditioners",img:CAT_IMG+"2022/02/category-air-conditioners.png"},
+  {id:"heat-pumps",name:"Heat Pumps",img:CAT_IMG+"2022/02/category-heat-pumps.png"},
+  {id:"air-handlers",name:"Air Handlers",img:CAT_IMG+"2022/02/category-air-handlers.png"},
+  {id:"ductless",name:"Ductless Systems",img:CAT_IMG+"2024/03/category-ductless-systems.png"},
+  {id:"hydronic",name:"Hydronic Air Handlers",img:CAT_IMG+"2025/05/EcoSmart-LVP-400px-category.png"},
+];
+const P=[
+  {id:"c97",cat:"furnaces",name:"C97 Gas Furnace",model:"WC-C97-…-C",img:IMG+"s--KUSJRA5p--/ic1hrkor1ax3hszhnhk6.png",url:"https://www.continentalcomfort.com/en/products/hvac/wc-c97-series/",price:2450,from:true,
+    specs:{"AFUE":"Up to 97%","Stage":"Two-stage","Blower":"Variable-speed","Heating input":"35,000–105,000 BTU"},
+    feat:["Two-stage, variable-speed operation","SureView burner observation window","Patented Vortex heat-exchange technology","FlexFit upflow / horizontal install"]},
+  {id:"c96",cat:"furnaces",name:"C96 Gas Furnace",model:"WC-C96-…-C",img:IMG+"s--lMxdxmwG--/buseurrv9fzaqq1wtizt.png",url:"https://www.continentalcomfort.com/en/products/hvac/wc-c96-series/",price:1980,from:true,
+    specs:{"AFUE":"Up to 96%","Stage":"Two-stage","Blower":"Variable-speed"},
+    feat:["Two-stage, variable-speed operation","Whisper Quiet operation"]},
+  {id:"c96q",cat:"furnaces",name:"C96Q Gas Furnace",model:"WC-C96Q-…-C",img:IMG+"s--4UdL2kXz--/tpphxiqphpeg1czagxi6.png",url:"https://www.continentalcomfort.com/en/products/hvac/wc-c96q-series/",price:1820,from:true,
+    specs:{"AFUE":"Up to 96%","Stage":"Two-stage","Blower":"Multi-speed"},
+    feat:["Two-stage, multi-speed operation","Whisper Quiet operation"]},
+  {id:"c95",cat:"furnaces",name:"C95 Gas Furnace",model:"WC-C95-…-C",img:IMG+"s--EFohq6ET--/lplt4glyxirvpmz2wzkx.png",url:"https://www.continentalcomfort.com/en/products/hvac/wc-c95-series/",price:1480,from:true,
+    specs:{"AFUE":"Up to 95%","Stage":"Single-stage","Blower":"Multi-speed"},
+    feat:["Single-stage, multi-speed operation","Whisper Quiet operation"]},
+  {id:"ct14",cat:"air-conditioners",name:"CT 14.3 SEER2 Air Conditioner",model:"WC-CT-14-…-C",img:IMG+"s--zqXp4TM9--/skhjjplacp2xir1kv4j1.png",url:"https://www.continentalcomfort.com/en/products/hvac/wc-ct-14-seer2-series/",price:1890,from:true,
+    specs:{"Efficiency":"Up to 14.3 SEER2","Capacity":"1.5 – 5 ton","Sound":"Whisper Quiet"},
+    feat:["Up to 14.3 SEER2 efficiency","1.5 to 5 ton capacity range","WHISPER QUIET operation"]},
+  {id:"ct13",cat:"air-conditioners",name:"CT 13.4 SEER2 Air Conditioner",model:"WC-CT-13-…-C",img:IMG+"s--zqXp4TM9--/skhjjplacp2xir1kv4j1.png",url:"https://www.continentalcomfort.com/en/products/hvac/wc-ct-13-seer2-series/",price:1640,from:true,
+    specs:{"Efficiency":"Up to 13.4 SEER2","Capacity":"1.5 – 5 ton","Compressor":"Rotary or scroll"},
+    feat:["Up to 13.4 SEER2 efficiency","Available with rotary or scroll compressor","1.5 to 5 ton capacity range"]},
+  {id:"cs18",cat:"heat-pumps",name:"Central Heat Pump",model:"WC-CS18-…-C",img:IMG+"s--wp--m2g6--/h420gizmbvcy5m7kfr2u.png",url:"https://www.continentalcomfort.com/en/products/hvac/wc-cs18-series/",price:2790,from:true,
+    specs:{"Type":"Central heat pump","Use":"Heating + cooling"},
+    feat:["Year-round heating and cooling","Pairs with a furnace for hybrid heat","Efficient performance in milder climates"]},
+  {id:"ah18",cat:"air-handlers",name:"SEER2 Air Handler",model:"WC-18SEER-…-C",img:IMG+"s--16eJ8ZJZ--/elglgcklexgbuhanoks2.png",url:"https://www.continentalcomfort.com/en/products/hvac/wc-18seer-series/",price:1180,from:true,
+    specs:{"Blower":"ECM variable-speed","Install":"Zero-clearance / flexible","Warranty":"10-yr parts limited"},
+    feat:["ECM variable-speed blower with gradual ramp","Zero-clearance install for closets and alcoves","Quiet, even temperatures","10-year limited parts warranty"]},
+  {id:"cdhas22",cat:"ductless",name:"CDHAS22 Single-Zone Heat Pump",model:"CDHAS22-…-C",img:IMG+"s--LDphtgMY--/yxnqip8adhgfwde2likq.png",url:"https://www.continentalcomfort.com/en/products/hvac/wc-cdhas22/",price:1590,from:true,
+    specs:{"Efficiency":"22 SEER2","Zones":"Single-zone","Connectivity":"Wi-Fi compatible"},
+    feat:["22 SEER2 efficiency","Energy Star and NEEP approved","Wi-Fi compatible control"]},
+  {id:"cdhas26",cat:"ductless",name:"CDHAS26 Single-Zone Heat Pump",model:"CDHAS26-…-C",img:IMG+"s--YCveO2cY--/am5oyqtkbut7zdaiw48p.png",url:"https://www.continentalcomfort.com/en/products/hvac/wc-cdhas26/",price:2090,from:true,
+    specs:{"Efficiency":"26 SEER2","Capacity":"1 / 1.5 / 2 ton","Cold climate":"Heats to −30°C"},
+    feat:["26 SEER2 efficiency","Cold-climate heating to −30°C","Wi-Fi app control with Follow Me remote","Intelligent Eye occupancy sensing"]},
+  {id:"multizone",cat:"ductless",name:"Premium Multi-Zone Heat Pump",model:"CDHAMBB (27/36/48)",img:IMG+"s--6Cuvun5L--/jpy8wdffjgnkxcd8obqb.png",url:"https://www.continentalcomfort.com/en/products/hvac/wc-multi-zone/",price:3180,from:true,
+    specs:{"Capacities":"27,000 / 36,000 / 48,000 BTU/h","Zones":"4, 5 or 6 indoor units","Refrigerant":"R-454B (low-GWP)","Certification":"Energy Star & NEEP"},
+    feat:["Outdoor units: CDHAMBB-27-O / -36-O / -48-O","Connects 4, 5 or 6 indoor units per model","R-454B refrigerant, 75% lower GWP than R-410A","Wi-Fi kit included in each indoor unit","10-year limited parts & compressor warranty"]},
+  {id:"lvp",cat:"hydronic",name:"LVP Modulating Air Handler",model:"WC-LVP-…-C",img:IMG+"s--I9oE3Iz3--/fixddoz1dwkmy5mcqjh5.png",url:"https://www.continentalcomfort.com/en/products/hydronic-air-handlers/wc-lvp-series/",price:1520,from:true,
+    specs:{"Control":"Modulating, variable-speed","Install":"FlexFit"},
+    feat:["FlexFit installation","Flexible heating stages","Variable-speed control"]},
+  {id:"hvp",cat:"hydronic",name:"HVP High Velocity Air Handler",model:"WC-HVP-…-C",img:IMG+"s--dXRhG19E--/r0bqfjlmouvx80zsee3l.png",url:"https://www.continentalcomfort.com/en/products/hydronic-air-handlers/wc-hvp-series/",price:1420,from:true,
+    specs:{"Airflow":"High velocity","Blower":"High-efficiency ECM"},
+    feat:["High-velocity airflow","High-efficiency ECM blower motor","Zoning-system compatible"]},
+  {id:"hvpz",cat:"hydronic",name:"HVP Zoned High Velocity Air Handler",model:"WC-HVPZ-…-C",img:IMG+"s--zsEDR7Az--/mmebuvtdncjseezfqgby.png",url:"https://www.continentalcomfort.com/en/products/hydronic-air-handlers/wc-hvpz-series/",price:1720,from:true,
+    specs:{"Zoning":"Up to 5 zones","Blower":"High-efficiency ECM"},
+    feat:["Zoning for up to 5 zones","High-efficiency ECM blower motor","High-velocity airflow"]},
+  {id:"lvs",cat:"hydronic",name:"LVS Multi-Speed Air Handler",model:"WC-LVS-…-C",img:IMG+"s--ukd6O4xK--/hjoblgd05hjsaucj4rvb.png",url:"https://www.continentalcomfort.com/en/products/hydronic-air-handlers/wc-lvs-series/",price:1320,from:true,
+    specs:{"Control":"Multi-speed","Feature":"Dehumidification"},
+    feat:["Dehumidification functionality","Adjustable airflow control","Multi-speed heating"]},
+];
+const byId=id=>P.find(p=>p.id===id);
+const catName=id=>(CATS.find(c=>c.id===id)||{}).name||id;
+
+/* Real AHRI-rated matched systems from the STW US Pro Tool.
+   Napoleon-built, Continental private-label: every -N model shown as -C; AHRI numbers unchanged.
+   sys = STW system cost; cust = customer price at the tool's 40% markup. */
+const AC_IMG=IMG+"s--zqXp4TM9--/skhjjplacp2xir1kv4j1.png";
+const FURN_IMG=IMG+"s--EFohq6ET--/lplt4glyxirvpmz2wzkx.png";
+const COIL_IMG=IMG+"s--16eJ8ZJZ--/elglgcklexgbuhanoks2.png";
+const toC=m=>m.replace(/-N$/,"-C");
+const SYS_BUNDLES=[
+  {series:"14.3",seer:"14.3 SEER2",ton:"1.5",ahri:"216778935",sys:2942.67,cust:4119.74,cond:"WTBCS0018BA1-N",coil:"CE24B3J-175L-000",furnace:"WPX040S2AA-N",fdesc:"40k BTU · 95% · 1-stage"},
+  {series:"14.3",seer:"14.3 SEER2",ton:"2",ahri:"216778936",sys:3063.78,cust:4289.29,cond:"WTBCS0024BA1-N",coil:"CE24B3J-175L-000",furnace:"WPX060S3AA-N",fdesc:"60k BTU · 95% · 1-stage"},
+  {series:"14.3",seer:"14.3 SEER2",ton:"2.5",ahri:"216778937",sys:3263.13,cust:4568.38,cond:"WTBCS0030BA1-N",coil:"CE36B3J-175L-000",furnace:"WPX060S3AA-N",fdesc:"60k BTU · 95% · 1-stage"},
+  {series:"14.3",seer:"14.3 SEER2",ton:"3",ahri:"216778938",sys:3362.27,cust:4707.18,cond:"WTBCS0036BA1-N",coil:"CE36B3J-175L-000",furnace:"WPX080S3AA-N",fdesc:"80k BTU · 95% · 1-stage"},
+  {series:"14.3",seer:"14.3 SEER2",ton:"3.5",ahri:"216778943",sys:3948.53,cust:5527.94,cond:"WTBCS0042BA1-N",coil:"CE48C3J-225L-000",furnace:"WPX100S5BA-N",fdesc:"80k BTU · 95% · 1-stage"},
+  {series:"14.3",seer:"14.3 SEER2",ton:"4",ahri:"217619763",sys:4039.88,cust:5655.83,cond:"WTBCS0048BA1-N",coil:"CE48C3J-225L-000",furnace:"WPX100S5BA-N",fdesc:"100k BTU · 95% · 1-stage"},
+  {series:"14.3",seer:"14.3 SEER2",ton:"5",ahri:"217598687",sys:4317.53,cust:6044.54,cond:"WTBCS0060BA1-N",coil:"DE61B4J-225L-000",furnace:"WPX100S5BA-N",fdesc:"100k BTU · 95% · 1-stage"},
+  {series:"13.4",seer:"13.4 SEER2",ton:"1.5",ahri:"216778918",sys:2800.92,cust:3921.29,cond:"WTACS0018BA1-N",coil:"CE24B3J-175L-000",furnace:"WPX040S2AA-N",fdesc:"40k BTU · 95% · 1-stage"},
+  {series:"13.4",seer:"13.4 SEER2",ton:"2",ahri:"216778919",sys:2926.08,cust:4096.51,cond:"WTACS0024BA1-N",coil:"CE24B3J-175L-000",furnace:"WPX060S3AA-N",fdesc:"60k BTU · 95% · 1-stage"},
+  {series:"13.4",seer:"13.4 SEER2",ton:"2.5",ahri:"216778920",sys:3120.48,cust:4368.67,cond:"WTACS0030BA1-N",coil:"CE36B3J-175L-000",furnace:"WPX060S3AA-N",fdesc:"60k BTU · 95% · 1-stage"},
+  {series:"13.4",seer:"13.4 SEER2",ton:"3",ahri:"216778921",sys:3238.97,cust:4534.56,cond:"WTACS0042BA1-N",coil:"CE48C3J-225L-000",furnace:"WPX080S3AA-N",fdesc:"80k BTU · 95% · 1-stage"},
+  {series:"13.4",seer:"13.4 SEER2",ton:"3.5",ahri:"216778927",sys:3804.53,cust:5326.34,cond:"WTACS0042BA1-N",coil:"CE48C3J-225L-000",furnace:"WPX100S5BA-N",fdesc:"80k BTU · 95% · 1-stage"},
+  {series:"13.4",seer:"13.4 SEER2",ton:"4",ahri:"216778930",sys:3896.33,cust:5454.86,cond:"WTACS0048BA1-N",coil:"CE48C3J-225L-000",furnace:"WPX100S5BA-N",fdesc:"100k BTU · 95% · 1-stage"},
+  {series:"13.4",seer:"13.4 SEER2",ton:"5",ahri:"217598686",sys:4172.63,cust:5841.68,cond:"WTACS0060BA1-N",coil:"DE61B4J-225L-000",furnace:"WPX100S5BA-N",fdesc:"100k BTU · 95% · 1-stage"},
+];
+/* bundle tier pricing from real STW cost: homeowner = tool customer price (40%), trade tiers derived */
+const BTIER={home:b=>b.cust,contractor:b=>b.sys*1.15,distributor:b=>b.sys*1.08};
+const bundlePrice=b=>(BTIER[tier]||BTIER.home)(b);
+const ACCESSORIES=[
+  {grp:"Thermostats",model:"WSC43BA-KT",desc:"EQHub Smart Thermostat",cost:248.72},
+  {grp:"Thermostats",model:"TH6210U2001",desc:"2H/1C Programmable T-Stat",cost:89.08},
+  {grp:"Thermostats",model:"TH2110U4004",desc:"1H/1C Programmable T-Stat",cost:41.19},
+  {grp:"Pads & Controls",model:"DDS-60",desc:"60A Non-Fusible Disconnect",cost:22.74},
+  {grp:"Pads & Controls",model:'36"×36"×3"',desc:"Plastic Equipment Pad",cost:41.09},
+  {grp:"Pads & Controls",model:"110v",desc:"1/2-gal Condensate Pump",cost:44.52},
+  {grp:"Pads & Controls",model:"W370-0018",desc:"LP Conversion Kit",cost:176.68},
+  {grp:"Line Sets",model:'3/8 & 3/4 × 25\'',desc:"1.5–3 Ton · Titan Shield",cost:162.20},
+  {grp:"Line Sets",model:'3/8 & 7/8 × 25\'',desc:"3.5–5 Ton · Titan Shield",cost:210.35},
+  {grp:"Filtration",model:'16×25×5',desc:"MERV 11 Filter Rack",cost:127.15},
+  {grp:"Filtration",model:'20×25×5',desc:"MERV 11 Filter Rack",cost:128.81},
+];
+const accPrice=a=>a.cost*(tier==="home"?1.40:tier==="contractor"?1.15:1.08);
+const CROSS=[
+  {comp:"Goodman GSXN4 / GSXH5",to:"ct14"},
+  {comp:"Carrier 24ACC6",to:"ct14"},
+  {comp:"Rheem RA13 / RA14",to:"ct13"},
+  {comp:"Trane XR13 / XR14",to:"ct13"},
+  {comp:"Lennox ML14XC1",to:"ct14"},
+  {comp:"Goodman GLZS / GSZH heat pump",to:"cs18"},
+  {comp:"Carrier 59SC5 furnace",to:"c96"},
+  {comp:"Lennox SL297 furnace",to:"c97"},
+];
+
+const TIERS={home:{m:1,lab:"Homeowner"},contractor:{m:.80,lab:"Contractor"},distributor:{m:.70,lab:"Distributor"}};
+let tier=load("sc_tier","home"); if(!TIERS[tier])tier="home";
+const fmt=n=>"$"+Math.round(n).toLocaleString();
+const priceOf=p=>p.price*TIERS[tier].m;
+
+function load(k,d){try{const v=localStorage.getItem(k);return v==null?d:JSON.parse(v)}catch(e){return d}}
+function save(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}
+let cart=load("sc_cart",{});
+
+function addCart(id,qty){qty=qty||1;cart[id]=(cart[id]||0)+qty;save("sc_cart",cart);renderCart();bump();openCart()}
+function setQty(id,q){if(q<=0)delete cart[id];else cart[id]=q;save("sc_cart",cart);renderCart()}
+function resolveLine(key){
+  if(key.startsWith("sys-")){const b=SYS_BUNDLES.find(x=>x.ahri===key.slice(4));if(!b)return null;
+    return {name:b.seer+" System · "+b.ton+" Ton",model:"AHRI# "+b.ahri+" · "+toC(b.cond),img:AC_IMG,price:bundlePrice(b)};}
+  if(key.startsWith("acc-")){const a=ACCESSORIES.find(x=>x.model.replace(/'/g,"")===key.slice(4));if(!a)return null;
+    return {name:a.desc,model:a.model,img:COIL_IMG,price:accPrice(a)};}
+  const p=byId(key);return p?{name:p.name,model:p.model,img:p.img,price:priceOf(p)}:null;
+}
+function cartLines(){return Object.keys(cart).map(id=>({p:resolveLine(id),q:cart[id],id})).filter(x=>x.p)}
+function cartCount(){return Object.values(cart).reduce((a,b)=>a+b,0)}
+function bump(){const n=cartCount(),el=document.getElementById("cartCount");el.textContent=n;el.hidden=n===0}
+function openCart(){document.getElementById("drawer").classList.add("open");document.getElementById("scrim").classList.add("open")}
+function closeCart(){document.getElementById("drawer").classList.remove("open");document.getElementById("scrim").classList.remove("open")}
+function renderCart(){
+  bump();
+  const wrap=document.getElementById("cartItems"),foot=document.getElementById("cartFoot"),lines=cartLines();
+  if(!lines.length){wrap.innerHTML='<div class="empty">Your cart is empty.<br>Add equipment or a system bundle to get started.</div>';foot.innerHTML="";return}
+  wrap.innerHTML=lines.map(({p,q,id})=>`<div class="citem">
+    <div class="ci-img"><img src="${p.img}" alt="" loading="lazy"></div>
+    <div class="ci-b"><h4>${p.name}</h4><div class="ci-m">${p.model}</div>
+      <div class="qty"><button onclick="setQty('${id}',${q-1})" aria-label="Decrease">−</button><span class="tnum">${q}</span><button onclick="setQty('${id}',${q+1})" aria-label="Increase">+</button></div>
+      <div class="rm" onclick="setQty('${id}',0)">Remove</div>
+    </div>
+    <div class="ci-p tnum">${fmt(p.price*q)}</div></div>`).join("");
+  const sub=lines.reduce((a,{p,q})=>a+p.price*q,0);
+  foot.innerHTML=`<div class="trow"><span>Subtotal (${cartCount()} items)</span><span class="tnum">${fmt(sub)}</span></div>
+    <div class="trow"><span>Pricing tier</span><span>${TIERS[tier].lab}</span></div>
+    <div class="trow tot"><span>Estimated total</span><span class="tnum">${fmt(sub)}</span></div>
+    <button class="btn" style="justify-content:center" onclick="checkoutMsg()">Checkout</button>
+    <p style="font-size:.72rem;color:var(--muted);margin:0;text-align:center">Sample pricing for layout. Freight and tax calculated at checkout.</p>`;
+}
+function checkoutMsg(){const f=document.getElementById("cartFoot");const n=document.createElement("p");n.style.cssText="font-size:.78rem;color:var(--accent);margin:.2rem 0 0;text-align:center";n.textContent="Prototype checkout — payment and fulfillment wire up in the production build.";f.appendChild(n)}
+
+function setTier(v){tier=v;save("sc_tier",v);route();renderCart()}
+function toggleTheme(){const r=document.documentElement;const cur=r.getAttribute("data-theme")||(matchMedia("(prefers-color-scheme:dark)").matches?"dark":"light");const nx=cur==="dark"?"light":"dark";r.setAttribute("data-theme",nx);save("sc_theme",nx)}
+(function(){const t=load("sc_theme",null);if(t)document.documentElement.setAttribute("data-theme",t);document.getElementById("tier").value=tier})();
+
+function money(p){return `<div class="price"><div class="lab">${TIERS[tier].lab}</div><div class="val tnum">${p.from?'<span class="from">from </span>':''}${fmt(priceOf(p))}</div></div>`}
+function badges(p){const b=[];const s=p.specs;
+  if(s.AFUE)b.push(`<span class="badge">${s.AFUE} AFUE</span>`);
+  if(s.Efficiency)b.push(`<span class="badge">${s.Efficiency}</span>`);
+  if(s.Capacity)b.push(`<span class="badge warm">${s.Capacity}</span>`);
+  if(s.Zones)b.push(`<span class="badge warm">${s.Zones}</span>`);
+  return `<div class="badges">${b.slice(0,2).join("")}</div>`}
+function card(p){return `<article class="card">
+  <div class="media" onclick="go('#/p/${p.id}')"><img src="${p.img}" alt="${p.name}" loading="lazy"></div>
+  <div class="body">
+    <div class="kicker">${catName(p.cat)}</div>
+    <h3 onclick="go('#/p/${p.id}')">${p.name}</h3>
+    <div class="model">${p.model}</div>
+    ${badges(p)}
+    <div class="foot">${money(p)}<button class="btn sm" onclick="addCart('${p.id}')">Add</button></div>
+  </div></article>`}
+const check='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6 9 17l-5-5"/></svg>';
+
+function vHome(){
+  const feat=["ct14","c97","cs18","cdhas26"].map(byId);
+  return `
+  <section class="hero">
+    <div class="wrap">
+      <span class="flagchip">★ <b>Made in the Americas</b></span>
+      <div class="eyebrow" style="color:#8FBAD6">Exclusive online distributor · Continental HVAC</div>
+      <h1>Comfort systems, built to move real volume.</h1>
+      <div class="rule"></div>
+      <p>Shop Continental furnaces, air conditioners, heat pumps and AHRI-matched systems — with contractor and distributor pricing, crossover search, and national fulfillment by Skip The Warehouse. Napoleon-built, private-labeled, AHRI-certified.</p>
+      <div class="cta"><a class="btn warm" href="#/bundles">Build an AHRI system</a><a class="btn ghost" href="#/c/furnaces">Browse equipment</a></div>
+    </div>
+  </section>
+
+  <div class="trust"><div class="wrap"><div class="row">
+    <div class="it">${flag()}<span><b>Made in the Americas</b></span></div>
+    <div class="it">${shield()}<span><b>Exclusive</b> online distributor</span></div>
+    <div class="it">${star()}<span><b>4.9</b> · 683 reviews</span></div>
+    <div class="it">${truck()}<span><b>National</b> fulfillment</span></div>
+    <div class="it">${chat()}<span><b>24-hour</b> support</span></div>
+  </div></div></div>
+
+  <div class="wrap">
+    <section>
+      <div class="sec-head"><div><div class="eyebrow">Matched systems</div><h2>AHRI-rated system bundles</h2><p>Pre-matched, AHRI-certified Continental systems — condenser, coil and furnace, ready to quote.</p></div><a class="link" href="#/bundles">System builder →</a></div>
+      ${finderBlock(SYS_BUNDLES.filter(b=>b.series==="14.3").slice(0,3),false)}
+    </section>
+
+    <section>
+      <div class="sec-head"><div><div class="eyebrow">Shop by category</div><h2>Equipment</h2></div></div>
+      <div class="cat-grid">${CATS.map(c=>`<a class="cat-tile" href="#/c/${c.id}"><div class="ph"><img src="${c.img}" alt="${c.name}" loading="lazy"></div><h3>${c.name}</h3><span>${P.filter(p=>p.cat===c.id).length} series</span></a>`).join("")}</div>
+    </section>
+
+    <section>
+      <div class="sec-head"><div><div class="eyebrow">Popular</div><h2>Featured equipment</h2></div><a class="link" href="#/c/furnaces">All equipment →</a></div>
+      <div class="grid">${feat.map(card).join("")}</div>
+    </section>
+
+    <section>${crossBlock()}</section>
+  </div>`;
+}
+function vCat(id){
+  const items=P.filter(p=>p.cat===id);
+  return `<div class="wrap"><section>
+    <div class="crumb"><a href="#/">Home</a> / <span>${catName(id)}</span></div>
+    <div class="sec-head"><div><div class="eyebrow">Continental</div><h2>${catName(id)}</h2><p>${items.length} series · ${TIERS[tier].lab} pricing shown</p></div></div>
+    <div class="grid">${items.map(card).join("")}</div>
+  </section></div>`;
+}
+function vProduct(id){
+  const p=byId(id); if(!p)return vHome();
+  const specRows=Object.entries(p.specs).map(([k,v])=>`<tr><th>${k}</th><td>${v}</td></tr>`).join("");
+  return `<div class="wrap"><section>
+    <div class="crumb"><a href="#/">Home</a> / <a href="#/c/${p.cat}">${catName(p.cat)}</a> / <span>${p.name}</span></div>
+    <div class="detail">
+      <div class="dimg"><img src="${p.img}" alt="${p.name}"></div>
+      <div>
+        <div class="kicker" style="font-family:var(--head);color:var(--muted);text-transform:uppercase;letter-spacing:.1em;font-size:.72rem">${catName(p.cat)}</div>
+        <h1>${p.name}</h1>
+        <div class="model" style="color:var(--muted);font-family:var(--head)">Model ${p.model} · Napoleon private-label</div>
+        <ul class="feat">${p.feat.map(f=>`<li>${check}<span>${f}</span></li>`).join("")}</ul>
+        <table class="spec"><tbody>${specRows}</tbody></table>
+        <div class="buybox">
+          <div class="price"><div class="lab">${TIERS[tier].lab} price</div><div class="big tnum">${p.from?'<span class="from" style="font-size:.9rem;color:var(--muted)">from </span>':''}${fmt(priceOf(p))}</div></div>
+          <button class="btn" style="justify-content:center" onclick="addCart('${p.id}')">Add to cart</button>
+          <a class="link" href="${p.url}" target="_blank" rel="noopener">Manufacturer spec sheet →</a>
+          <p style="font-size:.72rem;color:var(--muted);margin:0">Continental is Napoleon private-labeled (model suffix -C); AHRI ratings match the Napoleon equivalent. Sample pricing for layout; full spec tables load from the manufacturer feed.</p>
+        </div>
+      </div>
+    </div>
+  </section></div>`;
+}
+function finderBlock(list,withFilters){
+  return `<div class="finder">
+    <div class="fhead"><h3>System builder</h3><span style="color:var(--muted);font-size:.84rem;margin-left:auto">${list.length} AHRI-rated system${list.length===1?"":"s"}</span></div>
+    ${withFilters?`<div class="filters">
+      <div class="field"><label>Efficiency</label><select id="fSeer" onchange="route()">
+        <option value="all">All SEER2</option><option value="14.3">14.3 SEER2</option><option value="13.4">13.4 SEER2</option></select></div>
+      <div class="field"><label>Tonnage</label><select id="fTon" onchange="route()">
+        <option value="all">Any tonnage</option><option>1.5</option><option>2</option><option>2.5</option><option>3</option><option>3.5</option><option>4</option><option>5</option></select></div>
+      <div class="field" style="justify-content:flex-end"><label>&nbsp;</label><a class="btn ghost sm" href="#/crossover" style="justify-content:center">Replacing a competitor? →</a></div>
+    </div>`:""}
+    <div class="notice">${info()}<div><b>Continental is Napoleon private-label.</b> Each matched system is AHRI-certified; models shown with the Continental <b>-C</b> suffix, AHRI numbers identical to the Napoleon systems. Every system includes a multi-position evap coil and A2L sensor.</div></div>
+    <div class="bundles">${list.map(bundleCard).join("")}</div>
+  </div>`;
+}
+function bundleCard(b){
+  const parts=[
+    {img:AC_IMG,name:b.ton+" Ton Condenser",model:toC(b.cond)},
+    {img:COIL_IMG,name:"Multi-Position Evap Coil",model:b.coil},
+    {img:FURN_IMG,name:b.fdesc+" Furnace",model:toC(b.furnace)},
+  ];
+  return `<div class="bundle">
+    <div class="bh"><h4>${b.seer} System</h4><span class="ton">${b.ton} Ton</span></div>
+    <div class="rate"><span class="badge">${b.seer}</span><span class="badge warm">AHRI# ${b.ahri}</span></div>
+    <div class="parts">${parts.map(p=>`<div class="part"><div class="pimg"><img src="${p.img}" alt=""></div><div class="pt">${p.name}<span>${p.model}</span></div></div>`).join("")}</div>
+    <div class="bf"><div class="price"><div class="lab">${TIERS[tier].lab} · system</div><div class="val tnum">${fmt(bundlePrice(b))}</div></div>
+      <button class="btn sm" onclick="addBundleSys('${b.ahri}')">Add system</button></div>
+  </div>`;
+}
+function addBundleSys(ahri){
+  const b=SYS_BUNDLES.find(x=>x.ahri===ahri);if(!b)return;
+  const key="sys-"+ahri;
+  cart[key]=(cart[key]||0)+1;save("sc_cart",cart);renderCart();bump();openCart();
+}
+function vBundles(){
+  const seer=(document.getElementById("fSeer")||{}).value||"all";
+  const ton=(document.getElementById("fTon")||{}).value||"all";
+  let list=SYS_BUNDLES.filter(b=>(seer==="all"||b.series===seer)&&(ton==="all"||b.ton===ton));
+  return `<div class="wrap"><section>
+    <div class="crumb"><a href="#/">Home</a> / <span>AHRI System Bundles</span></div>
+    <div class="sec-head"><div><div class="eyebrow">Matched systems · ${SYS_BUNDLES.length} certified</div><h2>Build an AHRI-rated system</h2><p>Continental gas / AC matched systems — condenser, coil and furnace, AHRI-certified. ${TIERS[tier].lab} pricing shown.</p></div></div>
+    ${finderBlock(list,true)}
+    ${accBlock()}
+  </section></div>`;
+}
+function accBlock(){
+  const grps=[...new Set(ACCESSORIES.map(a=>a.grp))];
+  return `<div style="margin-top:1.4rem">
+    <div class="sec-head"><div><div class="eyebrow">Add-ons</div><h2 style="font-size:1.3rem">System accessories</h2></div></div>
+    <div class="grid" style="grid-template-columns:repeat(auto-fill,minmax(220px,1fr))">
+    ${ACCESSORIES.map(a=>`<div class="card" style="padding:.85rem;flex-direction:row;align-items:center;gap:.7rem;justify-content:space-between">
+      <div style="min-width:0"><div class="kicker">${a.grp}</div><h3 style="font-size:.92rem;text-transform:none;letter-spacing:0">${a.desc}</h3><div class="model">${a.model}</div></div>
+      <div style="text-align:right;flex:0 0 auto"><div class="price"><div class="val tnum" style="font-size:1rem">${fmt(accPrice(a))}</div></div>
+      <button class="btn sm" style="margin-top:.3rem" onclick="addAcc('${a.model.replace(/'/g,"")}')">Add</button></div>
+    </div>`).join("")}
+    </div></div>`;
+}
+function addAcc(model){const a=ACCESSORIES.find(x=>x.model.replace(/'/g,"")===model);if(!a)return;const key="acc-"+model;cart[key]=(cart[key]||0)+1;save("sc_cart",cart);renderCart();bump();openCart()}
+function crossBlock(){
+  return `<div class="cross">
+    <div class="eyebrow">Crossover finder</div>
+    <h2 style="font-size:clamp(1.4rem,3vw,1.8rem);margin:.3rem 0">Replacing another brand? Find the Continental match.</h2>
+    <p style="color:var(--muted);max-width:52ch">Type a competitor model and we point you to the Continental equivalent. Sample mappings shown — the full crossover database loads in production.</p>
+    <form class="xin" onsubmit="return doSearch(event)"><input id="qx" placeholder="e.g. Goodman GSXN4, Carrier 24ACC6, Rheem RA14"><button class="btn">Find match</button></form>
+    <div class="xresult" id="xresult">${CROSS.slice(0,3).map(xrow).join("")}</div>
+  </div>`;
+}
+function xrow(x){const p=byId(x.to);return `<div class="xrow"><span class="cm">${x.comp}</span><span class="arr">→</span><img src="${p.img}" alt=""><a href="#/p/${p.id}" class="cm" style="color:var(--accent)">${p.name}</a></div>`}
+function vCross(q){
+  q=(q||"").trim().toLowerCase();
+  let hits=CROSS;
+  if(q)hits=CROSS.filter(x=>x.comp.toLowerCase().includes(q)||catName(byId(x.to).cat).toLowerCase().includes(q));
+  const none=q&&!hits.length;
+  return `<div class="wrap"><section>
+    <div class="crumb"><a href="#/">Home</a> / <span>Crossover Finder</span></div>
+    <div class="sec-head"><div><div class="eyebrow">Crossover finder</div><h2>Competitor crossover</h2><p>Find the Continental equivalent for another brand's model.</p></div></div>
+    <div class="cross">
+      <form class="xin" onsubmit="return doSearch(event)"><input id="qx" value="${q.replace(/"/g,'')}" placeholder="e.g. Goodman GSXN4, Carrier 24ACC6"><button class="btn">Find match</button></form>
+      <div class="xresult">${none?'<div class="empty">No sample mapping for that model yet. The full crossover database covers it in production — or search our equipment directly.</div>':hits.map(xrow).join("")}</div>
+      <p style="font-size:.74rem;color:var(--muted);margin:.8rem 0 0">Sample mappings for layout. Your production crossover database replaces this list.</p>
+    </div>
+  </section></div>`;
+}
+function vSearch(q){
+  const s=(q||"").toLowerCase();
+  const hits=P.filter(p=>(p.name+" "+p.model+" "+catName(p.cat)).toLowerCase().includes(s));
+  const x=CROSS.filter(c=>c.comp.toLowerCase().includes(s));
+  return `<div class="wrap"><section>
+    <div class="crumb"><a href="#/">Home</a> / <span>Search</span></div>
+    <div class="sec-head"><div><div class="eyebrow">Search</div><h2>“${q}”</h2><p>${hits.length} product${hits.length===1?"":"s"}${x.length?" · "+x.length+" crossover match":""}</p></div></div>
+    ${x.length?`<div style="margin-bottom:1.2rem">${x.map(xrow).join("")}</div>`:""}
+    ${hits.length?`<div class="grid">${hits.map(card).join("")}</div>`:'<div class="empty">No equipment matched. Try a category, a model like “C97”, or a competitor model in the crossover finder.</div>'}
+  </section></div>`;
+}
+function shield(){return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3l7 3v5c0 5-3.5 8-7 9-3.5-1-7-4-7-9V6z"/><path d="m9 12 2 2 4-4"/></svg>'}
+function star(){return '<svg viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M12 3l2.6 5.5 6 .8-4.4 4.2 1.1 6L12 16.9 6.7 19.5l1.1-6L3.4 9.3l6-.8z"/></svg>'}
+function flag(){return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 21V4m0 1h13l-2 4 2 4H4"/></svg>'}
+function truck(){return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h11v9H3zM14 9h4l3 3v3h-7z"/><circle cx="7" cy="18" r="1.6"/><circle cx="17" cy="18" r="1.6"/></svg>'}
+function chat(){return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12a8 8 0 0 1-11.6 7.1L3 21l1.9-6.4A8 8 0 1 1 21 12z"/></svg>'}
+function info(){return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/></svg>'}
+
+function go(h){location.hash=h;window.scrollTo(0,0)}
+function doSearch(e){e.preventDefault();const main=document.getElementById("q").value||(document.getElementById("qx")||{}).value||"";if(main.trim())go("#/search/"+encodeURIComponent(main.trim()));return false}
+function setNav(active){document.getElementById("catNav").innerHTML=
+  `<a href="#/bundles" class="${active==='bundles'?'on':''}">AHRI Systems</a>`+
+  CATS.map(c=>`<a href="#/c/${c.id}" class="${active==='c/'+c.id?'on':''}">${c.name}</a>`).join("")+
+  `<a href="#/crossover" class="${active==='crossover'?'on':''}">Crossover</a>`}
+function route(){
+  const h=location.hash.replace(/^#\//,"")||"";const seg=h.split("/");
+  let html,active="";
+  if(seg[0]==="c"){active="c/"+seg[1];html=vCat(seg[1])}
+  else if(seg[0]==="p"){html=vProduct(seg[1])}
+  else if(seg[0]==="bundles"){active="bundles";html=vBundles()}
+  else if(seg[0]==="crossover"){active="crossover";html=vCross(decodeURIComponent(seg[1]||""))}
+  else if(seg[0]==="search"){html=vSearch(decodeURIComponent(seg[1]||""))}
+  else html=vHome();
+  document.getElementById("view").innerHTML=html;
+  setNav(active);
+}
+window.addEventListener("hashchange",route);
+route();renderCart();
+</script>
