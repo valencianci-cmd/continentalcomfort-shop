@@ -235,13 +235,6 @@ footer a:hover{color:#fff}
       <input id="q" type="search" placeholder="Search equipment or competitor model…" aria-label="Search">
     </form>
     <div class="top-actions">
-      <div class="tier" title="Pricing tier">
-        <select id="tier" onchange="setTier(this.value)" aria-label="Pricing tier">
-          <option value="home">Homeowner</option>
-          <option value="contractor">Contractor</option>
-          <option value="distributor">Distributor</option>
-        </select>
-      </div>
       <button class="icon-btn" onclick="toggleTheme()" aria-label="Toggle theme" title="Theme">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v2m0 14v2M5.6 5.6l1.4 1.4m10 10 1.4 1.4M3 12h2m14 0h2M5.6 18.4l1.4-1.4m10-10 1.4-1.4"/><circle cx="12" cy="12" r="4"/></svg>
       </button>
@@ -408,7 +401,7 @@ const CROSS=[
 ];
 
 const TIERS={home:{m:1,lab:"Homeowner"},contractor:{m:.80,lab:"Contractor"},distributor:{m:.70,lab:"Distributor"}};
-let tier=load("sc_tier","home"); if(!TIERS[tier])tier="home";
+let tier="home"; /* locked to homeowner — trade pricing gated to approved accounts in the production build */
 const fmt=n=>"$"+Math.round(n).toLocaleString();
 const priceOf=p=>p.price*TIERS[tier].m;
 
@@ -452,7 +445,7 @@ function checkoutMsg(){const f=document.getElementById("cartFoot");const n=docum
 
 function setTier(v){tier=v;save("sc_tier",v);route();renderCart()}
 function toggleTheme(){const r=document.documentElement;const cur=r.getAttribute("data-theme")||(matchMedia("(prefers-color-scheme:dark)").matches?"dark":"light");const nx=cur==="dark"?"light":"dark";r.setAttribute("data-theme",nx);save("sc_theme",nx)}
-(function(){const t=load("sc_theme",null);if(t)document.documentElement.setAttribute("data-theme",t);document.getElementById("tier").value=tier})();
+(function(){const t=load("sc_theme",null);if(t)document.documentElement.setAttribute("data-theme",t);})();
 
 function money(p){return `<div class="price"><div class="lab">${TIERS[tier].lab}</div><div class="val tnum">${p.from?'<span class="from">from </span>':''}${fmt(priceOf(p))}</div></div>`}
 function badges(p){const b=[];const s=p.specs;
