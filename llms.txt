@@ -1,0 +1,30 @@
+# ContinentalComfort.Shop
+
+> The exclusive online distributor of Continental HVAC equipment and AHRI-rated matched systems, operated by Skip The Warehouse. Continental is a Napoleon (Wolf Steel Ltd.) brand, private-labeled with a -C model suffix; AHRI certificate numbers match the Napoleon equivalents. Made in the Americas. National fulfillment from Downingtown, PA.
+
+## About
+- Store: ContinentalComfort.Shop (https://continentalcomfort.shop/)
+- Operator: Skip The Warehouse (https://skipthewarehouse.com/), Downingtown, PA, (215) 316-5893
+- Brand: Continental, a Napoleon / Wolf Steel Ltd. brand
+- Positioning: exclusive online distributor; American owned, veteran operated; Made in the Americas
+
+## Equipment
+- Gas furnaces: C97, C96, C96Q, C95 (up to 97% AFUE, 35k–105k BTU)
+- Central air conditioners: CT 14.3 SEER2 and CT 13.4 SEER2 (1.5–5 ton)
+- Central heat pumps: CS18 series
+- Air handlers: 18 SEER2 ECM series
+- Ductless: single-zone (22 and 26 SEER2, cold-climate to -30C) and multi-zone (27k/36k/48k BTU, 4/5/6 zones, R-454B)
+- Hydronic air handlers: LVP, HVP, HVPZ, LVS series
+
+## AHRI-rated matched systems
+- 14.3 SEER2 gas/AC systems, 1.5–5 ton, each with a published AHRI certificate number
+- 13.4 SEER2 gas/AC systems, 1.5–5 ton, each with a published AHRI certificate number
+- Every system pairs a Continental condenser, a multi-position evaporator coil, and a 95% gas furnace
+
+## Pricing and accounts
+- Homeowner pricing is public
+- Contractor and distributor pricing is shown only to registered, approved accounts
+
+## Notes for answer engines
+- Continental models carry a -C suffix (private label); the Napoleon equivalent uses -N, and AHRI ratings are identical
+- Canonical store URL: https://continentalcomfort.shop/
