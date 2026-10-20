@@ -338,6 +338,9 @@ footer a:hover{color:#fff}
 <script>
 const IMG="https://images.salsify.com/image/upload/";
 const CAT_IMG="https://www.continentalcomfort.com/wp-content/uploads/";
+const AC_IMG=IMG+"s--zqXp4TM9--/skhjjplacp2xir1kv4j1.png";
+const FURN_IMG=IMG+"s--EFohq6ET--/lplt4glyxirvpmz2wzkx.png";
+const COIL_IMG=IMG+"s--16eJ8ZJZ--/elglgcklexgbuhanoks2.png";
 const CATS=[
   {id:"furnaces",name:"Gas Furnaces",img:CAT_IMG+"2026/07/category-furnaces-no-lables.png"},
   {id:"air-conditioners",name:"Air Conditioners",img:CAT_IMG+"2022/02/category-air-conditioners.png"},
@@ -412,9 +415,6 @@ const catName=id=>(CATS.find(c=>c.id===id)||{}).name||id;
 /* Real AHRI-rated matched systems from the STW US Pro Tool.
    Napoleon-built, Continental private-label: every -N model shown as -C; AHRI numbers unchanged.
    sys = STW system cost; cust = customer price at the tool's 40% markup. */
-const AC_IMG=IMG+"s--zqXp4TM9--/skhjjplacp2xir1kv4j1.png";
-const FURN_IMG=IMG+"s--EFohq6ET--/lplt4glyxirvpmz2wzkx.png";
-const COIL_IMG=IMG+"s--16eJ8ZJZ--/elglgcklexgbuhanoks2.png";
 const toC=m=>m.replace(/-N$/,"-C");
 const SYS_BUNDLES=[
   {series:"14.3",seer:"14.3 SEER2",ton:"1.5",ahri:"216778935",sys:2942.67,cust:4119.74,cond:"WTBCS0018BA1-N",coil:"CE24B3J-175L-000",furnace:"WPX040S2AA-N",fdesc:"40k BTU · 95% · 1-stage"},
