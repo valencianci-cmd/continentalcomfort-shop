@@ -393,17 +393,17 @@ const P=[
   {id:"lvs",cat:"hydronic",name:"LVS Multi-Speed Air Handler",model:"WC-LVS-…-C",img:IMG+"s--ukd6O4xK--/hjoblgd05hjsaucj4rvb.png",url:"https://www.continentalcomfort.com/en/products/hydronic-air-handlers/wc-lvs-series/",price:1320,from:true,
     specs:{"Control":"Multi-speed","Feature":"Dehumidification"},
     feat:["Dehumidification functionality","Adjustable airflow control","Multi-speed heating"]},
-  {id:"wpcc24",cat:"coils",name:"WPCC24 Cased Coil",model:"WPCC24ABA1-C",img:COIL_IMG,url:"https://www.continentalcomfort.com/en/products/hvac/",price:650,from:true,
-    specs:{"Match":"WSEHV2436 heat pump","Cooling":"22,000 BTU/h","Dimensions":"23 x 17½ x 21¼ in","Weight":"75 lb"},
+  {id:"wpcc24",cat:"coils",name:"WPCC24 Cased Coil",model:"WPCC24ABA1-C",img:COIL_IMG,url:"https://www.continentalcomfort.com/en/products/hvac/",price:1071,from:true,
+    specs:{"Tonnage":"2 ton","Refrigerant":"R-454B EEV","Cooling":"22,000 BTU/h","Dimensions":"23 x 17½ x 21¼ in","Weight":"75 lb"},
     feat:["Cased coil for Cold Climate Heat Pump matchups","Pairs with WSEHV2436BA1-C (AHRI# 217463583)","Hybrid-ready: add a Continental gas furnace + adapter kit","In stock, Dillsburg PA"]},
-  {id:"wpcc36",cat:"coils",name:"WPCC36 Cased Coil",model:"WPCC36ABA1-C",img:COIL_IMG,url:"https://www.continentalcomfort.com/en/products/hvac/",price:720,from:true,
-    specs:{"Match":"WSEHV2436 heat pump","Cooling":"32,000 BTU/h","Dimensions":"23 x 17½ x 21¼ in","Weight":"75 lb"},
+  {id:"wpcc36",cat:"coils",name:"WPCC36 Cased Coil",model:"WPCC36ABA1-C",img:COIL_IMG,url:"https://www.continentalcomfort.com/en/products/hvac/",price:1103,from:true,
+    specs:{"Tonnage":"3 ton","Refrigerant":"R-454B EEV","Cooling":"32,000 BTU/h","Dimensions":"23 x 17½ x 21¼ in","Weight":"75 lb"},
     feat:["Cased coil for Cold Climate Heat Pump matchups","Pairs with WSEHV2436BA1-C (AHRI# 217463581)","Hybrid-ready: add a Continental gas furnace + adapter kit","In stock, Dillsburg PA"]},
-  {id:"wpcc48",cat:"coils",name:"WPCC48 Cased Coil",model:"WPCC48ABA1-C",img:COIL_IMG,url:"https://www.continentalcomfort.com/en/products/hvac/",price:850,from:true,
-    specs:{"Match":"WSEHV4860 heat pump","Cooling":"47,000 BTU/h","Dimensions":"28½ x 24½ x 21¼ in","Weight":"110 lb"},
+  {id:"wpcc48",cat:"coils",name:"WPCC48 Cased Coil",model:"WPCC48ABA1-C",img:COIL_IMG,url:"https://www.continentalcomfort.com/en/products/hvac/",price:1462,from:true,
+    specs:{"Tonnage":"4 ton","Refrigerant":"R-454B EEV","Cooling":"47,000 BTU/h","Dimensions":"28½ x 24½ x 21¼ in","Weight":"110 lb"},
     feat:["Cased coil for Cold Climate Heat Pump matchups","Pairs with WSEHV4860BA1-C (AHRI# 217463584)","Hybrid-ready: add a Continental gas furnace + adapter kit","In stock, Dillsburg PA"]},
-  {id:"wpcc60",cat:"coils",name:"WPCC60 Cased Coil",model:"WPCC60ABA1-C",img:COIL_IMG,url:"https://www.continentalcomfort.com/en/products/hvac/",price:920,from:true,
-    specs:{"Match":"WSEHV4860 heat pump","Cooling":"52,000 BTU/h","Dimensions":"28½ x 24½ x 21¼ in","Weight":"110 lb"},
+  {id:"wpcc60",cat:"coils",name:"WPCC60 Cased Coil",model:"WPCC60ABA1-C",img:COIL_IMG,url:"https://www.continentalcomfort.com/en/products/hvac/",price:1493,from:true,
+    specs:{"Tonnage":"5 ton","Refrigerant":"R-454B EEV","Cooling":"52,000 BTU/h","Dimensions":"28½ x 24½ x 21¼ in","Weight":"110 lb"},
     feat:["Cased coil for Cold Climate Heat Pump matchups","Pairs with WSEHV4860BA1-C (AHRI# 217463582)","Hybrid-ready: add a Continental gas furnace + adapter kit","In stock, Dillsburg PA"]},
 ];
 const byId=id=>P.find(p=>p.id===id);
@@ -447,7 +447,7 @@ const ACCESSORIES=[
   {grp:"Line Sets",model:'3/8 & 7/8 × 25\'',desc:"3.5–5 Ton · Titan Shield",cost:210.35},
   {grp:"Filtration",model:'16×25×5',desc:"MERV 11 Filter Rack",cost:127.15},
   {grp:"Filtration",model:'20×25×5',desc:"MERV 11 Filter Rack",cost:128.81},
-  {grp:"Hybrid Kits",model:"W370-10010241",desc:"Coil/Furnace Adapter Kit, 22.5 in (GF)",cost:88.00},
+  {grp:"Hybrid Kits",model:"W370-10010241",desc:"Coil/Furnace Adapter Kit, 22.5 in (GF)",cost:27.00},
 ];
 const accPrice=a=>a.cost*(tier==="home"?1.40:tier==="contractor"?1.15:1.08);
 /* Napoleon/Continental Cold Climate Heat Pump matched systems (R-454B), AHRI-certified.
