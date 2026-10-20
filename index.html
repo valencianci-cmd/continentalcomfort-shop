@@ -342,6 +342,7 @@ const CATS=[
   {id:"furnaces",name:"Gas Furnaces",img:CAT_IMG+"2026/07/category-furnaces-no-lables.png"},
   {id:"air-conditioners",name:"Air Conditioners",img:CAT_IMG+"2022/02/category-air-conditioners.png"},
   {id:"heat-pumps",name:"Heat Pumps",img:CAT_IMG+"2022/02/category-heat-pumps.png"},
+  {id:"coils",name:"Cased Coils",img:CAT_IMG+"2022/02/category-air-handlers.png"},
   {id:"air-handlers",name:"Air Handlers",img:CAT_IMG+"2022/02/category-air-handlers.png"},
   {id:"ductless",name:"Ductless Systems",img:CAT_IMG+"2024/03/category-ductless-systems.png"},
   {id:"hydronic",name:"Hydronic Air Handlers",img:CAT_IMG+"2025/05/EcoSmart-LVP-400px-category.png"},
@@ -392,6 +393,18 @@ const P=[
   {id:"lvs",cat:"hydronic",name:"LVS Multi-Speed Air Handler",model:"WC-LVS-…-C",img:IMG+"s--ukd6O4xK--/hjoblgd05hjsaucj4rvb.png",url:"https://www.continentalcomfort.com/en/products/hydronic-air-handlers/wc-lvs-series/",price:1320,from:true,
     specs:{"Control":"Multi-speed","Feature":"Dehumidification"},
     feat:["Dehumidification functionality","Adjustable airflow control","Multi-speed heating"]},
+  {id:"wpcc24",cat:"coils",name:"WPCC24 Cased Coil",model:"WPCC24ABA1-C",img:COIL_IMG,url:"https://www.continentalcomfort.com/en/products/hvac/",price:650,from:true,
+    specs:{"Match":"WSEHV2436 heat pump","Cooling":"22,000 BTU/h","Dimensions":"23 x 17½ x 21¼ in","Weight":"75 lb"},
+    feat:["Cased coil for Cold Climate Heat Pump matchups","Pairs with WSEHV2436BA1-C (AHRI# 217463583)","Hybrid-ready: add a Continental gas furnace + adapter kit","In stock, Dillsburg PA"]},
+  {id:"wpcc36",cat:"coils",name:"WPCC36 Cased Coil",model:"WPCC36ABA1-C",img:COIL_IMG,url:"https://www.continentalcomfort.com/en/products/hvac/",price:720,from:true,
+    specs:{"Match":"WSEHV2436 heat pump","Cooling":"32,000 BTU/h","Dimensions":"23 x 17½ x 21¼ in","Weight":"75 lb"},
+    feat:["Cased coil for Cold Climate Heat Pump matchups","Pairs with WSEHV2436BA1-C (AHRI# 217463581)","Hybrid-ready: add a Continental gas furnace + adapter kit","In stock, Dillsburg PA"]},
+  {id:"wpcc48",cat:"coils",name:"WPCC48 Cased Coil",model:"WPCC48ABA1-C",img:COIL_IMG,url:"https://www.continentalcomfort.com/en/products/hvac/",price:850,from:true,
+    specs:{"Match":"WSEHV4860 heat pump","Cooling":"47,000 BTU/h","Dimensions":"28½ x 24½ x 21¼ in","Weight":"110 lb"},
+    feat:["Cased coil for Cold Climate Heat Pump matchups","Pairs with WSEHV4860BA1-C (AHRI# 217463584)","Hybrid-ready: add a Continental gas furnace + adapter kit","In stock, Dillsburg PA"]},
+  {id:"wpcc60",cat:"coils",name:"WPCC60 Cased Coil",model:"WPCC60ABA1-C",img:COIL_IMG,url:"https://www.continentalcomfort.com/en/products/hvac/",price:920,from:true,
+    specs:{"Match":"WSEHV4860 heat pump","Cooling":"52,000 BTU/h","Dimensions":"28½ x 24½ x 21¼ in","Weight":"110 lb"},
+    feat:["Cased coil for Cold Climate Heat Pump matchups","Pairs with WSEHV4860BA1-C (AHRI# 217463582)","Hybrid-ready: add a Continental gas furnace + adapter kit","In stock, Dillsburg PA"]},
 ];
 const byId=id=>P.find(p=>p.id===id);
 const catName=id=>(CATS.find(c=>c.id===id)||{}).name||id;
@@ -434,8 +447,18 @@ const ACCESSORIES=[
   {grp:"Line Sets",model:'3/8 & 7/8 × 25\'',desc:"3.5–5 Ton · Titan Shield",cost:210.35},
   {grp:"Filtration",model:'16×25×5',desc:"MERV 11 Filter Rack",cost:127.15},
   {grp:"Filtration",model:'20×25×5',desc:"MERV 11 Filter Rack",cost:128.81},
+  {grp:"Hybrid Kits",model:"W370-10010241",desc:"Coil/Furnace Adapter Kit, 22.5 in (GF)",cost:88.00},
 ];
 const accPrice=a=>a.cost*(tier==="home"?1.40:tier==="contractor"?1.15:1.08);
+/* Napoleon/Continental Cold Climate Heat Pump matched systems (R-454B), AHRI-certified.
+   HP + WPCC cased coil; add a Continental gas furnace + W370-10010241 adapter for a hybrid system. */
+const HP_SYSTEMS=[
+  {ton:"2",hp:"WSEHV2436BA1-C",coil:"WPCC24ABA1-C",ahri:"217463583",seer2:16,eer2:11,hspf2:8.5,cool:22000,btuh:24000,price:3150},
+  {ton:"2.5",hp:"WSEHV2436BA1-C",coil:"WPCC36ABA1-C",ahri:"217463581",seer2:16,eer2:11,hspf2:8.5,cool:32000,btuh:34000,price:3350},
+  {ton:"4",hp:"WSEHV4860BA1-C",coil:"WPCC48ABA1-C",ahri:"217463584",seer2:16,eer2:11,hspf2:8.8,cool:47000,btuh:48000,price:3980},
+  {ton:"5",hp:"WSEHV4860BA1-C",coil:"WPCC60ABA1-C",ahri:"217463582",seer2:16,eer2:9.8,hspf2:8.5,cool:52000,btuh:54000,price:4190},
+];
+const HP_IMG=IMG+"s--wp--m2g6--/h420gizmbvcy5m7kfr2u.png";
 const CROSS=[
   {comp:"Goodman GSXN4 / GSXH5",to:"ct14"},
   {comp:"Carrier 24ACC6",to:"ct14"},
@@ -461,6 +484,8 @@ function setQty(id,q){if(q<=0)delete cart[id];else cart[id]=q;save("sc_cart",car
 function resolveLine(key){
   if(key.startsWith("sys-")){const b=SYS_BUNDLES.find(x=>x.ahri===key.slice(4));if(!b)return null;
     return {name:b.seer+" System · "+b.ton+" Ton",model:"AHRI# "+b.ahri+" · "+toC(b.cond),img:AC_IMG,price:bundlePrice(b)};}
+  if(key.startsWith("hp-")){const s=HP_SYSTEMS.find(x=>x.ahri===key.slice(3));if(!s)return null;
+    return {name:s.seer2+" SEER2 Heat Pump System · "+s.ton+" Ton",model:"AHRI# "+s.ahri+" · "+s.hp,img:HP_IMG,price:s.price*(tier==="home"?1:tier==="contractor"?0.80:0.70)};}
   if(key.startsWith("acc-")){const a=ACCESSORIES.find(x=>x.model.replace(/'/g,"")===key.slice(4));if(!a)return null;
     return {name:a.desc,model:a.model,img:COIL_IMG,price:accPrice(a)};}
   const p=byId(key);return p?{name:p.name,model:p.model,img:p.img,price:priceOf(p)}:null;
@@ -625,9 +650,28 @@ function vBundles(){
     <div class="crumb"><a href="#/">Home</a> / <span>AHRI System Bundles</span></div>
     <div class="sec-head"><div><div class="eyebrow">Matched systems · ${SYS_BUNDLES.length} certified</div><h2>Build an AHRI-rated system</h2><p>Continental gas / AC matched systems — condenser, coil and furnace, AHRI-certified. ${TIERS[tier].lab} pricing shown.</p></div></div>
     ${finderBlock(list,true)}
+    ${hpBlock()}
     ${accBlock()}
   </section></div>`;
 }
+function hpBlock(){
+  return `<div style="margin-top:1.6rem">
+    <div class="sec-head"><div><div class="eyebrow">Heat pump · hybrid-ready</div><h2 style="font-size:1.4rem">Cold Climate Heat Pump systems</h2><p>AHRI-certified heat pump + WPCC cased coil. Add a Continental gas furnace and the W370-10010241 adapter for a hybrid system. ${TIERS[tier].lab} pricing shown.</p></div></div>
+    <div class="bundles" style="padding:0">${HP_SYSTEMS.map(hpCard).join("")}</div>
+  </div>`;
+}
+function hpCard(s){
+  const price=s.price*(tier==="home"?1:tier==="contractor"?0.80:0.70);
+  const parts=[{img:HP_IMG,name:s.hp+" Heat Pump",model:"Cold Climate · R-454B"},{img:COIL_IMG,name:s.coil+" Cased Coil",model:(s.cool).toLocaleString()+" BTU/h cooling"}];
+  return `<div class="bundle">
+    <div class="bh"><h4>${s.seer2} SEER2 Heat Pump</h4><span class="ton">${s.ton} Ton</span></div>
+    <div class="rate"><span class="badge">${s.seer2} SEER2 · ${s.eer2} EER2 · ${s.hspf2} HSPF2</span><span class="badge warm">AHRI# ${s.ahri}</span></div>
+    <div class="parts">${parts.map(p=>`<div class="part"><div class="pimg"><img src="${p.img}" alt=""></div><div class="pt">${p.name}<span>${p.model}</span></div></div>`).join("")}</div>
+    <div class="bf"><div class="price"><div class="lab">${TIERS[tier].lab} · system</div><div class="val tnum">${fmt(price)}</div></div>
+      <button class="btn sm" onclick="addHpSys('${s.ahri}')">Add system</button></div>
+  </div>`;
+}
+function addHpSys(ahri){const s=HP_SYSTEMS.find(x=>x.ahri===ahri);if(!s)return;const key="hp-"+ahri;cart[key]=(cart[key]||0)+1;save("sc_cart",cart);renderCart();bump();openCart()}
 function accBlock(){
   const grps=[...new Set(ACCESSORIES.map(a=>a.grp))];
   return `<div style="margin-top:1.4rem">
