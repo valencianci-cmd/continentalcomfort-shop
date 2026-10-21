@@ -37,7 +37,7 @@
 {"@type":"Question","name":"What is ContinentalComfort.Shop?","acceptedAnswer":{"@type":"Answer","text":"ContinentalComfort.Shop is the exclusive online distributor of Continental HVAC equipment, operated by Skip The Warehouse. It sells gas furnaces, central air conditioners, heat pumps, air handlers, ductless systems, hydronic air handlers, and AHRI-rated matched systems, with national fulfillment."}},
 {"@type":"Question","name":"Is Continental HVAC the same as Napoleon?","acceptedAnswer":{"@type":"Answer","text":"Continental is a Napoleon (Wolf Steel Ltd.) brand. The equipment is Napoleon-built and private-labeled as Continental, with model numbers carrying a -C suffix. The AHRI certificate numbers match the Napoleon equivalents."}},
 {"@type":"Question","name":"What AHRI-rated systems are available?","acceptedAnswer":{"@type":"Answer","text":"ContinentalComfort.Shop offers AHRI-certified matched gas and air-conditioning systems in 14.3 SEER2 and 13.4 SEER2, from 1.5 to 5 tons, each pairing a Continental condenser, coil, and 95% gas furnace with a published AHRI certificate number."}},
-{"@type":"Question","name":"Who can see contractor and distributor pricing?","acceptedAnswer":{"@type":"Answer","text":"Homeowner pricing is shown to everyone. Contractor and distributor pricing is available only to registered accounts that Skip The Warehouse has reviewed and approved."}},
+{"@type":"Question","name":"Who can see contractor and distributor pricing?","acceptedAnswer":{"@type":"Answer","text":"Guest pricing is shown to everyone. Contractor and distributor pricing is available only to registered accounts that Skip The Warehouse has reviewed and approved."}},
 {"@type":"Question","name":"Where does Continental HVAC ship?","acceptedAnswer":{"@type":"Answer","text":"ContinentalComfort.Shop provides national fulfillment across the United States through Skip The Warehouse, with live support and technical parts help."}}]}
 ]}
 </script>
@@ -131,8 +131,8 @@ nav.cats a.on{color:var(--accent);background:var(--surface-2)}
 .hero .cta{display:flex;gap:.7rem;flex-wrap:wrap}
 .hero .btn.ghost{color:#fff;border-color:rgba(255,255,255,.55)}
 .hero .btn.ghost:hover{background:rgba(255,255,255,.12)}
-.flagchip{display:inline-flex;align-items:center;gap:.45rem;font-family:var(--head);font-weight:600;text-transform:uppercase;letter-spacing:.1em;font-size:.72rem;color:#fff;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.16);padding:.35rem .7rem;border-radius:7px;margin-bottom:1rem}
-.flagchip b{color:var(--warm);font-weight:700}
+.flagchip{display:inline-flex;align-items:center;gap:.5rem;font-family:var(--head);font-weight:800;text-transform:uppercase;letter-spacing:.12em;font-size:.86rem;color:#1a1410;background:var(--warm);border:1px solid var(--warm);padding:.5rem 1rem;border-radius:999px;margin-bottom:1.1rem;box-shadow:0 4px 16px rgba(0,0,0,.3)}
+.flagchip b{color:#1a1410;font-weight:800}
 
 .trust{background:var(--surface);border-bottom:1px solid var(--line)}
 .trust .row{display:flex;flex-wrap:wrap;gap:.8rem 2rem;padding-block:.9rem;justify-content:space-between}
@@ -292,7 +292,7 @@ footer a:hover{color:#fff}
     <h2>AHRI-rated matched systems</h2>
     <p>AHRI-certified matched gas and AC systems in 14.3 SEER2 and 13.4 SEER2 from 1.5 to 5 tons, each pairing a Continental condenser, multi-position evaporator coil, and 95% gas furnace, with a published AHRI certificate number.</p>
     <h2>Pricing and accounts</h2>
-    <p>Homeowner pricing is shown to everyone. Contractor and distributor pricing is available only to registered, approved accounts.</p>
+    <p>Guest pricing is shown to everyone. Contractor and distributor pricing is available only to registered, approved accounts.</p>
     <h2>Contact</h2>
     <p>Skip The Warehouse, Downingtown, PA. Phone (215) 316-5893. National fulfillment with live support and technical parts help.</p>
   </div>
@@ -475,7 +475,7 @@ const CROSS=[
   {comp:"Lennox SL297 furnace",to:"c97"},
 ];
 
-const TIERS={home:{m:1,lab:"Homeowner"},contractor:{m:.80,lab:"Contractor"},distributor:{m:.70,lab:"Distributor"}};
+const TIERS={home:{m:.80,lab:"Guest"},contractor:{m:.80,lab:"Contractor"},distributor:{m:.70,lab:"Distributor"}};
 let tier="home"; /* locked to homeowner — trade pricing gated to approved accounts in the production build */
 const fmt=n=>"$"+Math.round(n).toLocaleString();
 const priceOf=p=>p.price*TIERS[tier].m;
