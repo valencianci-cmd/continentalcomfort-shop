@@ -129,6 +129,8 @@ nav.cats a.on{color:var(--accent);background:var(--surface-2)}
 .hero .rule{width:92px;height:4px;background:var(--warm);margin:1rem 0 1.1rem;border-radius:2px}
 .hero p{color:#d5cfca;max-width:48ch;margin:0 0 1.4rem;font-size:1.03rem}
 .hero .cta{display:flex;gap:.7rem;flex-wrap:wrap}
+.hero .btn.ghost{color:#fff;border-color:rgba(255,255,255,.55)}
+.hero .btn.ghost:hover{background:rgba(255,255,255,.12)}
 .flagchip{display:inline-flex;align-items:center;gap:.45rem;font-family:var(--head);font-weight:600;text-transform:uppercase;letter-spacing:.1em;font-size:.72rem;color:#fff;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.16);padding:.35rem .7rem;border-radius:7px;margin-bottom:1rem}
 .flagchip b{color:var(--warm);font-weight:700}
 
@@ -369,9 +371,12 @@ const P=[
   {id:"ct13",cat:"air-conditioners",name:"CT 13.4 SEER2 Air Conditioner",model:"WC-CT-13-…-C",img:IMG+"s--zqXp4TM9--/skhjjplacp2xir1kv4j1.png",url:"https://www.continentalcomfort.com/en/products/hvac/wc-ct-13-seer2-series/",price:1640,from:true,
     specs:{"Efficiency":"Up to 13.4 SEER2","Capacity":"1.5 – 5 ton","Compressor":"Rotary or scroll"},
     feat:["Up to 13.4 SEER2 efficiency","Available with rotary or scroll compressor","1.5 to 5 ton capacity range"]},
-  {id:"cs18",cat:"heat-pumps",name:"Central Heat Pump",model:"WC-CS18-…-C",img:IMG+"s--wp--m2g6--/h420gizmbvcy5m7kfr2u.png",url:"https://www.continentalcomfort.com/en/products/hvac/wc-cs18-series/",price:2790,from:true,
-    specs:{"Type":"Central heat pump","Use":"Heating + cooling"},
-    feat:["Year-round heating and cooling","Pairs with a furnace for hybrid heat","Efficient performance in milder climates"]},
+  {id:"hp2436",cat:"heat-pumps",name:"Cold Climate Heat Pump — 2 to 3 Ton",model:"WSEHV2436BA1-C",img:"/hp-2436.png",url:"https://www.continentalcomfort.com/en/products/hvac/",price:2790,from:true,
+    specs:{"Capacity":"2 – 3 ton (24k–36k BTU/h)","Efficiency":"Up to 17 SEER2","Cold climate":"Heats to −22°F","Compressor":"Hyper Heat DC inverter","Dimensions":"32¼ in H × 37 in W × 19⅛ in D","Net weight":"217 lbs","Refrigerant":"R-454B"},
+    feat:["Hyper Heat DC inverter rotary compressor, rated to −22°F","100% heating capacity at −5°F and 100% cooling at 115°F","Side-discharge design with a smaller footprint for narrow spaces","NEEP cold-climate certified; NRCan Greener Homes listed when paired with a furnace or air handler","Works with the EQHub smart thermostat, standard thermostats, or home automation"]},
+  {id:"hp4860",cat:"heat-pumps",name:"Cold Climate Heat Pump — 4 to 5 Ton",model:"WSEHV4860BA1-C",img:"/hp-4860.png",url:"https://www.continentalcomfort.com/en/products/hvac/",price:3980,from:true,
+    specs:{"Capacity":"4 – 5 ton (48k–54k BTU/h)","Efficiency":"Up to 17 SEER2","Cold climate":"Heats to −22°F","Compressor":"Hyper Heat DC inverter","Dimensions":"53¾ in H × 42¾ in W × 15½ in D","Net weight":"309 lbs","Refrigerant":"R-454B"},
+    feat:["Hyper Heat DC inverter rotary compressor, rated to −22°F","100% heating capacity at −5°F and 100% cooling at 115°F","Taller dual-fan cabinet for 4 and 5 ton capacity","NEEP cold-climate certified; NRCan Greener Homes listed when paired with a furnace or air handler","Works with the EQHub smart thermostat, standard thermostats, or home automation"]},
   {id:"ah18",cat:"air-handlers",name:"SEER2 Air Handler",model:"WC-18SEER-…-C",img:IMG+"s--16eJ8ZJZ--/elglgcklexgbuhanoks2.png",url:"https://www.continentalcomfort.com/en/products/hvac/wc-18seer-series/",price:1180,from:true,
     specs:{"Blower":"ECM variable-speed","Install":"Zero-clearance / flexible","Warranty":"10-yr parts limited"},
     feat:["ECM variable-speed blower with gradual ramp","Zero-clearance install for closets and alcoves","Quiet, even temperatures","10-year limited parts warranty"]},
@@ -458,14 +463,14 @@ const HP_SYSTEMS=[
   {ton:"4",hp:"WSEHV4860BA1-C",coil:"WPCC48ABA1-C",ahri:"217463584",seer2:16,eer2:11,hspf2:8.8,cool:47000,btuh:48000,price:3980},
   {ton:"5",hp:"WSEHV4860BA1-C",coil:"WPCC60ABA1-C",ahri:"217463582",seer2:16,eer2:9.8,hspf2:8.5,cool:52000,btuh:54000,price:4190},
 ];
-const HP_IMG=IMG+"s--wp--m2g6--/h420gizmbvcy5m7kfr2u.png";
+const HP_IMG="/hp-2436.png";
 const CROSS=[
   {comp:"Goodman GSXN4 / GSXH5",to:"ct14"},
   {comp:"Carrier 24ACC6",to:"ct14"},
   {comp:"Rheem RA13 / RA14",to:"ct13"},
   {comp:"Trane XR13 / XR14",to:"ct13"},
   {comp:"Lennox ML14XC1",to:"ct14"},
-  {comp:"Goodman GLZS / GSZH heat pump",to:"cs18"},
+  {comp:"Goodman GLZS / GSZH heat pump",to:"hp2436"},
   {comp:"Carrier 59SC5 furnace",to:"c96"},
   {comp:"Lennox SL297 furnace",to:"c97"},
 ];
@@ -538,7 +543,7 @@ function card(p){return `<article class="card">
 const check='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6 9 17l-5-5"/></svg>';
 
 function vHome(){
-  const feat=["ct14","c97","cs18","cdhas26"].map(byId);
+  const feat=["ct14","c97","hp2436","cdhas26"].map(byId);
   return `
   <section class="hero">
     <div class="wrap">
@@ -661,7 +666,7 @@ function hpBlock(){
 }
 function hpCard(s){
   const price=s.price*(tier==="home"?1:tier==="contractor"?0.80:0.70);
-  const parts=[{img:HP_IMG,name:s.hp+" Heat Pump",model:"Cold Climate · R-454B"},{img:COIL_IMG,name:s.coil+" Cased Coil",model:(s.cool).toLocaleString()+" BTU/h cooling"}];
+  const parts=[{img:(s.hp.indexOf("4860")>-1?"/hp-4860.png":"/hp-2436.png"),name:s.hp+" Heat Pump",model:"Cold Climate · R-454B"},{img:COIL_IMG,name:s.coil+" Cased Coil",model:(s.cool).toLocaleString()+" BTU/h cooling"}];
   return `<div class="bundle">
     <div class="bh"><h4>${s.seer2} SEER2 Heat Pump</h4><span class="ton">${s.ton} Ton</span></div>
     <div class="rate"><span class="badge">${s.seer2} SEER2 · ${s.eer2} EER2 · ${s.hspf2} HSPF2</span><span class="badge warm">AHRI# ${s.ahri}</span></div>
