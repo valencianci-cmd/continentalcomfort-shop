@@ -580,7 +580,7 @@ function renderCart(){
   if(!lines.length){wrap.innerHTML='<div class="empty">Your cart is empty.<br>Add equipment or a system bundle to get started.</div>';foot.innerHTML="";return}
   wrap.innerHTML=lines.map(({p,q,id})=>`<div class="citem">
     <div class="ci-img"><img src="${pimg(p)}" alt="" loading="lazy"></div>
-    <div class="ci-b"><h4>${p.name}</h4><div class="ci-m">${mdl(p.model)}</div>
+    <div class="ci-b"><h4>${mdl(p.name)}</h4><div class="ci-m">${mdl(p.model)}</div>
       <div class="qty"><button onclick="setQty('${id}',${q-1})" aria-label="Decrease">−</button><span class="tnum">${q}</span><button onclick="setQty('${id}',${q+1})" aria-label="Increase">+</button></div>
       <div class="rm" onclick="setQty('${id}',0)">Remove</div>
     </div>
@@ -631,7 +631,7 @@ function card(p){return `<article class="card">
   <div class="media" onclick="go('#/p/${p.id}')"><img src="${pimg(p)}" alt="${p.name}" loading="lazy"></div>
   <div class="body">
     <div class="kicker">${catName(p.cat)}</div>
-    <h3 onclick="go('#/p/${p.id}')">${p.name}</h3>
+    <h3 onclick="go('#/p/${p.id}')">${mdl(p.name)}</h3>
     <div class="model">${mdl(p.model)}</div>
     ${badges(p)}
     <div class="foot">${money(p)}<button class="btn sm" onclick="addCart('${p.id}')">Add</button></div>
@@ -692,12 +692,12 @@ function vProduct(id){
   const p=byId(id); if(!p)return vHome();
   const specRows=Object.entries(p.specs).map(([k,v])=>`<tr><th>${k}</th><td>${v}</td></tr>`).join("");
   return `<div class="wrap"><section>
-    <div class="crumb"><a href="#/">Home</a> / <a href="#/c/${p.cat}">${catName(p.cat)}</a> / <span>${p.name}</span></div>
+    <div class="crumb"><a href="#/">Home</a> / <a href="#/c/${p.cat}">${catName(p.cat)}</a> / <span>${mdl(p.name)}</span></div>
     <div class="detail">
       <div class="dimg"><img src="${pimg(p)}" alt="${p.name}"></div>
       <div>
         <div class="kicker" style="font-family:var(--head);color:var(--muted);text-transform:uppercase;letter-spacing:.1em;font-size:.72rem">${catName(p.cat)}</div>
-        <h1>${p.name}</h1>
+        <h1>${mdl(p.name)}</h1>
         <div class="model" style="color:var(--muted);font-family:var(--head)">Model ${mdl(p.model)}${brand==="napoleon"?"":" · Napoleon private-label"}</div>
         <ul class="feat">${p.feat.map(f=>`<li>${check}<span>${f}</span></li>`).join("")}</ul>
         <table class="spec"><tbody>${specRows}</tbody></table>
@@ -728,7 +728,7 @@ function bundleCard(b){
   const parts=[
     {img:AC_IMG,name:b.ton+" Ton Condenser",model:toC(b.cond)},
     {img:ACOIL_IMG,name:"Multi-Position Evap Coil",model:b.coil},
-    {img:FURN_IMG,name:b.fdesc+" Furnace",model:toC(b.furnace)},
+    {img:IMG+"s--KUSJRA5p--/ic1hrkor1ax3hszhnhk6.png",imgN:"/furnace-c97.png",name:b.fdesc+" Furnace",model:toC(b.furnace)},
   ];
   return `<div class="bundle">
     <div class="bh"><h4>${b.seer} System</h4><span class="ton">${b.ton} Ton</span></div>
