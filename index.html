@@ -135,7 +135,7 @@ nav.cats a.on{color:var(--accent);background:var(--surface-2)}
 @keyframes flame{0%,100%{opacity:.82;transform:translateY(0) scaleY(1)}20%{opacity:.98;transform:translateY(-6px) scaleY(1.06)}40%{opacity:.72;transform:translateY(3px) scaleY(.96)}60%{opacity:.93;transform:translateY(-3px) scaleY(1.04)}80%{opacity:.8;transform:translateY(1px) scaleY(.99)}}
 :root[data-brand="napoleon"] .hero::before{background:radial-gradient(34% 62% at 70% 104%,rgba(255,74,44,.7),transparent 60%),radial-gradient(24% 48% at 70% 82%,rgba(228,0,43,.6),transparent 62%),radial-gradient(60% 52% at 26% 114%,rgba(255,110,40,.44),transparent 66%),radial-gradient(100% 60% at 55% 124%,rgba(205,0,32,.46),transparent 72%)}
 @media (prefers-reduced-motion:reduce){.hero::before{animation:none}}
-.hero-furnace{display:none;position:absolute;right:5%;bottom:0;height:86%;max-height:450px;width:auto;z-index:0;pointer-events:none;filter:drop-shadow(0 16px 40px rgba(0,0,0,.6))}
+.hero-furnace{display:none;position:absolute;right:0;bottom:0;width:60%;max-width:900px;height:auto;z-index:0;pointer-events:none}
 :root[data-brand="napoleon"] .hero-furnace{display:block}
 @media (max-width:900px){.hero-furnace{opacity:.2;right:-5%;filter:none}}
 .flagchip{display:inline-flex;align-items:center;gap:.5rem;font-family:var(--head);font-weight:800;text-transform:uppercase;letter-spacing:.12em;font-size:.86rem;color:#1a1410;background:var(--warm);border:1px solid var(--warm);padding:.5rem 1rem;border-radius:999px;margin-bottom:1.1rem;box-shadow:0 4px 16px rgba(0,0,0,.3)}
@@ -647,7 +647,7 @@ function vHome(){
       <p>Shop ${brand==="napoleon"?"Napoleon":"Continental"} furnaces, air conditioners, heat pumps and AHRI-matched systems — with contractor and distributor pricing, crossover search, and national fulfillment by Skip The Warehouse.${brand==="napoleon"?"":" Napoleon-built, private-labeled, AHRI-certified."}</p>
       <div class="cta"><a class="btn warm" href="#/bundles">Build an AHRI system</a><a class="btn ghost" href="#/c/furnaces">Browse equipment</a></div>
     </div>
-    <img class="hero-furnace" src="/furnace-hero.png" alt="" aria-hidden="true">
+    <img class="hero-furnace" src="/napoleon-banner.png" alt="" aria-hidden="true">
   </section>
 
   <div class="trust"><div class="wrap"><div class="row">
