@@ -131,6 +131,10 @@ nav.cats a.on{color:var(--accent);background:var(--surface-2)}
 .hero .cta{display:flex;gap:.7rem;flex-wrap:wrap}
 .hero .btn.ghost{color:#fff;border-color:rgba(255,255,255,.55)}
 .hero .btn.ghost:hover{background:rgba(255,255,255,.12)}
+.hero::before{content:"";position:absolute;left:-5%;right:-5%;bottom:-12%;height:72%;z-index:0;pointer-events:none;background:radial-gradient(45% 60% at 22% 112%,rgba(255,138,38,.55),transparent 62%),radial-gradient(38% 55% at 50% 118%,rgba(255,96,24,.58),transparent 60%),radial-gradient(42% 58% at 78% 114%,rgba(255,170,52,.45),transparent 62%),radial-gradient(75% 95% at 50% 126%,rgba(255,70,20,.4),transparent 72%);filter:blur(6px);mix-blend-mode:screen;animation:flame 5s ease-in-out infinite}
+@keyframes flame{0%,100%{opacity:.82;transform:translateY(0) scaleY(1)}20%{opacity:.98;transform:translateY(-6px) scaleY(1.06)}40%{opacity:.72;transform:translateY(3px) scaleY(.96)}60%{opacity:.93;transform:translateY(-3px) scaleY(1.04)}80%{opacity:.8;transform:translateY(1px) scaleY(.99)}}
+:root[data-brand="napoleon"] .hero::before{background:radial-gradient(45% 60% at 22% 112%,rgba(255,64,40,.6),transparent 62%),radial-gradient(38% 55% at 50% 118%,rgba(228,0,43,.62),transparent 60%),radial-gradient(42% 58% at 78% 114%,rgba(255,110,40,.48),transparent 62%),radial-gradient(75% 95% at 50% 126%,rgba(205,0,32,.45),transparent 72%)}
+@media (prefers-reduced-motion:reduce){.hero::before{animation:none}}
 .flagchip{display:inline-flex;align-items:center;gap:.5rem;font-family:var(--head);font-weight:800;text-transform:uppercase;letter-spacing:.12em;font-size:.86rem;color:#1a1410;background:var(--warm);border:1px solid var(--warm);padding:.5rem 1rem;border-radius:999px;margin-bottom:1.1rem;box-shadow:0 4px 16px rgba(0,0,0,.3)}
 .flagchip b{color:#1a1410;font-weight:800}
 
