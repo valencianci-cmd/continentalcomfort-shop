@@ -601,6 +601,7 @@ function mdl(m){return (brand==="napoleon"&&m)?String(m).replace(/-C\b/g,"-N"):m
 function pimg(p){return (brand==="napoleon"&&p&&p.imgN)?p.imgN:(p?p.img:"")}
 function applyBrand(){
   document.documentElement.setAttribute("data-brand",brand);
+  document.documentElement.setAttribute("data-theme",brand==="napoleon"?"dark":"light");
   var op=document.getElementById("brandOp"); if(op) op.innerHTML=BRAND[brand].op;
   document.querySelectorAll(".contImg").forEach(function(e){e.style.display=brand==="continental"?"":"none"});
   document.querySelectorAll(".napImg").forEach(function(e){e.style.display=brand==="napoleon"?"":"none"});
