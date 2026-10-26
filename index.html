@@ -853,6 +853,7 @@ applyBrand();route();renderCart();
 /* ---------------- Checkout (Braintree Drop-in) ---------------- */
 const API="https://continentalcomfort-api.onrender.com";
 const GUEST_M=1; // Guest pays full MSRP (list); trade discounts require an approved account
+const CHECKOUT_ON=false; // online checkout paused during catalog/pricing rebuild
 let dropinInstance=null;
 function coEsc(s){return String(s==null?"":s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
 function coVal(id){const el=document.getElementById(id);return el?el.value.trim():""}
@@ -861,6 +862,7 @@ function coPayable(){return cartLines().filter(x=>!/^(sys-|hp-|acc-)/.test(x.id)
 function coExcluded(){return cartLines().filter(x=>/^(sys-|hp-|acc-)/.test(x.id)).length}
 function cartNote(text){const f=document.getElementById("cartFoot");let n=document.getElementById("coCartNote");if(!n){n=document.createElement("p");n.id="coCartNote";n.style.cssText="font-size:.78rem;color:var(--accent);margin:.3rem 0 0;text-align:center";f.appendChild(n)}n.textContent=text}
 function openCheckout(){
+  if(!CHECKOUT_ON){cartNote("Online checkout is briefly paused while we finish a pricing update. Call (215) 316-5893 to place an order today.");return}
   const items=coPayable();
   if(!items.length){cartNote("Online payment for matched systems and add-ons is coming shortly. Add an individual unit to check out, or call (215) 316-5893 for a system quote.");return}
   const sub=items.reduce((a,i)=>a+i.unit*i.qty,0);
