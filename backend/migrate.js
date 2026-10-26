@@ -32,6 +32,10 @@ const pool = new Pool({
     }
     console.log("catalog synced:", catalog.length, "products");
 
+    // Keep only current catalog SKUs active; deactivate anything no longer in the file.
+    const skus = catalog.map(p => p.sku);
+    await pool.query("UPDATE products SET active = (sku = ANY($1::text[]))", [skus]);
+
     // Guest pays full MSRP (no discount). Correct the earlier 0.80 default to 1.0.
     // Only touches the 0.80 value; other admin-set values are preserved.
     await pool.query("UPDATE pricing_tiers SET multiplier=1.0000, label='Guest' WHERE tier='homeowner' AND multiplier=0.8000");

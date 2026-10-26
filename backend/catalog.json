@@ -1,59 +1,354 @@
 [
  {
-  "sku": "c97",
-  "napoleon_sku": "WC-C97-…-N",
-  "name": "C97 Gas Furnace",
+  "sku": "wuv035t2aa",
+  "napoleon_sku": "WUV035T2AA-N",
+  "name": "Ultimate 9700, 35,000 BTU",
   "category": "furnaces",
-  "list_price": 2450,
+  "list_price": 3935,
   "image_url": "https://images.salsify.com/image/upload/s--KUSJRA5p--/ic1hrkor1ax3hszhnhk6.png",
   "specs": {
    "AFUE": "Up to 97%",
    "Stage": "Two-stage",
    "Blower": "Variable-speed",
-   "Heating input": "35,000-105,000 BTU",
-   "Model": "WC-C97-…-C"
+   "Heating input": "35,000 BTU",
+   "Heating output": "24,500 BTU",
+   "Cabinet width": "17.5\"",
+   "Model": "WUV035T2AA-C"
   }
  },
  {
-  "sku": "c96",
-  "napoleon_sku": "WC-C96-…-N",
-  "name": "C96 Gas Furnace",
+  "sku": "wuv050t3aa",
+  "napoleon_sku": "WUV050T3AA-N",
+  "name": "Ultimate 9700, 52,500 BTU",
   "category": "furnaces",
-  "list_price": 1980,
+  "list_price": 4260,
+  "image_url": "https://images.salsify.com/image/upload/s--KUSJRA5p--/ic1hrkor1ax3hszhnhk6.png",
+  "specs": {
+   "AFUE": "Up to 97%",
+   "Stage": "Two-stage",
+   "Blower": "Variable-speed",
+   "Heating input": "52,500 BTU",
+   "Heating output": "36,750 BTU",
+   "Cabinet width": "17.5\"",
+   "Model": "WUV050T3AA-C"
+  }
+ },
+ {
+  "sku": "wuv070t3aa",
+  "napoleon_sku": "WUV070T3AA-N",
+  "name": "Ultimate 9700, 70,000 BTU",
+  "category": "furnaces",
+  "list_price": 4510,
+  "image_url": "https://images.salsify.com/image/upload/s--KUSJRA5p--/ic1hrkor1ax3hszhnhk6.png",
+  "specs": {
+   "AFUE": "Up to 97%",
+   "Stage": "Two-stage",
+   "Blower": "Variable-speed",
+   "Heating input": "70,000 BTU",
+   "Heating output": "49,000 BTU",
+   "Cabinet width": "17.5\"",
+   "Model": "WUV070T3AA-C"
+  }
+ },
+ {
+  "sku": "wuv070t4ba",
+  "napoleon_sku": "WUV070T4BA-N",
+  "name": "Ultimate 9700, 70,000 BTU (wide cabinet)",
+  "category": "furnaces",
+  "list_price": 4800,
+  "image_url": "https://images.salsify.com/image/upload/s--KUSJRA5p--/ic1hrkor1ax3hszhnhk6.png",
+  "specs": {
+   "AFUE": "Up to 97%",
+   "Stage": "Two-stage",
+   "Blower": "Variable-speed",
+   "Heating input": "70,000 BTU",
+   "Heating output": "49,000 BTU",
+   "Cabinet width": "22.5\"",
+   "Model": "WUV070T4BA-C"
+  }
+ },
+ {
+  "sku": "wuv090t5ba",
+  "napoleon_sku": "WUV090T5BA-N",
+  "name": "Ultimate 9700, 87,500 BTU",
+  "category": "furnaces",
+  "list_price": 4870,
+  "image_url": "https://images.salsify.com/image/upload/s--KUSJRA5p--/ic1hrkor1ax3hszhnhk6.png",
+  "specs": {
+   "AFUE": "Up to 97%",
+   "Stage": "Two-stage",
+   "Blower": "Variable-speed",
+   "Heating input": "87,500 BTU",
+   "Heating output": "61,250 BTU",
+   "Cabinet width": "22.5\"",
+   "Model": "WUV090T5BA-C"
+  }
+ },
+ {
+  "sku": "wuv105t5ba",
+  "napoleon_sku": "WUV105T5BA-N",
+  "name": "Ultimate 9700, 105,000 BTU",
+  "category": "furnaces",
+  "list_price": 5065,
+  "image_url": "https://images.salsify.com/image/upload/s--KUSJRA5p--/ic1hrkor1ax3hszhnhk6.png",
+  "specs": {
+   "AFUE": "Up to 97%",
+   "Stage": "Two-stage",
+   "Blower": "Variable-speed",
+   "Heating input": "105,000 BTU",
+   "Heating output": "73,000 BTU",
+   "Cabinet width": "22.5\"",
+   "Model": "WUV105T5BA-C"
+  }
+ },
+ {
+  "sku": "wpv035t2aa",
+  "napoleon_sku": "WPV035T2AA-N",
+  "name": "Premium 9600, 35,000 BTU",
+  "category": "furnaces",
+  "list_price": 2770,
   "image_url": "https://images.salsify.com/image/upload/s--lMxdxmwG--/buseurrv9fzaqq1wtizt.png",
   "specs": {
    "AFUE": "Up to 96%",
    "Stage": "Two-stage",
    "Blower": "Variable-speed",
-   "Model": "WC-C96-…-C"
+   "Heating input": "35,000 BTU",
+   "Heating output": "24,000 BTU",
+   "Cabinet width": "17.5\"",
+   "Model": "WPV035T2AA-C"
   }
  },
  {
-  "sku": "c96q",
-  "napoleon_sku": "WC-C96Q-…-N",
-  "name": "C96Q Gas Furnace",
+  "sku": "wpv050t3aa",
+  "napoleon_sku": "WPV050T3AA-N",
+  "name": "Premium 9600, 53,000 BTU",
   "category": "furnaces",
-  "list_price": 1820,
+  "list_price": 3040,
+  "image_url": "https://images.salsify.com/image/upload/s--lMxdxmwG--/buseurrv9fzaqq1wtizt.png",
+  "specs": {
+   "AFUE": "Up to 96%",
+   "Stage": "Two-stage",
+   "Blower": "Variable-speed",
+   "Heating input": "53,000 BTU",
+   "Heating output": "37,000 BTU",
+   "Cabinet width": "17.5\"",
+   "Model": "WPV050T3AA-C"
+  }
+ },
+ {
+  "sku": "wpv070t3aa",
+  "napoleon_sku": "WPV070T3AA-N",
+  "name": "Premium 9600, 70,000 BTU",
+  "category": "furnaces",
+  "list_price": 3160,
+  "image_url": "https://images.salsify.com/image/upload/s--lMxdxmwG--/buseurrv9fzaqq1wtizt.png",
+  "specs": {
+   "AFUE": "Up to 96%",
+   "Stage": "Two-stage",
+   "Blower": "Variable-speed",
+   "Heating input": "70,000 BTU",
+   "Heating output": "49,000 BTU",
+   "Cabinet width": "17.5\"",
+   "Model": "WPV070T3AA-C"
+  }
+ },
+ {
+  "sku": "wpv070t4ba",
+  "napoleon_sku": "WPV070T4BA-N",
+  "name": "Premium 9600, 70,000 BTU (wide cabinet)",
+  "category": "furnaces",
+  "list_price": 3335,
+  "image_url": "https://images.salsify.com/image/upload/s--lMxdxmwG--/buseurrv9fzaqq1wtizt.png",
+  "specs": {
+   "AFUE": "Up to 96%",
+   "Stage": "Two-stage",
+   "Blower": "Variable-speed",
+   "Heating input": "70,000 BTU",
+   "Heating output": "49,000 BTU",
+   "Cabinet width": "22.5\"",
+   "Model": "WPV070T4BA-C"
+  }
+ },
+ {
+  "sku": "wpv090t5ba",
+  "napoleon_sku": "WPV090T5BA-N",
+  "name": "Premium 9600, 88,000 BTU",
+  "category": "furnaces",
+  "list_price": 3495,
+  "image_url": "https://images.salsify.com/image/upload/s--lMxdxmwG--/buseurrv9fzaqq1wtizt.png",
+  "specs": {
+   "AFUE": "Up to 96%",
+   "Stage": "Two-stage",
+   "Blower": "Variable-speed",
+   "Heating input": "88,000 BTU",
+   "Heating output": "61,000 BTU",
+   "Cabinet width": "22.5\"",
+   "Model": "WPV090T5BA-C"
+  }
+ },
+ {
+  "sku": "wpv105t5ba",
+  "napoleon_sku": "WPV105T5BA-N",
+  "name": "Premium 9600, 105,000 BTU",
+  "category": "furnaces",
+  "list_price": 3585,
+  "image_url": "https://images.salsify.com/image/upload/s--lMxdxmwG--/buseurrv9fzaqq1wtizt.png",
+  "specs": {
+   "AFUE": "Up to 96%",
+   "Stage": "Two-stage",
+   "Blower": "Variable-speed",
+   "Heating input": "105,000 BTU",
+   "Heating output": "73,000 BTU",
+   "Cabinet width": "22.5\"",
+   "Model": "WPV105T5BA-C"
+  }
+ },
+ {
+  "sku": "wpv120t5ba",
+  "napoleon_sku": "WPV120T5BA-N",
+  "name": "Premium 9600, 120,000 BTU",
+  "category": "furnaces",
+  "list_price": 3675,
+  "image_url": "https://images.salsify.com/image/upload/s--lMxdxmwG--/buseurrv9fzaqq1wtizt.png",
+  "specs": {
+   "AFUE": "Up to 96%",
+   "Stage": "Two-stage",
+   "Blower": "Variable-speed",
+   "Heating input": "120,000 BTU",
+   "Heating output": "72,000 BTU",
+   "Cabinet width": "22.5\"",
+   "Model": "WPV120T5BA-C"
+  }
+ },
+ {
+  "sku": "wsx040t2ab",
+  "napoleon_sku": "WSX040T2AB-N",
+  "name": "Essential 9600Q, 40,000 BTU",
+  "category": "furnaces",
+  "list_price": 2260,
   "image_url": "https://images.salsify.com/image/upload/s--4UdL2kXz--/tpphxiqphpeg1czagxi6.png",
   "specs": {
    "AFUE": "Up to 96%",
    "Stage": "Two-stage",
    "Blower": "Multi-speed",
-   "Model": "WC-C96Q-…-C"
+   "Heating input": "40,000 BTU",
+   "Heating output": "28,000 BTU",
+   "Cabinet width": "17.5\"",
+   "Model": "WSX040T2AB-C"
   }
  },
  {
-  "sku": "c95",
-  "napoleon_sku": "WC-C95-…-N",
-  "name": "C95 Gas Furnace",
+  "sku": "wsx060t3ab",
+  "napoleon_sku": "WSX060T3AB-N",
+  "name": "Essential 9600Q, 60,000 BTU",
   "category": "furnaces",
-  "list_price": 1480,
+  "list_price": 2450,
+  "image_url": "https://images.salsify.com/image/upload/s--4UdL2kXz--/tpphxiqphpeg1czagxi6.png",
+  "specs": {
+   "AFUE": "Up to 96%",
+   "Stage": "Two-stage",
+   "Blower": "Multi-speed",
+   "Heating input": "60,000 BTU",
+   "Heating output": "42,000 BTU",
+   "Cabinet width": "17.5\"",
+   "Model": "WSX060T3AB-C"
+  }
+ },
+ {
+  "sku": "wsx080t3ab",
+  "napoleon_sku": "WSX080T3AB-N",
+  "name": "Essential 9600Q, 80,000 BTU",
+  "category": "furnaces",
+  "list_price": 2615,
+  "image_url": "https://images.salsify.com/image/upload/s--4UdL2kXz--/tpphxiqphpeg1czagxi6.png",
+  "specs": {
+   "AFUE": "Up to 96%",
+   "Stage": "Two-stage",
+   "Blower": "Multi-speed",
+   "Heating input": "80,000 BTU",
+   "Heating output": "56,000 BTU",
+   "Cabinet width": "17.5\"",
+   "Model": "WSX080T3AB-C"
+  }
+ },
+ {
+  "sku": "wpx030s2aa",
+  "napoleon_sku": "WPX030S2AA-N",
+  "name": "Essential 9500, 30,000 BTU",
+  "category": "furnaces",
+  "list_price": 2225,
   "image_url": "https://images.salsify.com/image/upload/s--EFohq6ET--/lplt4glyxirvpmz2wzkx.png",
   "specs": {
    "AFUE": "Up to 95%",
    "Stage": "Single-stage",
    "Blower": "Multi-speed",
-   "Model": "WC-C95-…-C"
+   "Heating input": "30,000 BTU",
+   "Cabinet width": "17.5\"",
+   "Model": "WPX030S2AA-C"
+  }
+ },
+ {
+  "sku": "wpx040s2aa",
+  "napoleon_sku": "WPX040S2AA-N",
+  "name": "Essential 9500, 40,000 BTU",
+  "category": "furnaces",
+  "list_price": 2295,
+  "image_url": "https://images.salsify.com/image/upload/s--EFohq6ET--/lplt4glyxirvpmz2wzkx.png",
+  "specs": {
+   "AFUE": "Up to 95%",
+   "Stage": "Single-stage",
+   "Blower": "Multi-speed",
+   "Heating input": "40,000 BTU",
+   "Cabinet width": "17.5\"",
+   "Model": "WPX040S2AA-C"
+  }
+ },
+ {
+  "sku": "wpx060s3aa",
+  "napoleon_sku": "WPX060S3AA-N",
+  "name": "Essential 9500, 60,000 BTU",
+  "category": "furnaces",
+  "list_price": 2420,
+  "image_url": "https://images.salsify.com/image/upload/s--EFohq6ET--/lplt4glyxirvpmz2wzkx.png",
+  "specs": {
+   "AFUE": "Up to 95%",
+   "Stage": "Single-stage",
+   "Blower": "Multi-speed",
+   "Heating input": "60,000 BTU",
+   "Cabinet width": "17.5\"",
+   "Model": "WPX060S3AA-C"
+  }
+ },
+ {
+  "sku": "wpx080s3aa",
+  "napoleon_sku": "WPX080S3AA-N",
+  "name": "Essential 9500, 80,000 BTU",
+  "category": "furnaces",
+  "list_price": 2515,
+  "image_url": "https://images.salsify.com/image/upload/s--EFohq6ET--/lplt4glyxirvpmz2wzkx.png",
+  "specs": {
+   "AFUE": "Up to 95%",
+   "Stage": "Single-stage",
+   "Blower": "Multi-speed",
+   "Heating input": "80,000 BTU",
+   "Cabinet width": "17.5\"",
+   "Model": "WPX080S3AA-C"
+  }
+ },
+ {
+  "sku": "wpx100s5ba",
+  "napoleon_sku": "WPX100S5BA-N",
+  "name": "Essential 9500, 100,000 BTU",
+  "category": "furnaces",
+  "list_price": 3000,
+  "image_url": "https://images.salsify.com/image/upload/s--EFohq6ET--/lplt4glyxirvpmz2wzkx.png",
+  "specs": {
+   "AFUE": "Up to 95%",
+   "Stage": "Single-stage",
+   "Blower": "Multi-speed",
+   "Heating input": "100,000 BTU",
+   "Cabinet width": "22.5\"",
+   "Model": "WPX100S5BA-C"
   }
  },
  {
