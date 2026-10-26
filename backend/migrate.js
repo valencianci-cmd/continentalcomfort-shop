@@ -32,9 +32,9 @@ const pool = new Pool({
     }
     console.log("catalog synced:", catalog.length, "products");
 
-    // Align the Guest tier to the storefront's current "list x 0.80" pricing.
-    // Only touches the untouched default (1.0000); admin changes are preserved.
-    await pool.query("UPDATE pricing_tiers SET multiplier=0.8000, label='Guest' WHERE tier='homeowner' AND multiplier=1.0000");
+    // Guest pays full MSRP (no discount). Correct the earlier 0.80 default to 1.0.
+    // Only touches the 0.80 value; other admin-set values are preserved.
+    await pool.query("UPDATE pricing_tiers SET multiplier=1.0000, label='Guest' WHERE tier='homeowner' AND multiplier=0.8000");
 
     const email = (process.env.ADMIN_EMAIL || "").toLowerCase();
     const pw = process.env.ADMIN_PASSWORD;

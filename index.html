@@ -549,7 +549,7 @@ const CROSS=[
   {comp:"Lennox SL297 furnace",to:"c97"},
 ];
 
-const TIERS={home:{m:.80,lab:"Guest"},contractor:{m:.80,lab:"Contractor"},distributor:{m:.70,lab:"Distributor"}};
+const TIERS={home:{m:1,lab:"Guest"},contractor:{m:.80,lab:"Contractor"},distributor:{m:.70,lab:"Distributor"}};
 let tier="home"; /* locked to homeowner, trade pricing gated to approved accounts in the production build */
 const fmt=n=>"$"+Math.round(n).toLocaleString();
 const priceOf=p=>p.price*TIERS[tier].m;
@@ -852,7 +852,7 @@ applyBrand();route();renderCart();
 
 /* ---------------- Checkout (Braintree Drop-in) ---------------- */
 const API="https://continentalcomfort-api.onrender.com";
-const GUEST_M=0.80; // anonymous storefront checkout is charged at Guest pricing
+const GUEST_M=1; // Guest pays full MSRP (list); trade discounts require an approved account
 let dropinInstance=null;
 function coEsc(s){return String(s==null?"":s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
 function coVal(id){const el=document.getElementById(id);return el?el.value.trim():""}
