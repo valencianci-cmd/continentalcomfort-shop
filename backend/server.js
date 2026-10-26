@@ -203,6 +203,7 @@ app.get("/api/checkout/token", async (_req, res) => {
     const r = await gateway.clientToken.generate({});
     res.json({ clientToken: r.clientToken });
   } catch (e) {
+    console.error("clientToken error:", (e && (e.type || e.name)) || "?", "|", (e && e.message) || String(e));
     res.status(500).json({ error: "could not start checkout" });
   }
 });
