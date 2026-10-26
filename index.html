@@ -589,7 +589,7 @@ function renderCart(){
   foot.innerHTML=`<div class="trow"><span>Subtotal (${cartCount()} items)</span><span class="tnum">${fmt(sub)}</span></div>
     <div class="trow"><span>Pricing tier</span><span>${TIERS[tier].lab}</span></div>
     <div class="trow tot"><span>Estimated total</span><span class="tnum">${fmt(sub)}</span></div>
-    <button class="btn" style="justify-content:center" onclick="checkoutMsg()">Checkout</button>
+    <button class="btn" style="justify-content:center" onclick="openCheckout()">Checkout</button>
     <p style="font-size:.72rem;color:var(--muted);margin:0;text-align:center">Sample pricing for layout. Freight and tax calculated at checkout.</p>`;
 }
 function checkoutMsg(){const f=document.getElementById("cartFoot");const n=document.createElement("p");n.style.cssText="font-size:.78rem;color:var(--accent);margin:.2rem 0 0;text-align:center";n.textContent="Prototype checkout, payment and fulfillment wire up in the production build.";f.appendChild(n)}
@@ -849,7 +849,113 @@ function route(){
 }
 window.addEventListener("hashchange",route);
 applyBrand();route();renderCart();
+
+/* ---------------- Checkout (Braintree Drop-in) ---------------- */
+const API="https://continentalcomfort-api.onrender.com";
+const GUEST_M=0.80; // anonymous storefront checkout is charged at Guest pricing
+let dropinInstance=null;
+function coEsc(s){return String(s==null?"":s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
+function coVal(id){const el=document.getElementById(id);return el?el.value.trim():""}
+function setCoMsg(t,c){const el=document.getElementById("coMsg");if(el){el.textContent=t||"";el.className="comsg "+(c||"")}}
+function coPayable(){return cartLines().filter(x=>!/^(sys-|hp-|acc-)/.test(x.id)).map(x=>{const p=byId(x.id);return p?{id:x.id,name:p.name,qty:x.q,unit:Math.round(p.price*GUEST_M*100)/100}:null}).filter(Boolean)}
+function coExcluded(){return cartLines().filter(x=>/^(sys-|hp-|acc-)/.test(x.id)).length}
+function cartNote(text){const f=document.getElementById("cartFoot");let n=document.getElementById("coCartNote");if(!n){n=document.createElement("p");n.id="coCartNote";n.style.cssText="font-size:.78rem;color:var(--accent);margin:.3rem 0 0;text-align:center";f.appendChild(n)}n.textContent=text}
+function openCheckout(){
+  const items=coPayable();
+  if(!items.length){cartNote("Online payment for matched systems and add-ons is coming shortly. Add an individual unit to check out, or call (215) 316-5893 for a system quote.");return}
+  const sub=items.reduce((a,i)=>a+i.unit*i.qty,0);
+  const exc=coExcluded();
+  document.getElementById("coBody").innerHTML=`
+    <div class="cosum">
+      ${items.map(i=>`<div class="r"><span>${coEsc(mdl(i.name))} x${i.qty}</span><span class="tnum">${fmt(i.unit*i.qty)}</span></div>`).join("")}
+      <div class="r tot"><span>Total (Guest)</span><span class="tnum">${fmt(sub)}</span></div>
+    </div>
+    ${exc?`<p class="comsg info">${exc} system or add-on item(s) stay in your cart, they are not available for online payment yet. Call (215) 316-5893 for a quote.</p>`:""}
+    <div class="cof">
+      <div class="full"><label>Full name</label><input id="coName" autocomplete="name"></div>
+      <div class="full"><label>Email</label><input id="coEmail" type="email" autocomplete="email"></div>
+      <div class="full"><label>Address</label><input id="coAddr" autocomplete="street-address"></div>
+      <div><label>City</label><input id="coCity"></div>
+      <div><label>State</label><input id="coState" maxlength="2" style="text-transform:uppercase"></div>
+      <div><label>ZIP</label><input id="coZip" inputmode="numeric"></div>
+    </div>
+    <div id="dropin-container"></div>
+    <button class="btn" id="coPay" style="justify-content:center" disabled>Loading payment</button>
+    <p class="comsg" id="coMsg"></p>
+    <p style="font-size:.7rem;color:var(--muted);text-align:center;margin:0">Freight and sales tax are handled separately for now.</p>`;
+  document.getElementById("coModal").classList.add("open");
+  initDropin(sub);
+}
+async function initDropin(amount){
+  const payBtn=document.getElementById("coPay");
+  setCoMsg("Starting secure checkout, this can take a moment on the first load.","info");
+  try{
+    const r=await fetch(API+"/api/checkout/token");
+    if(r.status===503){setCoMsg("Payments are not switched on yet. Please check back shortly.","err");return}
+    const d=await r.json(); if(!d.clientToken) throw new Error("no token");
+    if(dropinInstance){try{await dropinInstance.teardown()}catch(e){}dropinInstance=null}
+    dropinInstance=await braintree.dropin.create({authorization:d.clientToken,container:"#dropin-container"});
+    setCoMsg("","");
+    payBtn.disabled=false; payBtn.textContent="Pay "+fmt(amount);
+    payBtn.onclick=()=>submitOrder(amount);
+  }catch(e){setCoMsg("Could not start checkout. "+(e.message||""),"err")}
+}
+async function submitOrder(amount){
+  const payBtn=document.getElementById("coPay");
+  const ship={name:coVal("coName"),email:coVal("coEmail"),addr:coVal("coAddr"),city:coVal("coCity"),state:coVal("coState").toUpperCase(),zip:coVal("coZip")};
+  if(!ship.name||!ship.email||!ship.addr||!ship.city||!ship.state||!ship.zip){setCoMsg("Please fill in your name, email, and full shipping address.","err");return}
+  if(!dropinInstance){setCoMsg("Payment is not ready yet.","err");return}
+  payBtn.disabled=true; setCoMsg("Processing payment","info");
+  try{
+    const pm=await dropinInstance.requestPaymentMethod();
+    const items=coPayable().map(i=>({sku:i.id,qty:i.qty}));
+    const res=await fetch(API+"/api/orders",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({items,ship,nonce:pm.nonce})});
+    const d=await res.json();
+    if(!res.ok||!d.paid) throw new Error(d.error||"payment did not complete");
+    coPayable().forEach(i=>{delete cart[i.id]}); save("sc_cart",cart); renderCart();
+    document.getElementById("coBody").innerHTML=`<div class="cosuccess">
+      <div class="big">Order placed</div>
+      <p class="comsg ok">Order #${d.order_id} confirmed for ${fmt(d.subtotal)}. A receipt is on the way to ${coEsc(ship.email)}.</p>
+      <p style="color:var(--muted);font-size:.85rem">We will reach out about freight and delivery.</p>
+      <button class="btn" style="justify-content:center;margin-top:1rem" onclick="closeCheckout()">Done</button></div>`;
+  }catch(e){
+    payBtn.disabled=false;
+    const m=String(e.message||"");
+    setCoMsg(/declin/i.test(m)?"Card declined. Please try another card.":"Payment could not be completed. "+m,"err");
+  }
+}
+function closeCheckout(){document.getElementById("coModal").classList.remove("open");if(dropinInstance){dropinInstance.teardown().catch(()=>{});dropinInstance=null}}
 </script>
+
+<style>
+.comodal{position:fixed;inset:0;z-index:80;display:none;background:rgba(0,0,0,.62);padding:1rem;overflow:auto}
+.comodal.open{display:grid;place-items:start center}
+.cobox{background:var(--surface);border:1px solid var(--line);border-radius:14px;width:min(460px,100%);margin:3vh 0;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,.5)}
+.cohead{display:flex;align-items:center;justify-content:space-between;padding:1rem 1.2rem;border-bottom:1px solid var(--line)}
+.cohead h3{font-size:1.2rem;text-transform:uppercase;letter-spacing:.02em;margin:0}
+.cobody{padding:1.2rem;display:flex;flex-direction:column;gap:.85rem;max-height:82vh;overflow:auto}
+.cosum{background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:.85rem}
+.cosum .r{display:flex;justify-content:space-between;gap:1rem;font-size:.85rem;color:var(--muted);margin:.18rem 0}
+.cosum .r.tot{font-family:var(--head);font-weight:700;font-size:1.1rem;color:var(--fg);margin-top:.45rem}
+.cof{display:grid;grid-template-columns:1fr 1fr 1fr;gap:.6rem}
+.cof .full{grid-column:1/-1}
+.cof label{display:block;font-size:.68rem;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;font-family:var(--head);margin:0 0 .25rem}
+.cof input{width:100%;background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:.6rem .65rem;color:var(--fg);font-size:.95rem}
+.cof input:focus{outline:none;border-color:var(--accent)}
+.comsg{font-size:.84rem;margin:0;min-height:1em}
+.comsg.err{color:#e0564f}.comsg.ok{color:#38c67f}.comsg.info{color:var(--muted)}
+.cosuccess{text-align:center;padding:1.4rem .5rem}
+.cosuccess .big{font-family:var(--head);font-size:1.55rem;margin:.3rem 0}
+</style>
+<div class="comodal" id="coModal">
+  <div class="cobox">
+    <div class="cohead"><h3>Checkout</h3>
+      <button class="icon-btn" onclick="closeCheckout()" aria-label="Close">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 6l12 12M18 6 6 18"/></svg></button></div>
+    <div class="cobody" id="coBody"></div>
+  </div>
+</div>
+<script src="https://js.braintreegateway.com/web/dropin/1.43.0/js/dropin.min.js"></script>
 
 </body>
 </html>
