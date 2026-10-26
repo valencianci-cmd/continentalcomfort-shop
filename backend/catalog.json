@@ -594,7 +594,7 @@
   "napoleon_sku": "WSEHV2436BA1-N",
   "name": "Cold Climate Heat Pump, 2 to 3 Ton",
   "category": "heat-pumps",
-  "list_price": 2790,
+  "list_price": 4090,
   "image_url": "/hp-2436.png",
   "specs": {
    "Capacity": "2 to 3 ton (24k-36k BTU/h)",
@@ -612,7 +612,7 @@
   "napoleon_sku": "WSEHV4860BA1-N",
   "name": "Cold Climate Heat Pump, 4 to 5 Ton",
   "category": "heat-pumps",
-  "list_price": 3980,
+  "list_price": 5200,
   "image_url": "/hp-4860.png",
   "specs": {
    "Capacity": "4 to 5 ton (48k-54k BTU/h)",
@@ -626,17 +626,67 @@
   }
  },
  {
-  "sku": "ah18",
-  "napoleon_sku": "WC-18SEER-…-N",
-  "name": "SEER2 Air Handler",
+  "sku": "wpfx24a",
+  "napoleon_sku": "WPFX24A-N",
+  "name": "18 SEER2 Air Handler, 2 Ton",
   "category": "air-handlers",
-  "list_price": 1180,
+  "list_price": 2835,
   "image_url": "https://images.salsify.com/image/upload/s--16eJ8ZJZ--/elglgcklexgbuhanoks2.png",
   "specs": {
+   "Nominal capacity": "2 ton",
+   "Efficiency": "Up to 18 SEER2",
    "Blower": "ECM variable-speed",
-   "Install": "Zero-clearance / flexible",
-   "Warranty": "10-yr parts limited",
-   "Model": "WC-18SEER-…-C"
+   "Refrigerant": "R-454B",
+   "Use": "Cold Climate Heat Pump matchups",
+   "Model": "WPFX24A-C"
+  }
+ },
+ {
+  "sku": "wpfx36a",
+  "napoleon_sku": "WPFX36A-N",
+  "name": "18 SEER2 Air Handler, 3 Ton",
+  "category": "air-handlers",
+  "list_price": 2970,
+  "image_url": "https://images.salsify.com/image/upload/s--16eJ8ZJZ--/elglgcklexgbuhanoks2.png",
+  "specs": {
+   "Nominal capacity": "3 ton",
+   "Efficiency": "Up to 18 SEER2",
+   "Blower": "ECM variable-speed",
+   "Refrigerant": "R-454B",
+   "Use": "Cold Climate Heat Pump matchups",
+   "Model": "WPFX36A-C"
+  }
+ },
+ {
+  "sku": "wpfx48a",
+  "napoleon_sku": "WPFX48A-N",
+  "name": "18 SEER2 Air Handler, 4 Ton",
+  "category": "air-handlers",
+  "list_price": 3555,
+  "image_url": "https://images.salsify.com/image/upload/s--16eJ8ZJZ--/elglgcklexgbuhanoks2.png",
+  "specs": {
+   "Nominal capacity": "4 ton",
+   "Efficiency": "Up to 18 SEER2",
+   "Blower": "ECM variable-speed",
+   "Refrigerant": "R-454B",
+   "Use": "Cold Climate Heat Pump matchups",
+   "Model": "WPFX48A-C"
+  }
+ },
+ {
+  "sku": "wpfx60a",
+  "napoleon_sku": "WPFX60A-N",
+  "name": "18 SEER2 Air Handler, 5 Ton",
+  "category": "air-handlers",
+  "list_price": 3715,
+  "image_url": "https://images.salsify.com/image/upload/s--16eJ8ZJZ--/elglgcklexgbuhanoks2.png",
+  "specs": {
+   "Nominal capacity": "5 ton",
+   "Efficiency": "Up to 18 SEER2",
+   "Blower": "ECM variable-speed",
+   "Refrigerant": "R-454B",
+   "Use": "Cold Climate Heat Pump matchups",
+   "Model": "WPFX60A-C"
   }
  },
  {
@@ -742,7 +792,7 @@
   "napoleon_sku": "WPCC24ABA1-N",
   "name": "WPCC24 Cased Coil",
   "category": "coils",
-  "list_price": 1071,
+  "list_price": 1700,
   "image_url": "/wpcc-coil.png",
   "specs": {
    "Tonnage": "2 ton",
@@ -758,7 +808,7 @@
   "napoleon_sku": "WPCC36ABA1-N",
   "name": "WPCC36 Cased Coil",
   "category": "coils",
-  "list_price": 1103,
+  "list_price": 1750,
   "image_url": "/wpcc-coil.png",
   "specs": {
    "Tonnage": "3 ton",
@@ -774,7 +824,7 @@
   "napoleon_sku": "WPCC48ABA1-N",
   "name": "WPCC48 Cased Coil",
   "category": "coils",
-  "list_price": 1462,
+  "list_price": 2320,
   "image_url": "/wpcc-coil.png",
   "specs": {
    "Tonnage": "4 ton",
@@ -790,7 +840,7 @@
   "napoleon_sku": "WPCC60ABA1-N",
   "name": "WPCC60 Cased Coil",
   "category": "coils",
-  "list_price": 1493,
+  "list_price": 2370,
   "image_url": "/wpcc-coil.png",
   "specs": {
    "Tonnage": "5 ton",
