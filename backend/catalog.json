@@ -1,0 +1,509 @@
+[
+ {
+  "sku": "c97",
+  "napoleon_sku": "WC-C97-…-N",
+  "name": "C97 Gas Furnace",
+  "category": "furnaces",
+  "list_price": 2450,
+  "image_url": "https://images.salsify.com/image/upload/s--KUSJRA5p--/ic1hrkor1ax3hszhnhk6.png",
+  "specs": {
+   "AFUE": "Up to 97%",
+   "Stage": "Two-stage",
+   "Blower": "Variable-speed",
+   "Heating input": "35,000-105,000 BTU",
+   "Model": "WC-C97-…-C"
+  }
+ },
+ {
+  "sku": "c96",
+  "napoleon_sku": "WC-C96-…-N",
+  "name": "C96 Gas Furnace",
+  "category": "furnaces",
+  "list_price": 1980,
+  "image_url": "https://images.salsify.com/image/upload/s--lMxdxmwG--/buseurrv9fzaqq1wtizt.png",
+  "specs": {
+   "AFUE": "Up to 96%",
+   "Stage": "Two-stage",
+   "Blower": "Variable-speed",
+   "Model": "WC-C96-…-C"
+  }
+ },
+ {
+  "sku": "c96q",
+  "napoleon_sku": "WC-C96Q-…-N",
+  "name": "C96Q Gas Furnace",
+  "category": "furnaces",
+  "list_price": 1820,
+  "image_url": "https://images.salsify.com/image/upload/s--4UdL2kXz--/tpphxiqphpeg1czagxi6.png",
+  "specs": {
+   "AFUE": "Up to 96%",
+   "Stage": "Two-stage",
+   "Blower": "Multi-speed",
+   "Model": "WC-C96Q-…-C"
+  }
+ },
+ {
+  "sku": "c95",
+  "napoleon_sku": "WC-C95-…-N",
+  "name": "C95 Gas Furnace",
+  "category": "furnaces",
+  "list_price": 1480,
+  "image_url": "https://images.salsify.com/image/upload/s--EFohq6ET--/lplt4glyxirvpmz2wzkx.png",
+  "specs": {
+   "AFUE": "Up to 95%",
+   "Stage": "Single-stage",
+   "Blower": "Multi-speed",
+   "Model": "WC-C95-…-C"
+  }
+ },
+ {
+  "sku": "wtbcs0018",
+  "napoleon_sku": "WTBCS0018BA1-N",
+  "name": "14.3 SEER2 Air Conditioner, 1.5 Ton",
+  "category": "air-conditioners",
+  "list_price": 2595,
+  "image_url": "https://images.salsify.com/image/upload/s--zqXp4TM9--/skhjjplacp2xir1kv4j1.png",
+  "specs": {
+   "Tonnage": "1.5 ton",
+   "Efficiency": "14.3 SEER2",
+   "Cooling capacity": "18,900 BTU/h",
+   "Dimensions": "27 x 29.5 x 29.5 in",
+   "Net weight": "180 lbs",
+   "Refrigerant": "R-454B",
+   "Model": "WTBCS0018BA1-C"
+  }
+ },
+ {
+  "sku": "wtbcs0024",
+  "napoleon_sku": "WTBCS0024BA1-N",
+  "name": "14.3 SEER2 Air Conditioner, 2 Ton",
+  "category": "air-conditioners",
+  "list_price": 2725,
+  "image_url": "https://images.salsify.com/image/upload/s--zqXp4TM9--/skhjjplacp2xir1kv4j1.png",
+  "specs": {
+   "Tonnage": "2 ton",
+   "Efficiency": "14.3 SEER2",
+   "Cooling capacity": "23,800 BTU/h",
+   "Dimensions": "27 x 29.5 x 29.5 in",
+   "Net weight": "180 lbs",
+   "Refrigerant": "R-454B",
+   "Model": "WTBCS0024BA1-C"
+  }
+ },
+ {
+  "sku": "wtbcs0030",
+  "napoleon_sku": "WTBCS0030BA1-N",
+  "name": "14.3 SEER2 Air Conditioner, 2.5 Ton",
+  "category": "air-conditioners",
+  "list_price": 3080,
+  "image_url": "https://images.salsify.com/image/upload/s--zqXp4TM9--/skhjjplacp2xir1kv4j1.png",
+  "specs": {
+   "Tonnage": "2.5 ton",
+   "Efficiency": "14.3 SEER2",
+   "Cooling capacity": "29,200 BTU/h",
+   "Dimensions": "27 x 29.5 x 29.5 in",
+   "Net weight": "180 lbs",
+   "Refrigerant": "R-454B",
+   "Model": "WTBCS0030BA1-C"
+  }
+ },
+ {
+  "sku": "wtbcs0036",
+  "napoleon_sku": "WTBCS0036BA1-N",
+  "name": "14.3 SEER2 Air Conditioner, 3 Ton",
+  "category": "air-conditioners",
+  "list_price": 3195,
+  "image_url": "https://images.salsify.com/image/upload/s--zqXp4TM9--/skhjjplacp2xir1kv4j1.png",
+  "specs": {
+   "Tonnage": "3 ton",
+   "Efficiency": "14.3 SEER2",
+   "Cooling capacity": "35,200 BTU/h",
+   "Dimensions": "38.875 x 29.5 x 29.5 in",
+   "Net weight": "230 lbs",
+   "Refrigerant": "R-454B",
+   "Model": "WTBCS0036BA1-C"
+  }
+ },
+ {
+  "sku": "wtbcs0042",
+  "napoleon_sku": "WTBCS0042BA1-N",
+  "name": "14.3 SEER2 Air Conditioner, 3.5 Ton",
+  "category": "air-conditioners",
+  "list_price": 3720,
+  "image_url": "https://images.salsify.com/image/upload/s--zqXp4TM9--/skhjjplacp2xir1kv4j1.png",
+  "specs": {
+   "Tonnage": "3.5 ton",
+   "Efficiency": "14.3 SEER2",
+   "Cooling capacity": "41,000 BTU/h",
+   "Dimensions": "38.875 x 29.5 x 29.5 in",
+   "Net weight": "230 lbs",
+   "Refrigerant": "R-454B",
+   "Model": "WTBCS0042BA1-C"
+  }
+ },
+ {
+  "sku": "wtbcs0048",
+  "napoleon_sku": "WTBCS0048BA1-N",
+  "name": "14.3 SEER2 Air Conditioner, 4 Ton",
+  "category": "air-conditioners",
+  "list_price": 3930,
+  "image_url": "https://images.salsify.com/image/upload/s--zqXp4TM9--/skhjjplacp2xir1kv4j1.png",
+  "specs": {
+   "Tonnage": "4 ton",
+   "Efficiency": "13.8 SEER2",
+   "Cooling capacity": "45,000 BTU/h",
+   "Dimensions": "47.875 x 29.5 x 29.5 in",
+   "Net weight": "250 lbs",
+   "Refrigerant": "R-454B",
+   "Model": "WTBCS0048BA1-C"
+  }
+ },
+ {
+  "sku": "wtbcs0060",
+  "napoleon_sku": "WTBCS0060BA1-N",
+  "name": "14.3 SEER2 Air Conditioner, 5 Ton",
+  "category": "air-conditioners",
+  "list_price": 4515,
+  "image_url": "https://images.salsify.com/image/upload/s--zqXp4TM9--/skhjjplacp2xir1kv4j1.png",
+  "specs": {
+   "Tonnage": "5 ton",
+   "Efficiency": "13.8 SEER2",
+   "Cooling capacity": "56,000 BTU/h",
+   "Dimensions": "47.875 x 29.5 x 29.5 in",
+   "Net weight": "250 lbs",
+   "Refrigerant": "R-454B",
+   "Model": "WTBCS0060BA1-C"
+  }
+ },
+ {
+  "sku": "wtacs0018",
+  "napoleon_sku": "WTACS0018BA1-N",
+  "name": "13.4 SEER2 Air Conditioner, 1.5 Ton",
+  "category": "air-conditioners",
+  "list_price": 2270,
+  "image_url": "https://images.salsify.com/image/upload/s--zqXp4TM9--/skhjjplacp2xir1kv4j1.png",
+  "specs": {
+   "Tonnage": "1.5 ton",
+   "Efficiency": "13.4 SEER2",
+   "Cooling capacity": "18,600 BTU/h",
+   "Dimensions": "27 x 24 x 24 in",
+   "Net weight": "150 lbs",
+   "Refrigerant": "R-454B",
+   "Model": "WTACS0018BA1-C"
+  }
+ },
+ {
+  "sku": "wtacs0024",
+  "napoleon_sku": "WTACS0024BA1-N",
+  "name": "13.4 SEER2 Air Conditioner, 2 Ton",
+  "category": "air-conditioners",
+  "list_price": 2410,
+  "image_url": "https://images.salsify.com/image/upload/s--zqXp4TM9--/skhjjplacp2xir1kv4j1.png",
+  "specs": {
+   "Tonnage": "2 ton",
+   "Efficiency": "13.4 SEER2",
+   "Cooling capacity": "23,200 BTU/h",
+   "Dimensions": "27 x 24 x 24 in",
+   "Net weight": "150 lbs",
+   "Refrigerant": "R-454B",
+   "Model": "WTACS0024BA1-C"
+  }
+ },
+ {
+  "sku": "wtacs0030",
+  "napoleon_sku": "WTACS0030BA1-N",
+  "name": "13.4 SEER2 Air Conditioner, 2.5 Ton",
+  "category": "air-conditioners",
+  "list_price": 2750,
+  "image_url": "https://images.salsify.com/image/upload/s--zqXp4TM9--/skhjjplacp2xir1kv4j1.png",
+  "specs": {
+   "Tonnage": "2.5 ton",
+   "Efficiency": "13.4 SEER2",
+   "Cooling capacity": "28,400 BTU/h",
+   "Dimensions": "27 x 29.5 x 29.5 in",
+   "Net weight": "180 lbs",
+   "Refrigerant": "R-454B",
+   "Model": "WTACS0030BA1-C"
+  }
+ },
+ {
+  "sku": "wtacs0036",
+  "napoleon_sku": "WTACS0036BA1-N",
+  "name": "13.4 SEER2 Air Conditioner, 3 Ton",
+  "category": "air-conditioners",
+  "list_price": 2910,
+  "image_url": "https://images.salsify.com/image/upload/s--zqXp4TM9--/skhjjplacp2xir1kv4j1.png",
+  "specs": {
+   "Tonnage": "3 ton",
+   "Efficiency": "13.4 SEER2",
+   "Cooling capacity": "33,800 BTU/h",
+   "Dimensions": "27 x 29.5 x 29.5 in",
+   "Net weight": "180 lbs",
+   "Refrigerant": "R-454B",
+   "Model": "WTACS0036BA1-C"
+  }
+ },
+ {
+  "sku": "wtacs0042",
+  "napoleon_sku": "WTACS0042BA1-N",
+  "name": "13.4 SEER2 Air Conditioner, 3.5 Ton",
+  "category": "air-conditioners",
+  "list_price": 3385,
+  "image_url": "https://images.salsify.com/image/upload/s--zqXp4TM9--/skhjjplacp2xir1kv4j1.png",
+  "specs": {
+   "Tonnage": "3.5 ton",
+   "Efficiency": "13.4 SEER2",
+   "Cooling capacity": "37,600 BTU/h",
+   "Dimensions": "38.875 x 29.5 x 29.5 in",
+   "Net weight": "180 lbs",
+   "Refrigerant": "R-454B",
+   "Model": "WTACS0042BA1-C"
+  }
+ },
+ {
+  "sku": "wtacs0048",
+  "napoleon_sku": "WTACS0048BA1-N",
+  "name": "13.4 SEER2 Air Conditioner, 4 Ton",
+  "category": "air-conditioners",
+  "list_price": 3600,
+  "image_url": "https://images.salsify.com/image/upload/s--zqXp4TM9--/skhjjplacp2xir1kv4j1.png",
+  "specs": {
+   "Tonnage": "4 ton",
+   "Efficiency": "13.4 SEER2",
+   "Cooling capacity": "43,500 BTU/h",
+   "Dimensions": "38.875 x 29.5 x 29.5 in",
+   "Net weight": "230 lbs",
+   "Refrigerant": "R-454B",
+   "Model": "WTACS0048BA1-C"
+  }
+ },
+ {
+  "sku": "wtacs0060",
+  "napoleon_sku": "WTACS0060BA1-N",
+  "name": "13.4 SEER2 Air Conditioner, 5 Ton",
+  "category": "air-conditioners",
+  "list_price": 4185,
+  "image_url": "https://images.salsify.com/image/upload/s--zqXp4TM9--/skhjjplacp2xir1kv4j1.png",
+  "specs": {
+   "Tonnage": "5 ton",
+   "Efficiency": "13.4 SEER2",
+   "Cooling capacity": "53,000 BTU/h",
+   "Dimensions": "47.875 x 29.5 x 29.5 in",
+   "Net weight": "250 lbs",
+   "Refrigerant": "R-454B",
+   "Model": "WTACS0060BA1-C"
+  }
+ },
+ {
+  "sku": "hp2436",
+  "napoleon_sku": "WSEHV2436BA1-N",
+  "name": "Cold Climate Heat Pump, 2 to 3 Ton",
+  "category": "heat-pumps",
+  "list_price": 2790,
+  "image_url": "/hp-2436.png",
+  "specs": {
+   "Capacity": "2 to 3 ton (24k-36k BTU/h)",
+   "Efficiency": "Up to 17 SEER2",
+   "Cold climate": "Heats to −22°F",
+   "Compressor": "Hyper Heat DC inverter",
+   "Dimensions": "32¼ in H × 37 in W × 19⅛ in D",
+   "Net weight": "217 lbs",
+   "Refrigerant": "R-454B",
+   "Model": "WSEHV2436BA1-C"
+  }
+ },
+ {
+  "sku": "hp4860",
+  "napoleon_sku": "WSEHV4860BA1-N",
+  "name": "Cold Climate Heat Pump, 4 to 5 Ton",
+  "category": "heat-pumps",
+  "list_price": 3980,
+  "image_url": "/hp-4860.png",
+  "specs": {
+   "Capacity": "4 to 5 ton (48k-54k BTU/h)",
+   "Efficiency": "Up to 17 SEER2",
+   "Cold climate": "Heats to −22°F",
+   "Compressor": "Hyper Heat DC inverter",
+   "Dimensions": "53¾ in H × 42¾ in W × 15½ in D",
+   "Net weight": "309 lbs",
+   "Refrigerant": "R-454B",
+   "Model": "WSEHV4860BA1-C"
+  }
+ },
+ {
+  "sku": "ah18",
+  "napoleon_sku": "WC-18SEER-…-N",
+  "name": "SEER2 Air Handler",
+  "category": "air-handlers",
+  "list_price": 1180,
+  "image_url": "https://images.salsify.com/image/upload/s--16eJ8ZJZ--/elglgcklexgbuhanoks2.png",
+  "specs": {
+   "Blower": "ECM variable-speed",
+   "Install": "Zero-clearance / flexible",
+   "Warranty": "10-yr parts limited",
+   "Model": "WC-18SEER-…-C"
+  }
+ },
+ {
+  "sku": "cdhas22",
+  "napoleon_sku": "NDHAS22BB-…-N",
+  "name": "CDHAS22BB Single-Zone Heat Pump",
+  "category": "ductless",
+  "list_price": 1590,
+  "image_url": "https://images.salsify.com/image/upload/s--LDphtgMY--/yxnqip8adhgfwde2likq.png",
+  "specs": {
+   "Efficiency": "Up to 24 SEER2",
+   "Refrigerant": "R-454B (low-GWP)",
+   "Capacity": "12k / 18k / 24k BTU",
+   "Certification": "Energy Star & NEEP",
+   "Model": "CDHAS22BB-…-C"
+  }
+ },
+ {
+  "sku": "cdhas26",
+  "napoleon_sku": "NDHAS26-…-N",
+  "name": "CDHAS26 Single-Zone Heat Pump",
+  "category": "ductless",
+  "list_price": 2090,
+  "image_url": "https://images.salsify.com/image/upload/s--YCveO2cY--/am5oyqtkbut7zdaiw48p.png",
+  "specs": {
+   "Efficiency": "Up to 25.5 SEER2",
+   "Refrigerant": "R-454B (low-GWP)",
+   "Capacity": "12k / 18k / 24k BTU",
+   "Cold climate": "Heats to −22°F",
+   "Model": "CDHAS26-…-C"
+  }
+ },
+ {
+  "sku": "multizone",
+  "napoleon_sku": "NDHAMBB-36-O",
+  "name": "Multi-Zone Heat Pump, 36,000 BTU",
+  "category": "ductless",
+  "list_price": 3465,
+  "image_url": "https://images.salsify.com/image/upload/s--6Cuvun5L--/jpy8wdffjgnkxcd8obqb.png",
+  "specs": {
+   "Cooling / Heating": "36,000 BTU/h",
+   "Zones": "Up to 5 indoor units",
+   "Cold climate": "Heats to -22F",
+   "Refrigerant": "R-454B (low-GWP)",
+   "Stock": "In stock, Dillsburg PA",
+   "Model": "CDHAMBB-36-O"
+  }
+ },
+ {
+  "sku": "lvp",
+  "napoleon_sku": "WC-LVP-…-N",
+  "name": "LVP Modulating Air Handler",
+  "category": "hydronic",
+  "list_price": 1520,
+  "image_url": "https://images.salsify.com/image/upload/s--I9oE3Iz3--/fixddoz1dwkmy5mcqjh5.png",
+  "specs": {
+   "Control": "Modulating, variable-speed",
+   "Install": "FlexFit",
+   "Model": "WC-LVP-…-C"
+  }
+ },
+ {
+  "sku": "hvp",
+  "napoleon_sku": "WC-HVP-…-N",
+  "name": "HVP High Velocity Air Handler",
+  "category": "hydronic",
+  "list_price": 1420,
+  "image_url": "https://images.salsify.com/image/upload/s--dXRhG19E--/r0bqfjlmouvx80zsee3l.png",
+  "specs": {
+   "Airflow": "High velocity",
+   "Blower": "High-efficiency ECM",
+   "Model": "WC-HVP-…-C"
+  }
+ },
+ {
+  "sku": "hvpz",
+  "napoleon_sku": "WC-HVPZ-…-N",
+  "name": "HVP Zoned High Velocity Air Handler",
+  "category": "hydronic",
+  "list_price": 1720,
+  "image_url": "https://images.salsify.com/image/upload/s--zsEDR7Az--/mmebuvtdncjseezfqgby.png",
+  "specs": {
+   "Zoning": "Up to 5 zones",
+   "Blower": "High-efficiency ECM",
+   "Model": "WC-HVPZ-…-C"
+  }
+ },
+ {
+  "sku": "lvs",
+  "napoleon_sku": "WC-LVS-…-N",
+  "name": "LVS Multi-Speed Air Handler",
+  "category": "hydronic",
+  "list_price": 1320,
+  "image_url": "https://images.salsify.com/image/upload/s--ukd6O4xK--/hjoblgd05hjsaucj4rvb.png",
+  "specs": {
+   "Control": "Multi-speed",
+   "Feature": "Dehumidification",
+   "Model": "WC-LVS-…-C"
+  }
+ },
+ {
+  "sku": "wpcc24",
+  "napoleon_sku": "WPCC24ABA1-N",
+  "name": "WPCC24 Cased Coil",
+  "category": "coils",
+  "list_price": 1071,
+  "image_url": "/wpcc-coil.png",
+  "specs": {
+   "Tonnage": "2 ton",
+   "Refrigerant": "R-454B EEV",
+   "Cooling": "22,000 BTU/h",
+   "Dimensions": "23 x 17½ x 21¼ in",
+   "Weight": "75 lb",
+   "Model": "WPCC24ABA1-C"
+  }
+ },
+ {
+  "sku": "wpcc36",
+  "napoleon_sku": "WPCC36ABA1-N",
+  "name": "WPCC36 Cased Coil",
+  "category": "coils",
+  "list_price": 1103,
+  "image_url": "/wpcc-coil.png",
+  "specs": {
+   "Tonnage": "3 ton",
+   "Refrigerant": "R-454B EEV",
+   "Cooling": "32,000 BTU/h",
+   "Dimensions": "23 x 17½ x 21¼ in",
+   "Weight": "75 lb",
+   "Model": "WPCC36ABA1-C"
+  }
+ },
+ {
+  "sku": "wpcc48",
+  "napoleon_sku": "WPCC48ABA1-N",
+  "name": "WPCC48 Cased Coil",
+  "category": "coils",
+  "list_price": 1462,
+  "image_url": "/wpcc-coil.png",
+  "specs": {
+   "Tonnage": "4 ton",
+   "Refrigerant": "R-454B EEV",
+   "Cooling": "47,000 BTU/h",
+   "Dimensions": "28½ x 24½ x 21¼ in",
+   "Weight": "110 lb",
+   "Model": "WPCC48ABA1-C"
+  }
+ },
+ {
+  "sku": "wpcc60",
+  "napoleon_sku": "WPCC60ABA1-N",
+  "name": "WPCC60 Cased Coil",
+  "category": "coils",
+  "list_price": 1493,
+  "image_url": "/wpcc-coil.png",
+  "specs": {
+   "Tonnage": "5 ton",
+   "Refrigerant": "R-454B EEV",
+   "Cooling": "52,000 BTU/h",
+   "Dimensions": "28½ x 24½ x 21¼ in",
+   "Weight": "110 lb",
+   "Model": "WPCC60ABA1-C"
+  }
+ }
+]
