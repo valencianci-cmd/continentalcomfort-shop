@@ -164,6 +164,12 @@ app.post("/api/admin/customers/:id/approve", auth(), requireAdmin, async (req, r
   res.json({ ok: true, customer: rows[0] });
 });
 
+// Current tier pricing (for the admin dashboard to display).
+app.get("/api/admin/pricing", auth(), requireAdmin, async (_req, res) => {
+  const { rows } = await pool.query("SELECT tier, multiplier, label FROM pricing_tiers ORDER BY multiplier DESC");
+  res.json({ tiers: rows });
+});
+
 // Set the discount multiplier for a tier (this is where discount-off pricing is controlled).
 app.put("/api/admin/pricing/:tier", auth(), requireAdmin, async (req, res) => {
   const { multiplier: mult } = req.body || {};

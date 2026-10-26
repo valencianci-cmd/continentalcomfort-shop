@@ -1,0 +1,351 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>ContinentalComfort.Shop Admin</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Saira:wght@400;500;600;700&family=Saira+Condensed:wght@600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0e1116; --surface:#161b22; --surface2:#1c232d; --line:#2a323d;
+    --text:#e8edf2; --muted:#8b97a5; --accent:#4f8bd6; --accent2:#6fa6e6;
+    --good:#2ea66b; --good2:#38c67f; --bad:#d6514f; --warm:#e0a93b;
+    --head:"Saira Condensed",sans-serif; --body:"Saira",system-ui,sans-serif;
+    --radius:12px;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--text);font-family:var(--body);font-size:15px;line-height:1.5}
+  a{color:var(--accent2)}
+  .topbar{display:flex;align-items:center;justify-content:space-between;gap:1rem;padding:.9rem 1.2rem;border-bottom:1px solid var(--line);background:var(--surface);position:sticky;top:0;z-index:5}
+  .brand{display:flex;align-items:baseline;gap:.5rem}
+  .brand b{font-family:var(--head);font-weight:700;font-size:1.25rem;letter-spacing:.02em}
+  .brand span{color:var(--muted);font-family:var(--head);text-transform:uppercase;letter-spacing:.14em;font-size:.68rem}
+  .wrap{max-width:1000px;margin:0 auto;padding:1.4rem 1.2rem 4rem}
+  .btn{font-family:var(--head);font-weight:600;letter-spacing:.03em;text-transform:uppercase;font-size:.82rem;
+       background:var(--accent);color:#fff;border:0;border-radius:8px;padding:.6rem 1rem;cursor:pointer}
+  .btn:hover{background:var(--accent2)}
+  .btn.ghost{background:transparent;color:var(--muted);border:1px solid var(--line)}
+  .btn.ghost:hover{color:var(--text);border-color:var(--muted)}
+  .btn.good{background:var(--good)} .btn.good:hover{background:var(--good2)}
+  .btn.bad{background:transparent;border:1px solid var(--bad);color:var(--bad)} .btn.bad:hover{background:var(--bad);color:#fff}
+  .btn.sm{padding:.4rem .7rem;font-size:.74rem}
+  input,select{font-family:var(--body);font-size:.95rem;background:var(--surface2);color:var(--text);border:1px solid var(--line);border-radius:8px;padding:.6rem .7rem;width:100%}
+  input:focus,select:focus{outline:none;border-color:var(--accent)}
+  label{display:block;font-size:.76rem;color:var(--muted);font-family:var(--head);text-transform:uppercase;letter-spacing:.08em;margin:.1rem 0 .3rem}
+  .card{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:1.4rem}
+  .center{min-height:calc(100vh - 64px);display:grid;place-items:center;padding:1.2rem}
+  .loginbox{width:100%;max-width:380px}
+  .loginbox h1{font-family:var(--head);font-size:1.5rem;margin:.2rem 0 .1rem}
+  .loginbox p.sub{color:var(--muted);margin:0 0 1.2rem;font-size:.9rem}
+  .field{margin-bottom:.9rem}
+  .msg{font-size:.85rem;margin:.6rem 0 0;min-height:1.1em}
+  .msg.err{color:var(--bad)} .msg.ok{color:var(--good2)} .msg.info{color:var(--muted)}
+  .tabs{display:flex;gap:.3rem;border-bottom:1px solid var(--line);margin-bottom:1.3rem;flex-wrap:wrap}
+  .tab{font-family:var(--head);text-transform:uppercase;letter-spacing:.06em;font-size:.86rem;color:var(--muted);
+       background:none;border:0;border-bottom:2px solid transparent;padding:.6rem .9rem;cursor:pointer}
+  .tab.active{color:var(--text);border-bottom-color:var(--accent)}
+  .badge{display:inline-block;font-family:var(--head);font-size:.68rem;text-transform:uppercase;letter-spacing:.06em;
+         padding:.15rem .5rem;border-radius:20px;border:1px solid var(--line);color:var(--muted)}
+  .badge.pending{color:var(--warm);border-color:var(--warm)}
+  .badge.approved{color:var(--good2);border-color:var(--good)}
+  .badge.rejected{color:var(--bad);border-color:var(--bad)}
+  .badge.paid{color:var(--good2);border-color:var(--good)}
+  table{width:100%;border-collapse:collapse;font-size:.88rem}
+  th{text-align:left;font-family:var(--head);text-transform:uppercase;letter-spacing:.06em;font-size:.72rem;color:var(--muted);padding:.5rem .6rem;border-bottom:1px solid var(--line)}
+  td{padding:.6rem;border-bottom:1px solid var(--line);vertical-align:middle}
+  tr:last-child td{border-bottom:0}
+  .rowtitle{font-weight:600}
+  .rowsub{color:var(--muted);font-size:.78rem}
+  .inline{display:flex;gap:.5rem;align-items:center;flex-wrap:wrap}
+  .qrwrap{display:grid;place-items:center;background:#fff;padding:14px;border-radius:10px;width:fit-content;margin:.4rem auto}
+  .secret{font-family:ui-monospace,monospace;background:var(--surface2);border:1px solid var(--line);border-radius:7px;padding:.5rem .7rem;font-size:.82rem;word-break:break-all;text-align:center}
+  .muted{color:var(--muted)} .sp{height:.9rem}
+  .right{text-align:right} .nowrap{white-space:nowrap}
+  .empty{color:var(--muted);text-align:center;padding:2rem 1rem;font-size:.9rem}
+  .hint{font-size:.78rem;color:var(--muted);margin-top:.4rem}
+  @media(max-width:600px){ .hidesm{display:none} .wrap{padding:1rem .8rem 3rem} }
+</style>
+</head>
+<body>
+<div class="topbar">
+  <div class="brand"><b>ContinentalComfort</b><span>Admin</span></div>
+  <button id="logoutBtn" class="btn ghost sm" style="display:none" onclick="logout()">Sign out</button>
+</div>
+
+<!-- LOGIN / 2FA -->
+<div id="authView" class="center">
+  <div class="loginbox">
+    <div class="card">
+      <!-- step: password -->
+      <div id="stepLogin">
+        <h1>Admin sign in</h1>
+        <p class="sub">Secure access for Skip The Warehouse staff.</p>
+        <div class="field"><label>Email</label><input id="liEmail" type="email" autocomplete="username" placeholder="you@skipthewarehouse.com"></div>
+        <div class="field"><label>Password</label><input id="liPass" type="password" autocomplete="current-password" placeholder="Your password"></div>
+        <button class="btn" style="width:100%" onclick="doLogin()">Continue</button>
+        <p id="loginMsg" class="msg"></p>
+      </div>
+
+      <!-- step: enroll 2FA -->
+      <div id="stepEnroll" style="display:none">
+        <h1>Set up 2FA</h1>
+        <p class="sub">Scan this with Google Authenticator, Authy, or 1Password, then enter the 6 digit code.</p>
+        <div id="qr" class="qrwrap"></div>
+        <p class="hint" style="text-align:center">Can't scan? Enter this key manually:</p>
+        <div id="secretText" class="secret"></div>
+        <div class="sp"></div>
+        <div class="field"><label>6 digit code</label><input id="enrollCode" inputmode="numeric" maxlength="6" placeholder="123456"></div>
+        <button class="btn" style="width:100%" onclick="doVerify(true)">Verify and finish</button>
+        <p id="enrollMsg" class="msg"></p>
+      </div>
+
+      <!-- step: verify 2FA -->
+      <div id="stepVerify" style="display:none">
+        <h1>Enter 2FA code</h1>
+        <p class="sub">Open your authenticator app and enter the current 6 digit code.</p>
+        <div class="field"><label>6 digit code</label><input id="verifyCode" inputmode="numeric" maxlength="6" placeholder="123456"></div>
+        <button class="btn" style="width:100%" onclick="doVerify(false)">Verify</button>
+        <p id="verifyMsg" class="msg"></p>
+      </div>
+    </div>
+    <p class="hint" style="text-align:center;margin-top:1rem">The server may take up to a minute to wake on the first request.</p>
+  </div>
+</div>
+
+<!-- DASHBOARD -->
+<div id="dashView" class="wrap" style="display:none">
+  <div class="tabs">
+    <button class="tab active" data-tab="approvals" onclick="showTab('approvals')">Approvals</button>
+    <button class="tab" data-tab="orders" onclick="showTab('orders')">Orders</button>
+    <button class="tab" data-tab="pricing" onclick="showTab('pricing')">Pricing</button>
+  </div>
+
+  <div id="tab-approvals">
+    <div class="inline" style="justify-content:space-between;margin-bottom:.9rem">
+      <div class="inline">
+        <label style="margin:0">Show</label>
+        <select id="custFilter" style="width:auto" onchange="loadCustomers()">
+          <option value="pending">Pending</option>
+          <option value="approved">Approved</option>
+          <option value="rejected">Rejected</option>
+          <option value="">All</option>
+        </select>
+      </div>
+      <button class="btn ghost sm" onclick="loadCustomers()">Refresh</button>
+    </div>
+    <div class="card" id="custBox"><div class="empty">Loading…</div></div>
+  </div>
+
+  <div id="tab-orders" style="display:none">
+    <div class="inline" style="justify-content:flex-end;margin-bottom:.9rem">
+      <button class="btn ghost sm" onclick="loadOrders()">Refresh</button>
+    </div>
+    <div class="card" id="orderBox"><div class="empty">Loading…</div></div>
+  </div>
+
+  <div id="tab-pricing" style="display:none">
+    <div class="card" id="priceBox"><div class="empty">Loading…</div></div>
+    <p class="hint">Multiplier is applied to list price. 0.80 means 20% off list. Guest pricing on the storefront currently uses 0.80.</p>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<script>
+const API="https://continentalcomfort-api.onrender.com";
+const TOK_KEY="cc_admin_tok";
+let challenge=null;
+
+function token(){ try{return sessionStorage.getItem(TOK_KEY)}catch(e){return null} }
+function setToken(t){ try{t?sessionStorage.setItem(TOK_KEY,t):sessionStorage.removeItem(TOK_KEY)}catch(e){} }
+function esc(s){return String(s==null?"":s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
+function money(n){return "$"+Number(n||0).toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2})}
+function when(s){ if(!s)return ""; const d=new Date(s); return d.toLocaleString([], {year:"numeric",month:"short",day:"numeric",hour:"numeric",minute:"2-digit"}) }
+
+async function api(path, opts={}){
+  const headers=Object.assign({"Content-Type":"application/json"}, opts.headers||{});
+  const t=token(); if(t) headers.Authorization="Bearer "+t;
+  const res=await fetch(API+path, Object.assign({}, opts, {headers}));
+  let data=null; try{data=await res.json()}catch(e){}
+  if(!res.ok){ const err=new Error((data&&data.error)||("HTTP "+res.status)); err.status=res.status; err.data=data; throw err; }
+  return data;
+}
+
+// ---------- auth ----------
+function showStep(id){ ["stepLogin","stepEnroll","stepVerify"].forEach(s=>document.getElementById(s).style.display=s===id?"block":"none"); }
+function setMsg(id,text,cls){ const el=document.getElementById(id); el.textContent=text||""; el.className="msg "+(cls||""); }
+
+async function doLogin(){
+  const email=document.getElementById("liEmail").value.trim();
+  const password=document.getElementById("liPass").value;
+  if(!email||!password){ setMsg("loginMsg","Enter your email and password.","err"); return; }
+  setMsg("loginMsg","Signing in… (waking the server can take a moment)","info");
+  try{
+    const r=await api("/api/admin/login",{method:"POST",body:JSON.stringify({email,password})});
+    challenge=r.challenge;
+    if(r.enroll_2fa){
+      showStep("stepEnroll");
+      document.getElementById("qr").innerHTML="";
+      new QRCode(document.getElementById("qr"),{text:r.otpauth_url,width:180,height:180,correctLevel:QRCode.CorrectLevel.M});
+      const m=/[?&]secret=([^&]+)/.exec(r.otpauth_url); document.getElementById("secretText").textContent=m?m[1]:"";
+      setMsg("enrollMsg","","");
+      document.getElementById("enrollCode").focus();
+    } else if(r.require_2fa){
+      showStep("stepVerify"); setMsg("verifyMsg","",""); document.getElementById("verifyCode").focus();
+    }
+  }catch(e){ setMsg("loginMsg", e.status===401?"Wrong email or password.":("Could not sign in: "+e.message), "err"); }
+}
+
+async function doVerify(enroll){
+  const codeEl=enroll?document.getElementById("enrollCode"):document.getElementById("verifyCode");
+  const msgId=enroll?"enrollMsg":"verifyMsg";
+  const code=codeEl.value.trim();
+  if(code.length<6){ setMsg(msgId,"Enter the 6 digit code.","err"); return; }
+  setMsg(msgId,"Verifying…","info");
+  try{
+    const r=await api("/api/admin/2fa",{method:"POST",body:JSON.stringify({challenge,code})});
+    setToken(r.token); challenge=null;
+    enterDashboard();
+  }catch(e){ setMsg(msgId, e.status===401?"Invalid code, try the current one.":("Verification failed: "+e.message), "err"); }
+}
+
+function logout(){ setToken(null); location.reload(); }
+
+// ---------- dashboard ----------
+function enterDashboard(){
+  document.getElementById("authView").style.display="none";
+  document.getElementById("dashView").style.display="block";
+  document.getElementById("logoutBtn").style.display="inline-block";
+  showTab("approvals");
+}
+function showTab(name){
+  ["approvals","orders","pricing"].forEach(t=>{
+    document.getElementById("tab-"+t).style.display=t===name?"block":"none";
+  });
+  document.querySelectorAll(".tab").forEach(b=>b.classList.toggle("active", b.dataset.tab===name));
+  if(name==="approvals") loadCustomers();
+  if(name==="orders") loadOrders();
+  if(name==="pricing") loadPricing();
+}
+
+function guard(e){
+  if(e.status===401){ setToken(null); location.reload(); return true; }
+  return false;
+}
+
+async function loadCustomers(){
+  const box=document.getElementById("custBox");
+  const f=document.getElementById("custFilter").value;
+  box.innerHTML='<div class="empty">Loading…</div>';
+  try{
+    const r=await api("/api/admin/customers"+(f?("?status="+f):""));
+    const list=r.customers||[];
+    if(!list.length){ box.innerHTML='<div class="empty">No accounts in this view.</div>'; return; }
+    let h='<table><thead><tr><th>Account</th><th>Requested</th><th class="hidesm">Granted</th><th>Status</th><th class="right">Action</th></tr></thead><tbody>';
+    for(const c of list){
+      const acts = c.status==="pending"
+        ? `<div class="inline right" style="justify-content:flex-end">
+             <select id="tier-${c.id}" style="width:auto">
+               <option value="contractor">Contractor</option>
+               <option value="distributor">Distributor</option>
+               <option value="homeowner">Guest</option>
+             </select>
+             <button class="btn good sm" onclick="approve(${c.id})">Approve</button>
+             <button class="btn bad sm" onclick="reject(${c.id})">Reject</button>
+           </div>`
+        : `<span class="muted nowrap">${esc(when(c.approved_at||c.created_at))}</span>`;
+      h+=`<tr>
+        <td><div class="rowtitle">${esc(c.company_name||c.contact_name||c.email)}</div>
+            <div class="rowsub">${esc(c.email)}${c.phone?(" · "+esc(c.phone)):""}</div></td>
+        <td><span class="badge">${esc(tierLabel(c.requested_tier))}</span></td>
+        <td class="hidesm"><span class="badge">${esc(tierLabel(c.tier))}</span></td>
+        <td><span class="badge ${esc(c.status)}">${esc(c.status)}</span></td>
+        <td class="right">${acts}</td>
+      </tr>`;
+    }
+    h+='</tbody></table>';
+    box.innerHTML=h;
+  }catch(e){ if(guard(e))return; box.innerHTML='<div class="empty">Could not load: '+esc(e.message)+'</div>'; }
+}
+function tierLabel(t){ return t==="distributor"?"Distributor":t==="contractor"?"Contractor":"Guest"; }
+
+async function approve(id){
+  const tier=document.getElementById("tier-"+id).value;
+  try{ await api("/api/admin/customers/"+id+"/approve",{method:"POST",body:JSON.stringify({tier})}); loadCustomers(); }
+  catch(e){ if(guard(e))return; alert("Could not approve: "+e.message); }
+}
+async function reject(id){
+  if(!confirm("Reject this account?"))return;
+  try{ await api("/api/admin/customers/"+id+"/approve",{method:"POST",body:JSON.stringify({reject:true})}); loadCustomers(); }
+  catch(e){ if(guard(e))return; alert("Could not reject: "+e.message); }
+}
+
+async function loadOrders(){
+  const box=document.getElementById("orderBox");
+  box.innerHTML='<div class="empty">Loading…</div>';
+  try{
+    const r=await api("/api/admin/orders");
+    const list=r.orders||[];
+    if(!list.length){ box.innerHTML='<div class="empty">No orders yet.</div>'; return; }
+    let h='<table><thead><tr><th>Order</th><th>Customer</th><th class="hidesm">Tier</th><th>Status</th><th class="right">Subtotal</th></tr></thead><tbody>';
+    for(const o of list){
+      h+=`<tr>
+        <td><div class="rowtitle">#${esc(o.id)}</div><div class="rowsub">${esc(when(o.created_at))}</div></td>
+        <td>${esc(o.email||"")}<div class="rowsub">${esc([o.ship_city,o.ship_state].filter(Boolean).join(", "))}</div></td>
+        <td class="hidesm"><span class="badge">${esc(tierLabel(o.tier))}</span></td>
+        <td><span class="badge ${o.status==="paid"?"paid":""}">${esc(o.status)}</span></td>
+        <td class="right nowrap">${money(o.subtotal)}</td>
+      </tr>`;
+    }
+    h+='</tbody></table>';
+    box.innerHTML=h;
+  }catch(e){ if(guard(e))return; box.innerHTML='<div class="empty">Could not load: '+esc(e.message)+'</div>'; }
+}
+
+async function loadPricing(){
+  const box=document.getElementById("priceBox");
+  box.innerHTML='<div class="empty">Loading…</div>';
+  try{
+    const r=await api("/api/admin/pricing");
+    const tiers=r.tiers||[];
+    let h='<table><thead><tr><th>Tier</th><th>Multiplier</th><th>Off list</th><th class="right">Save</th></tr></thead><tbody>';
+    for(const t of tiers){
+      const off=Math.round((1-Number(t.multiplier))*100);
+      h+=`<tr>
+        <td><div class="rowtitle">${esc(t.label)}</div><div class="rowsub">${esc(t.tier)}</div></td>
+        <td style="max-width:130px"><input id="mult-${esc(t.tier)}" type="number" step="0.01" min="0.1" max="1" value="${Number(t.multiplier).toFixed(2)}"></td>
+        <td class="muted" id="off-${esc(t.tier)}">${off}% off</td>
+        <td class="right"><button class="btn sm" onclick="savePrice('${esc(t.tier)}')">Save</button></td>
+      </tr>`;
+    }
+    h+='</tbody></table>';
+    box.innerHTML=h;
+  }catch(e){ if(guard(e))return; box.innerHTML='<div class="empty">Could not load: '+esc(e.message)+'</div>'; }
+}
+async function savePrice(tier){
+  const v=parseFloat(document.getElementById("mult-"+tier).value);
+  if(!(v>0&&v<=1)){ alert("Multiplier must be between 0 and 1, e.g. 0.80"); return; }
+  try{ await api("/api/admin/pricing/"+tier,{method:"PUT",body:JSON.stringify({multiplier:v})}); loadPricing(); }
+  catch(e){ if(guard(e))return; alert("Could not save: "+e.message); }
+}
+
+// ---------- boot ----------
+(function(){
+  // enter key submits the visible step
+  document.addEventListener("keydown",e=>{
+    if(e.key!=="Enter")return;
+    if(document.getElementById("dashView").style.display!=="none")return;
+    if(document.getElementById("stepLogin").style.display!=="none") doLogin();
+    else if(document.getElementById("stepEnroll").style.display!=="none") doVerify(true);
+    else if(document.getElementById("stepVerify").style.display!=="none") doVerify(false);
+  });
+  if(token()){
+    // try to resume; if token invalid the first call bounces to login
+    enterDashboard();
+  }
+})();
+</script>
+</body>
+</html>
