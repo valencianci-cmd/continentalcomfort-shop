@@ -15,6 +15,7 @@ const speakeasy = require("speakeasy");
 const cors = require("cors");
 const helmet = require("helmet");
 const rateLimit = require("express-rate-limit");
+const braintree = require("braintree");
 
 const JWT_SECRET = process.env.JWT_SECRET;
 if (!JWT_SECRET) { console.error("JWT_SECRET is required"); process.exit(1); }
@@ -22,6 +23,21 @@ const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
   ssl: process.env.PGSSL === "disable" ? false : { rejectUnauthorized: false },
 });
+
+// Braintree gateway. Only initialised when all keys are present, so the
+// service stays healthy before the sandbox/live keys are added.
+let gateway = null;
+if (process.env.BRAINTREE_MERCHANT_ID && process.env.BRAINTREE_PUBLIC_KEY && process.env.BRAINTREE_PRIVATE_KEY) {
+  gateway = new braintree.BraintreeGateway({
+    environment: process.env.BRAINTREE_ENV === "production" ? braintree.Environment.Production : braintree.Environment.Sandbox,
+    merchantId: process.env.BRAINTREE_MERCHANT_ID,
+    publicKey: process.env.BRAINTREE_PUBLIC_KEY,
+    privateKey: process.env.BRAINTREE_PRIVATE_KEY,
+  });
+  console.log("Braintree gateway ready (" + (process.env.BRAINTREE_ENV === "production" ? "production" : "sandbox") + ")");
+} else {
+  console.log("Braintree not configured yet - orders record without charging");
+}
 
 const app = express();
 app.use(helmet());
@@ -179,6 +195,18 @@ app.put("/api/admin/pricing/:tier", auth(), requireAdmin, async (req, res) => {
   res.json({ ok: true, tier: rows[0] });
 });
 
+// ---------- checkout ----------
+// Client token for the Braintree Drop-in UI on the storefront.
+app.get("/api/checkout/token", async (_req, res) => {
+  if (!gateway) return res.status(503).json({ error: "payments are not configured yet" });
+  try {
+    const r = await gateway.clientToken.generate({});
+    res.json({ clientToken: r.clientToken });
+  } catch (e) {
+    res.status(500).json({ error: "could not start checkout" });
+  }
+});
+
 // ---------- orders ----------
 app.get("/api/admin/orders", auth(), requireAdmin, async (req, res) => {
   const { rows } = await pool.query("SELECT * FROM orders ORDER BY created_at DESC LIMIT 200");
@@ -188,11 +216,12 @@ app.get("/api/admin/orders", auth(), requireAdmin, async (req, res) => {
 // Create an order. Prices are recomputed server-side from the account's tier —
 // the client cannot send its own prices.
 app.post("/api/orders", auth(false), async (req, res) => {
-  const { items, ship } = req.body || {};
+  const { items, ship, nonce } = req.body || {};
   if (!Array.isArray(items) || !items.length) return res.status(400).json({ error: "no items" });
   const tier = await tierFor(req.user);
   const m = await multiplier(tier);
   const client = await pool.connect();
+  let txnId = null;
   try {
     await client.query("BEGIN");
     let subtotal = 0; const lines = [];
@@ -205,22 +234,40 @@ app.post("/api/orders", auth(false), async (req, res) => {
       subtotal += unit * qty; lines.push({ sku: p.sku, name: p.name, qty, unit });
     }
     subtotal = Math.round(subtotal * 100) / 100;
+    if (!(subtotal > 0)) throw new Error("order total must be greater than zero");
     const email = (req.user && req.user.email) || (ship && ship.email);
     if (!email) throw new Error("email required");
+
+    // Charge first. Only record the order if payment succeeds. Prices are
+    // computed above from the catalog, never taken from the client.
+    let status = "pending";
+    if (gateway) {
+      if (!nonce) throw new Error("payment required");
+      const sale = await gateway.transaction.sale({
+        amount: subtotal.toFixed(2),
+        paymentMethodNonce: nonce,
+        options: { submitForSettlement: true },
+      });
+      if (!sale.success) throw new Error(sale.message || "payment was declined");
+      txnId = sale.transaction && sale.transaction.id;
+      status = "paid";
+    }
+
     const o = await client.query(
-      `INSERT INTO orders (customer_id,email,tier,subtotal,ship_name,ship_addr,ship_city,ship_state,ship_zip)
-       VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9) RETURNING id`,
-      [req.user && req.user.kind === "customer" ? req.user.id : null, email, tier, subtotal,
+      `INSERT INTO orders (customer_id,email,tier,subtotal,status,braintree_txn,ship_name,ship_addr,ship_city,ship_state,ship_zip)
+       VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11) RETURNING id`,
+      [req.user && req.user.kind === "customer" ? req.user.id : null, email, tier, subtotal, status, txnId,
        ship && ship.name, ship && ship.addr, ship && ship.city, ship && ship.state, ship && ship.zip]);
     const orderId = o.rows[0].id;
     for (const l of lines)
       await client.query("INSERT INTO order_items (order_id,sku,name,qty,unit_price) VALUES ($1,$2,$3,$4,$5)",
         [orderId, l.sku, l.name, l.qty, l.unit]);
     await client.query("COMMIT");
-    // Braintree transaction is created/settled here in the checkout phase (needs Braintree keys).
-    res.status(201).json({ order_id: orderId, tier, subtotal, next: "payment (Braintree) wired in checkout phase" });
+    res.status(201).json({ order_id: orderId, tier, subtotal, status, paid: status === "paid" });
   } catch (e) {
     await client.query("ROLLBACK");
+    // If the card was charged but the order failed to save, void so nobody is billed for nothing.
+    if (txnId && gateway) { try { await gateway.transaction.void(txnId); } catch (_) {} }
     res.status(400).json({ error: String(e.message || e) });
   } finally { client.release(); }
 });

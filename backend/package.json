@@ -11,6 +11,7 @@
   },
   "engines": { "node": ">=20" },
   "dependencies": {
+    "braintree": "^3.20.0",
     "express": "^4.21.2",
     "pg": "^8.13.1",
     "bcryptjs": "^2.4.3",

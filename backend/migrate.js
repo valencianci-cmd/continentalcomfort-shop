@@ -1,8 +1,7 @@
 "use strict";
-/* Applies schema.sql, seeds the catalog, and creates the first admin user.
- * Run once after the database is provisioned:  node migrate.js
- * Admin is created from ADMIN_EMAIL / ADMIN_PASSWORD env vars (2FA is enrolled
- * on that admin's first login). */
+/* Applies schema.sql, seeds/updates the catalog from catalog.json, aligns the
+ * Guest tier to current storefront pricing, and creates the first admin user.
+ * Runs on every deploy (idempotent). Admin comes from ADMIN_EMAIL / ADMIN_PASSWORD. */
 const fs = require("fs");
 const path = require("path");
 const { Pool } = require("pg");
@@ -13,26 +12,29 @@ const pool = new Pool({
   ssl: process.env.PGSSL === "disable" ? false : { rejectUnauthorized: false },
 });
 
-// A starter catalog seed; full catalog import comes from the storefront data + Eclipse.
-const PRODUCTS = [
-  ["WC-C97-C", "WC-C97-N", "C97 Gas Furnace", "furnaces", 2450, "https://images.salsify.com/image/upload/s--KUSJRA5p--/ic1hrkor1ax3hszhnhk6.png", { AFUE: "Up to 97%", Stage: "Two-stage" }, null],
-  ["WC-CT-14-C", "WC-CT-14-N", "CT 14.3 SEER2 Air Conditioner", "air-conditioners", 1890, "https://images.salsify.com/image/upload/s--zqXp4TM9--/skhjjplacp2xir1kv4j1.png", { Efficiency: "Up to 14.3 SEER2", Capacity: "1.5-5 ton" }, null],
-  ["CDHAS26-24", "NDHAS26-24", "CDHAS26 Ductless Single-Zone 2 Ton", "ductless", 2090, "https://images.salsify.com/image/upload/s--YCveO2cY--/am5oyqtkbut7zdaiw48p.png", { Efficiency: "21.5 SEER2", BTU: "24,000" }, null],
-];
-
 (async () => {
   try {
     const sql = fs.readFileSync(path.join(__dirname, "schema.sql"), "utf8");
     await pool.query(sql);
     console.log("schema applied");
 
-    for (const p of PRODUCTS) {
+    // Catalog: upsert every product so prices/fields stay in sync with the file.
+    const catalog = JSON.parse(fs.readFileSync(path.join(__dirname, "catalog.json"), "utf8"));
+    for (const p of catalog) {
       await pool.query(
         `INSERT INTO products (sku,napoleon_sku,name,category,list_price,image_url,specs,ahri)
-         VALUES ($1,$2,$3,$4,$5,$6,$7,$8) ON CONFLICT (sku) DO NOTHING`,
-        [p[0], p[1], p[2], p[3], p[4], p[5], JSON.stringify(p[6]), p[7]]);
+         VALUES ($1,$2,$3,$4,$5,$6,$7,$8)
+         ON CONFLICT (sku) DO UPDATE SET
+           napoleon_sku=EXCLUDED.napoleon_sku, name=EXCLUDED.name, category=EXCLUDED.category,
+           list_price=EXCLUDED.list_price, image_url=EXCLUDED.image_url, specs=EXCLUDED.specs`,
+        [p.sku, p.napoleon_sku || null, p.name, p.category, p.list_price,
+         p.image_url || null, JSON.stringify(p.specs || {}), p.ahri || null]);
     }
-    console.log("catalog seeded");
+    console.log("catalog synced:", catalog.length, "products");
+
+    // Align the Guest tier to the storefront's current "list x 0.80" pricing.
+    // Only touches the untouched default (1.0000); admin changes are preserved.
+    await pool.query("UPDATE pricing_tiers SET multiplier=0.8000, label='Guest' WHERE tier='homeowner' AND multiplier=1.0000");
 
     const email = (process.env.ADMIN_EMAIL || "").toLowerCase();
     const pw = process.env.ADMIN_PASSWORD;
@@ -43,7 +45,7 @@ const PRODUCTS = [
          ON CONFLICT (email) DO NOTHING`, [email, hash]);
       console.log("admin user ready:", email, "(2FA enrolls on first login)");
     } else {
-      console.log("no ADMIN_EMAIL/ADMIN_PASSWORD set — skipping admin creation");
+      console.log("no ADMIN_EMAIL/ADMIN_PASSWORD set - skipping admin creation");
     }
     console.log("migration complete");
     process.exit(0);
