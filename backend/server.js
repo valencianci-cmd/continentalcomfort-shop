@@ -40,11 +40,15 @@ if (process.env.BRAINTREE_MERCHANT_ID && process.env.BRAINTREE_PUBLIC_KEY && pro
 }
 
 const app = express();
+app.set("trust proxy", 1); // behind Render's proxy, so rate limits key off the real client IP
 app.use(helmet());
-app.use(express.json());
+app.use(express.json({ limit: "64kb" }));
 app.use(cors({ origin: (process.env.CORS_ORIGINS || "*").split(","), credentials: false }));
 
 const authLimiter = rateLimit({ windowMs: 15 * 60 * 1000, max: 20 }); // blunt brute force
+const checkoutLimiter = rateLimit({ windowMs: 15 * 60 * 1000, max: 40 }); // Drop-in token fetches
+// Card-testing defense: cap order attempts per IP.
+const orderLimiter = rateLimit({ windowMs: 15 * 60 * 1000, max: 12, message: { error: "too many checkout attempts, please wait a few minutes and try again" } });
 
 // ---------- helpers ----------
 const sign = (payload) => jwt.sign(payload, JWT_SECRET, { expiresIn: "12h" });
@@ -197,7 +201,7 @@ app.put("/api/admin/pricing/:tier", auth(), requireAdmin, async (req, res) => {
 
 // ---------- checkout ----------
 // Client token for the Braintree Drop-in UI on the storefront.
-app.get("/api/checkout/token", async (_req, res) => {
+app.get("/api/checkout/token", checkoutLimiter, async (_req, res) => {
   if (!gateway) return res.status(503).json({ error: "payments are not configured yet" });
   try {
     const r = await gateway.clientToken.generate({});
@@ -216,8 +220,8 @@ app.get("/api/admin/orders", auth(), requireAdmin, async (req, res) => {
 
 // Create an order. Prices are recomputed server-side from the account's tier —
 // the client cannot send its own prices.
-app.post("/api/orders", auth(false), async (req, res) => {
-  const { items, ship, nonce } = req.body || {};
+app.post("/api/orders", orderLimiter, auth(false), async (req, res) => {
+  const { items, ship, nonce, deviceData } = req.body || {};
   if (!Array.isArray(items) || !items.length) return res.status(400).json({ error: "no items" });
   const tier = await tierFor(req.user);
   const m = await multiplier(tier);
@@ -247,6 +251,7 @@ app.post("/api/orders", auth(false), async (req, res) => {
       const sale = await gateway.transaction.sale({
         amount: subtotal.toFixed(2),
         paymentMethodNonce: nonce,
+        deviceData: deviceData || undefined,
         options: { submitForSettlement: true },
       });
       if (!sale.success) throw new Error(sale.message || "payment was declined");

@@ -1116,7 +1116,7 @@ async function initDropin(amount){
     if(r.status===503){setCoMsg("Payments are not switched on yet. Please check back shortly.","err");return}
     const d=await r.json(); if(!d.clientToken) throw new Error("no token");
     if(dropinInstance){try{await dropinInstance.teardown()}catch(e){}dropinInstance=null}
-    dropinInstance=await braintree.dropin.create({authorization:d.clientToken,container:"#dropin-container"});
+    dropinInstance=await braintree.dropin.create({authorization:d.clientToken,container:"#dropin-container",dataCollector:true});
     setCoMsg("","");
     payBtn.disabled=false; payBtn.textContent="Pay "+fmt(amount);
     payBtn.onclick=()=>submitOrder(amount);
@@ -1131,14 +1131,14 @@ async function submitOrder(amount){
   try{
     const pm=await dropinInstance.requestPaymentMethod();
     const items=coPayable().map(i=>({sku:i.id,qty:i.qty}));
-    const res=await fetch(API+"/api/orders",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({items,ship,nonce:pm.nonce})});
+    const res=await fetch(API+"/api/orders",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({items,ship,nonce:pm.nonce,deviceData:pm.deviceData})});
     const d=await res.json();
     if(!res.ok||!d.paid) throw new Error(d.error||"payment did not complete");
     coPayable().forEach(i=>{delete cart[i.id]}); save("sc_cart",cart); renderCart();
     document.getElementById("coBody").innerHTML=`<div class="cosuccess">
       <div class="big">Order placed</div>
-      <p class="comsg ok">Order #${d.order_id} confirmed for ${fmt(d.subtotal)}. A receipt is on the way to ${coEsc(ship.email)}.</p>
-      <p style="color:var(--muted);font-size:.85rem">We will reach out about freight and delivery.</p>
+      <p class="comsg ok">Order #${d.order_id} confirmed for ${fmt(d.subtotal)}.</p>
+      <p style="color:var(--muted);font-size:.85rem">We will contact ${coEsc(ship.email)} to confirm details, freight, and delivery.</p>
       <button class="btn" style="justify-content:center;margin-top:1rem" onclick="closeCheckout()">Done</button></div>`;
   }catch(e){
     payBtn.disabled=false;
