@@ -221,7 +221,7 @@ app.get("/api/admin/orders", auth(), requireAdmin, async (req, res) => {
 // Create an order. Prices are recomputed server-side from the account's tier —
 // the client cannot send its own prices.
 app.post("/api/orders", orderLimiter, auth(false), async (req, res) => {
-  const { items, ship, nonce, deviceData } = req.body || {};
+  const { items, ship, nonce, deviceData, payment, poNumber } = req.body || {};
   if (!Array.isArray(items) || !items.length) return res.status(400).json({ error: "no items" });
   const tier = await tierFor(req.user);
   const m = await multiplier(tier);
@@ -243,10 +243,16 @@ app.post("/api/orders", orderLimiter, auth(false), async (req, res) => {
     const email = (req.user && req.user.email) || (ship && ship.email);
     if (!email) throw new Error("email required");
 
-    // Charge first. Only record the order if payment succeeds. Prices are
-    // computed above from the catalog, never taken from the client.
+    // Purchase order, or card charge. Prices are computed above from the
+    // catalog, never taken from the client.
     let status = "pending";
-    if (gateway) {
+    let poNum = null;
+    const method = (payment === "po") ? "po" : "card";
+    if (method === "po") {
+      poNum = (poNumber || "").toString().trim().slice(0, 60);
+      if (!poNum) throw new Error("a purchase order number is required");
+      status = "po";
+    } else if (gateway) {
       if (!nonce) throw new Error("payment required");
       const sale = await gateway.transaction.sale({
         amount: subtotal.toFixed(2),
@@ -260,16 +266,16 @@ app.post("/api/orders", orderLimiter, auth(false), async (req, res) => {
     }
 
     const o = await client.query(
-      `INSERT INTO orders (customer_id,email,tier,subtotal,status,braintree_txn,ship_name,ship_addr,ship_city,ship_state,ship_zip)
-       VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11) RETURNING id`,
-      [req.user && req.user.kind === "customer" ? req.user.id : null, email, tier, subtotal, status, txnId,
+      `INSERT INTO orders (customer_id,email,tier,subtotal,status,braintree_txn,po_number,ship_name,ship_addr,ship_city,ship_state,ship_zip)
+       VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12) RETURNING id`,
+      [req.user && req.user.kind === "customer" ? req.user.id : null, email, tier, subtotal, status, txnId, poNum,
        ship && ship.name, ship && ship.addr, ship && ship.city, ship && ship.state, ship && ship.zip]);
     const orderId = o.rows[0].id;
     for (const l of lines)
       await client.query("INSERT INTO order_items (order_id,sku,name,qty,unit_price) VALUES ($1,$2,$3,$4,$5)",
         [orderId, l.sku, l.name, l.qty, l.unit]);
     await client.query("COMMIT");
-    res.status(201).json({ order_id: orderId, tier, subtotal, status, paid: status === "paid" });
+    res.status(201).json({ order_id: orderId, tier, subtotal, status, paid: status === "paid", po: status === "po" });
   } catch (e) {
     await client.query("ROLLBACK");
     // If the card was charged but the order failed to save, void so nobody is billed for nothing.

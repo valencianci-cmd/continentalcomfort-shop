@@ -293,7 +293,7 @@ async function loadOrders(){
     for(const o of list){
       h+=`<tr>
         <td><div class="rowtitle">#${esc(o.id)}</div><div class="rowsub">${esc(when(o.created_at))}</div></td>
-        <td>${esc(o.email||"")}<div class="rowsub">${esc([o.ship_city,o.ship_state].filter(Boolean).join(", "))}</div></td>
+        <td>${esc(o.email||"")}<div class="rowsub">${esc([o.ship_city,o.ship_state].filter(Boolean).join(", "))}${o.po_number?(" · PO "+esc(o.po_number)):""}</div></td>
         <td class="hidesm"><span class="badge">${esc(tierLabel(o.tier))}</span></td>
         <td><span class="badge ${o.status==="paid"?"paid":""}">${esc(o.status)}</span></td>
         <td class="right nowrap">${money(o.subtotal)}</td>

@@ -1105,7 +1105,7 @@ applyBrand();route();renderCart();
 const API="https://continentalcomfort-api.onrender.com";
 const GUEST_M=1; // Guest pays full MSRP (list); trade discounts require an approved account
 const CHECKOUT_ON=true; // catalog verified against 2026 book; checkout live
-let dropinInstance=null;
+let dropinInstance=null,coMethod="card",coAmount=0;
 function coEsc(s){return String(s==null?"":s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
 function coVal(id){const el=document.getElementById(id);return el?el.value.trim():""}
 function setCoMsg(t,c){const el=document.getElementById("coMsg");if(el){el.textContent=t||"";el.className="comsg "+(c||"")}}
@@ -1132,12 +1132,30 @@ function openCheckout(){
       <div><label>State</label><input id="coState" maxlength="2" style="text-transform:uppercase"></div>
       <div><label>ZIP</label><input id="coZip" inputmode="numeric"></div>
     </div>
+    <div class="pm"><label>Payment method</label>
+      <div class="pmrow">
+        <button type="button" class="pmbtn active" id="pmCard" onclick="coSetPay('card')">Credit card</button>
+        <button type="button" class="pmbtn" id="pmPo" onclick="coSetPay('po')">Purchase order</button>
+      </div></div>
     <div id="dropin-container"></div>
+    <div id="poBox" style="display:none"><label>Purchase order number</label><input id="coPO" placeholder="e.g. PO-10432"></div>
     <button class="btn" id="coPay" style="justify-content:center" disabled>Loading payment</button>
     <p class="comsg" id="coMsg"></p>
     <p style="font-size:.7rem;color:var(--muted);text-align:center;margin:0">Freight and sales tax are handled separately for now.</p>`;
+  coMethod="card";coAmount=sub;
   document.getElementById("coModal").classList.add("open");
   initDropin(sub);
+}
+function coSetPay(m){
+  coMethod=m;
+  const c=document.getElementById("pmCard"),p=document.getElementById("pmPo");
+  if(c)c.classList.toggle("active",m==="card"); if(p)p.classList.toggle("active",m==="po");
+  const dc=document.getElementById("dropin-container"),pb=document.getElementById("poBox");
+  if(dc)dc.style.display=(m==="card")?"":"none"; if(pb)pb.style.display=(m==="po")?"":"none";
+  const pay=document.getElementById("coPay");
+  if(m==="po"){pay.disabled=false;pay.textContent="Place PO order";setCoMsg("","");}
+  else if(dropinInstance){pay.disabled=false;pay.textContent="Pay "+fmt(coAmount);}
+  else{pay.disabled=true;pay.textContent="Loading payment";}
 }
 async function initDropin(amount){
   const payBtn=document.getElementById("coPay");
@@ -1149,32 +1167,40 @@ async function initDropin(amount){
     if(dropinInstance){try{await dropinInstance.teardown()}catch(e){}dropinInstance=null}
     dropinInstance=await braintree.dropin.create({authorization:d.clientToken,container:"#dropin-container",dataCollector:true});
     setCoMsg("","");
-    payBtn.disabled=false; payBtn.textContent="Pay "+fmt(amount);
-    payBtn.onclick=()=>submitOrder(amount);
+    payBtn.onclick=()=>submitOrder();
+    if(coMethod==="card"){payBtn.disabled=false; payBtn.textContent="Pay "+fmt(coAmount);}
   }catch(e){setCoMsg("Could not start checkout. "+(e.message||""),"err")}
 }
-async function submitOrder(amount){
+async function submitOrder(){
   const payBtn=document.getElementById("coPay");
   const ship={name:coVal("coName"),email:coVal("coEmail"),addr:coVal("coAddr"),city:coVal("coCity"),state:coVal("coState").toUpperCase(),zip:coVal("coZip")};
   if(!ship.name||!ship.email||!ship.addr||!ship.city||!ship.state||!ship.zip){setCoMsg("Please fill in your name, email, and full shipping address.","err");return}
-  if(!dropinInstance){setCoMsg("Payment is not ready yet.","err");return}
-  payBtn.disabled=true; setCoMsg("Processing payment","info");
+  const items=coPayable().map(i=>({sku:i.id,qty:i.qty}));
+  let body;
+  if(coMethod==="po"){
+    const po=coVal("coPO");
+    if(!po){setCoMsg("Enter your purchase order number.","err");return}
+    body={items,ship,payment:"po",poNumber:po};
+  }else if(!dropinInstance){setCoMsg("Payment is not ready yet.","err");return}
+  payBtn.disabled=true; setCoMsg(coMethod==="po"?"Placing order…":"Processing payment","info");
   try{
-    const pm=await dropinInstance.requestPaymentMethod();
-    const items=coPayable().map(i=>({sku:i.id,qty:i.qty}));
-    const res=await fetch(API+"/api/orders",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({items,ship,nonce:pm.nonce,deviceData:pm.deviceData})});
+    if(coMethod==="card"){
+      const pm=await dropinInstance.requestPaymentMethod();
+      body={items,ship,nonce:pm.nonce,deviceData:pm.deviceData};
+    }
+    const res=await fetch(API+"/api/orders",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(body)});
     const d=await res.json();
-    if(!res.ok||!d.paid) throw new Error(d.error||"payment did not complete");
+    if(!res.ok||!(d.paid||d.po)) throw new Error(d.error||"order could not be completed");
     coPayable().forEach(i=>{delete cart[i.id]}); save("sc_cart",cart); renderCart();
     document.getElementById("coBody").innerHTML=`<div class="cosuccess">
-      <div class="big">Order placed</div>
-      <p class="comsg ok">Order #${d.order_id} confirmed for ${fmt(d.subtotal)}.</p>
+      <div class="big">${d.po?"PO order placed":"Order placed"}</div>
+      <p class="comsg ok">${d.po?("Order #"+d.order_id+" placed on your purchase order for "+fmt(d.subtotal)+"."):("Order #"+d.order_id+" confirmed for "+fmt(d.subtotal)+".")}</p>
       <p style="color:var(--muted);font-size:.85rem">We will contact ${coEsc(ship.email)} to confirm details, freight, and delivery.</p>
       <button class="btn" style="justify-content:center;margin-top:1rem" onclick="closeCheckout()">Done</button></div>`;
   }catch(e){
     payBtn.disabled=false;
     const m=String(e.message||"");
-    setCoMsg(/declin/i.test(m)?"Card declined. Please try another card.":"Payment could not be completed. "+m,"err");
+    setCoMsg(/declin/i.test(m)?"Card declined. Please try another card.":("Could not complete: "+m),"err");
   }
 }
 function closeCheckout(){document.getElementById("coModal").classList.remove("open");if(dropinInstance){dropinInstance.teardown().catch(()=>{});dropinInstance=null}}
@@ -1187,6 +1213,7 @@ function closeCheckout(){document.getElementById("coModal").classList.remove("op
 .cohead{display:flex;align-items:center;justify-content:space-between;padding:1rem 1.2rem;border-bottom:1px solid var(--line)}
 .cohead h3{font-size:1.2rem;text-transform:uppercase;letter-spacing:.02em;margin:0}
 .cobody{padding:1.2rem;display:flex;flex-direction:column;gap:.85rem;max-height:82vh;overflow:auto}
+.cobody>*{flex:0 0 auto;min-height:0}
 .cosum{background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:.85rem}
 .cosum .r{display:flex;justify-content:space-between;gap:1rem;font-size:.85rem;color:var(--muted);margin:.18rem 0}
 .cosum .r.tot{font-family:var(--head);font-weight:700;font-size:1.1rem;color:var(--fg);margin-top:.45rem}
@@ -1197,6 +1224,12 @@ function closeCheckout(){document.getElementById("coModal").classList.remove("op
 .cof input:focus{outline:none;border-color:var(--accent)}
 .comsg{font-size:.84rem;margin:0;min-height:1em}
 .comsg.err{color:#e0564f}.comsg.ok{color:#38c67f}.comsg.info{color:var(--muted)}
+.pm label,#poBox label{display:block;font-size:.68rem;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;font-family:var(--head);margin:0 0 .35rem}
+.pmrow{display:flex;gap:.5rem}
+.pmbtn{flex:1;padding:.6rem;border:1px solid var(--line);background:var(--bg);color:var(--fg);border-radius:8px;font-family:var(--head);font-size:.82rem;cursor:pointer}
+.pmbtn.active{border-color:var(--accent);box-shadow:inset 0 0 0 1px var(--accent)}
+#poBox input{width:100%;background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:.6rem .65rem;color:var(--fg);font-size:.95rem}
+#poBox input:focus{outline:none;border-color:var(--accent)}
 .cosuccess{text-align:center;padding:1.4rem .5rem}
 .cosuccess .big{font-family:var(--head);font-size:1.55rem;margin:.3rem 0}
 </style>

@@ -16,6 +16,7 @@ const pool = new Pool({
   try {
     const sql = fs.readFileSync(path.join(__dirname, "schema.sql"), "utf8");
     await pool.query(sql);
+    await pool.query("ALTER TABLE orders ADD COLUMN IF NOT EXISTS po_number TEXT");
     console.log("schema applied");
 
     // Catalog: upsert every product so prices/fields stay in sync with the file.
