@@ -305,9 +305,6 @@ footer a:hover{color:#fff}
     </form>
     <div class="top-actions">
       <button class="icon-btn brandbtn" id="brandBtn" onclick="switchBrand()" aria-label="Switch brand" title="Switch brand">Shop Napoleon</button>
-      <button class="icon-btn" onclick="toggleTheme()" aria-label="Toggle theme" title="Theme">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v2m0 14v2M5.6 5.6l1.4 1.4m10 10 1.4 1.4M3 12h2m14 0h2M5.6 18.4l1.4-1.4m10-10 1.4-1.4"/><circle cx="12" cy="12" r="4"/></svg>
-      </button>
       <button class="icon-btn" onclick="openCart()" aria-label="Open cart" title="Cart">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="20" r="1.4"/><circle cx="18" cy="20" r="1.4"/><path d="M2 3h2.2l2.1 12.3a2 2 0 0 0 2 1.7h8.4a2 2 0 0 0 2-1.6L21 7H6"/></svg>
         <span class="cart-count" id="cartCount" hidden>0</span>
@@ -359,6 +356,7 @@ footer a:hover{color:#fff}
     <div class="foot-note">
       <span>© 2026 Continental is a Napoleon / Wolf Steel Ltd. brand, private-labeled for the Americas. Store operated by Skip The Warehouse.</span>
       <span>Prototype, sample pricing and placeholder bundles for layout review.</span>
+      <span id="napBack" style="display:none"><a href="#" onclick="switchBrand();return false;" style="color:var(--accent);font-family:var(--head);text-transform:uppercase;letter-spacing:.06em;font-weight:600;text-decoration:none">&larr; Back to Continental</a></span>
     </div>
   </div>
 </footer>
@@ -805,7 +803,6 @@ function renderCart(){
 function checkoutMsg(){const f=document.getElementById("cartFoot");const n=document.createElement("p");n.style.cssText="font-size:.78rem;color:var(--accent);margin:.2rem 0 0;text-align:center";n.textContent="Prototype checkout, payment and fulfillment wire up in the production build.";f.appendChild(n)}
 
 function setTier(v){tier=v;save("sc_tier",v);route();renderCart()}
-function toggleTheme(){const r=document.documentElement;const cur=r.getAttribute("data-theme")||(matchMedia("(prefers-color-scheme:dark)").matches?"dark":"light");const nx=cur==="dark"?"light":"dark";r.setAttribute("data-theme",nx);save("sc_theme",nx)}
 const BRAND={continental:{name:"Continental",op:'Exclusive online<br>distributor'},napoleon:{name:"Napoleon",op:'Innovation<br>Built Better'}};
 let brand=(load("sc_nap",0)===1 && load("sc_brand","continental")==="napoleon")?"napoleon":"continental";
 function mdl(m){if(brand!=="napoleon"||!m)return m;m=String(m).replace(/^CD/,"ND");return m.replace(/-C\b/g,"-N")}
@@ -816,7 +813,8 @@ function applyBrand(){
   var op=document.getElementById("brandOp"); if(op) op.innerHTML=BRAND[brand].op;
   document.querySelectorAll(".contImg").forEach(function(e){e.style.display=brand==="continental"?"":"none"});
   document.querySelectorAll(".napImg").forEach(function(e){e.style.display=brand==="napoleon"?"":"none"});
-  var bb=document.getElementById("brandBtn"); if(bb) bb.textContent=brand==="continental"?"Shop Napoleon":"Shop Continental";
+  var bb=document.getElementById("brandBtn"); if(bb){bb.textContent="Shop Napoleon";bb.style.display=brand==="continental"?"":"none";}
+  var nb=document.getElementById("napBack"); if(nb) nb.style.display=brand==="napoleon"?"":"none";
 }
 function switchBrand(){
   if(brand==="continental"){
@@ -828,7 +826,6 @@ function switchBrand(){
 function openPass(){var m=document.getElementById("passModal");m.style.display="flex";var er=document.getElementById("passErr");if(er)er.style.display="none";setTimeout(function(){var i=document.getElementById("passInput");if(i){i.value="";i.focus();}},30);}
 function closePass(){document.getElementById("passModal").style.display="none";}
 function submitPass(e){if(e)e.preventDefault();var v=(document.getElementById("passInput").value||"").trim();if(v==="583973"){save("sc_nap",1);brand="napoleon";save("sc_brand","napoleon");closePass();applyBrand();route();}else{var er=document.getElementById("passErr");if(er)er.style.display="block";}return false;}
-(function(){const t=load("sc_theme",null);if(t)document.documentElement.setAttribute("data-theme",t);})();
 
 function money(p){return `<div class="price"><div class="lab">${TIERS[tier].lab}</div><div class="val tnum">${p.from?'<span class="from">from </span>':''}${fmt(priceOf(p))}</div></div>`}
 function badges(p){const b=[];const s=p.specs;
