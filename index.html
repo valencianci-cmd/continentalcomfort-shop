@@ -772,7 +772,7 @@ function resolveLine(key){
   if(key.startsWith("sys-")){const b=SYS_BUNDLES.find(x=>x.ahri===key.slice(4));if(!b)return null;
     return {name:b.seer+" System · "+b.ton+" Ton",model:"AHRI# "+b.ahri+" · "+toC(b.cond),img:AC_IMG,price:bundlePrice(b)};}
   if(key.startsWith("hp-")){const s=HP_SYSTEMS.find(x=>x.ahri===key.slice(3));if(!s)return null;
-    return {name:s.seer2+" SEER2 Heat Pump System · "+s.ton+" Ton",model:"AHRI# "+s.ahri+" · "+s.hp,img:HP_IMG,price:s.price*(tier==="home"?1:tier==="contractor"?0.80:0.70)};}
+    return {name:s.seer2+" SEER2 Heat Pump System · "+s.ton+" Ton",model:"AHRI# "+s.ahri+" · "+s.hp,img:HP_IMG,price:s.msrp*(tier==="home"?1:tier==="contractor"?0.80:0.70)};}
   if(key.startsWith("acc-")){const a=ACCESSORIES.find(x=>x.model.replace(/'/g,"")===key.slice(4));if(!a)return null;
     return {name:a.desc,model:a.model,img:COIL_IMG,price:accPrice(a)};}
   if(key.startsWith("ds-")){const s=DUCTLESS_SYSTEMS.find(x=>x.id===key.slice(3));if(!s)return null;
