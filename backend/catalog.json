@@ -1075,19 +1075,67 @@
   }
  },
  {
-  "sku": "multizone",
-  "napoleon_sku": "NDHAMBB-36-O",
-  "name": "Multi-Zone Heat Pump, 36,000 BTU",
+  "sku": "cdhambb18o",
+  "napoleon_sku": "NDHAMBB-18-O",
+  "name": "Multi-Zone Outdoor Unit, 18K (3 zones)",
   "category": "ductless",
-  "list_price": 3465,
+  "list_price": 3300,
   "image_url": "https://images.salsify.com/image/upload/s--6Cuvun5L--/jpy8wdffjgnkxcd8obqb.png",
   "specs": {
-   "Cooling / Heating": "36,000 BTU/h",
+   "Type": "Multi-zone outdoor unit",
+   "Nominal capacity": "18,000 BTU/h",
+   "Zones": "Up to 3 indoor units",
+   "Cold climate": "Heats to -22F",
+   "Refrigerant": "R-454B",
+   "Model": "CDHAMBB-18-O"
+  }
+ },
+ {
+  "sku": "cdhambb27o",
+  "napoleon_sku": "NDHAMBB-27-O",
+  "name": "Multi-Zone Outdoor Unit, 27K (4 zones)",
+  "category": "ductless",
+  "list_price": 4065,
+  "image_url": "https://images.salsify.com/image/upload/s--6Cuvun5L--/jpy8wdffjgnkxcd8obqb.png",
+  "specs": {
+   "Type": "Multi-zone outdoor unit",
+   "Nominal capacity": "27,000 BTU/h",
+   "Zones": "Up to 4 indoor units",
+   "Cold climate": "Heats to -22F",
+   "Refrigerant": "R-454B",
+   "Model": "CDHAMBB-27-O"
+  }
+ },
+ {
+  "sku": "cdhambb36o",
+  "napoleon_sku": "NDHAMBB-36-O",
+  "name": "Multi-Zone Outdoor Unit, 36K (5 zones)",
+  "category": "ductless",
+  "list_price": 5600,
+  "image_url": "https://images.salsify.com/image/upload/s--6Cuvun5L--/jpy8wdffjgnkxcd8obqb.png",
+  "specs": {
+   "Type": "Multi-zone outdoor unit",
+   "Nominal capacity": "36,000 BTU/h",
    "Zones": "Up to 5 indoor units",
    "Cold climate": "Heats to -22F",
-   "Refrigerant": "R-454B (low-GWP)",
-   "Stock": "In stock, Dillsburg PA",
+   "Refrigerant": "R-454B",
    "Model": "CDHAMBB-36-O"
+  }
+ },
+ {
+  "sku": "cdhambb48o",
+  "napoleon_sku": "NDHAMBB-48-O",
+  "name": "Multi-Zone Outdoor Unit, 48K (6 zones)",
+  "category": "ductless",
+  "list_price": 6080,
+  "image_url": "https://images.salsify.com/image/upload/s--6Cuvun5L--/jpy8wdffjgnkxcd8obqb.png",
+  "specs": {
+   "Type": "Multi-zone outdoor unit",
+   "Nominal capacity": "48,000 BTU/h",
+   "Zones": "Up to 6 indoor units",
+   "Cold climate": "Heats to -22F",
+   "Refrigerant": "R-454B",
+   "Model": "CDHAMBB-48-O"
   }
  },
  {
@@ -1414,6 +1462,36 @@
    "Type": "Cased evaporator coil",
    "Refrigerant": "R-454B ready",
    "Model": "CE48C3J-225L-000"
+  }
+ },
+ {
+  "sku": "dc61b4j225l",
+  "napoleon_sku": "DC61B4J-225L-000",
+  "name": "Cased Coil DC61B4J-225L, 5 Ton",
+  "category": "coils",
+  "list_price": 1545,
+  "image_url": "/aspen-coil.png",
+  "specs": {
+   "Tonnage": "5 ton",
+   "Cabinet width": "22.5\"",
+   "Type": "Cased evaporator coil",
+   "Refrigerant": "R-454B ready",
+   "Model": "DC61B4J-225L-000"
+  }
+ },
+ {
+  "sku": "de61b4j225l",
+  "napoleon_sku": "DE61B4J-225L-000",
+  "name": "Cased Coil DE61B4J-225L, 5 Ton",
+  "category": "coils",
+  "list_price": 1600,
+  "image_url": "/aspen-coil.png",
+  "specs": {
+   "Tonnage": "5 ton",
+   "Cabinet width": "22.5\"",
+   "Type": "Cased evaporator coil",
+   "Refrigerant": "R-454B ready",
+   "Model": "DE61B4J-225L-000"
   }
  }
 ]
