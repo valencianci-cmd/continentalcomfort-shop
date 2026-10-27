@@ -973,7 +973,25 @@ function hpCard(s){
       <button class="btn sm" onclick="addHpSys('${s.ahri}')">Add system</button></div>
   </div>`;
 }
-function addHpSys(ahri){const s=HP_SYSTEMS.find(x=>x.ahri===ahri);if(!s)return;const key="hp-"+ahri;cart[key]=(cart[key]||0)+1;save("sc_cart",cart);renderCart();bump();openCart()}
+function addHpSys(ahri){const s=HP_SYSTEMS.find(x=>x.ahri===ahri);if(!s)return;const key="hp-"+ahri;cart[key]=(cart[key]||0)+1;save("sc_cart",cart);renderCart();bump();furnacePrompt()}
+function furnacePrompt(){
+  const ov=document.createElement("div");
+  ov.className="comodal open"; ov.style.zIndex="90";
+  ov.innerHTML=`<div class="cobox" style="max-width:380px">
+    <div class="cohead"><h3>Add a furnace?</h3>
+      <button class="icon-btn" aria-label="Close" id="fpX"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 6l12 12M18 6 6 18"/></svg></button></div>
+    <div class="cobody">
+      <p style="margin:.1rem 0 .6rem">Cold Climate Heat Pumps pair with a Continental gas furnace for a hybrid, dual-fuel system. Would you like to add a furnace?</p>
+      <button class="btn" style="justify-content:center" id="fpYes">Yes, show furnaces</button>
+      <button class="btn ghost" style="justify-content:center" id="fpNo">No thanks</button>
+    </div></div>`;
+  document.body.appendChild(ov);
+  const close=()=>ov.remove();
+  ov.querySelector("#fpYes").onclick=()=>{close();go('#/c/furnaces')};
+  ov.querySelector("#fpNo").onclick=close;
+  ov.querySelector("#fpX").onclick=close;
+  ov.addEventListener("click",e=>{if(e.target===ov)close()});
+}
 const dsImg=s=>s.series==="Premium"?IMG+"s--LDphtgMY--/yxnqip8adhgfwde2likq.png":IMG+"s--YCveO2cY--/am5oyqtkbut7zdaiw48p.png";
 function dsCard(s){
   const price=s.msrp*(tier==="home"?1:tier==="contractor"?0.80:0.70);const di=dsImg(s);
