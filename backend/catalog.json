@@ -690,33 +690,388 @@
   }
  },
  {
-  "sku": "cdhas22",
-  "napoleon_sku": "NDHAS22BB-…-N",
-  "name": "CDHAS22BB Single-Zone Heat Pump",
+  "sku": "cdhas22ba12o",
+  "napoleon_sku": "NDHAS22BA-12-O",
+  "name": "Premium Outdoor Unit, 12K",
   "category": "ductless",
-  "list_price": 1590,
+  "list_price": 1670,
   "image_url": "https://images.salsify.com/image/upload/s--LDphtgMY--/yxnqip8adhgfwde2likq.png",
   "specs": {
-   "Efficiency": "Up to 24 SEER2",
-   "Refrigerant": "R-454B (low-GWP)",
-   "Capacity": "12k / 18k / 24k BTU",
-   "Certification": "Energy Star & NEEP",
-   "Model": "CDHAS22BB-…-C"
+   "Type": "Outdoor Unit",
+   "Nominal capacity": "12,000 BTU/h",
+   "Refrigerant": "R-454B",
+   "Series": "Premium (22 SEER2)",
+   "Model": "CDHAS22BA-12-O"
   }
  },
  {
-  "sku": "cdhas26",
-  "napoleon_sku": "NDHAS26-…-N",
-  "name": "CDHAS26 Single-Zone Heat Pump",
+  "sku": "cdhas22ba18o",
+  "napoleon_sku": "NDHAS22BA-18-O",
+  "name": "Premium Outdoor Unit, 18K",
   "category": "ductless",
-  "list_price": 2090,
+  "list_price": 2180,
+  "image_url": "https://images.salsify.com/image/upload/s--LDphtgMY--/yxnqip8adhgfwde2likq.png",
+  "specs": {
+   "Type": "Outdoor Unit",
+   "Nominal capacity": "18,000 BTU/h",
+   "Refrigerant": "R-454B",
+   "Series": "Premium (22 SEER2)",
+   "Model": "CDHAS22BA-18-O"
+  }
+ },
+ {
+  "sku": "cdhas22ba24o",
+  "napoleon_sku": "NDHAS22BA-24-O",
+  "name": "Premium Outdoor Unit, 24K",
+  "category": "ductless",
+  "list_price": 3055,
+  "image_url": "https://images.salsify.com/image/upload/s--LDphtgMY--/yxnqip8adhgfwde2likq.png",
+  "specs": {
+   "Type": "Outdoor Unit",
+   "Nominal capacity": "24,000 BTU/h",
+   "Refrigerant": "R-454B",
+   "Series": "Premium (22 SEER2)",
+   "Model": "CDHAS22BA-24-O"
+  }
+ },
+ {
+  "sku": "cdhas26ba09o",
+  "napoleon_sku": "NDHAS26BA-09-O",
+  "name": "Ultimate Outdoor Unit, 9K",
+  "category": "ductless",
+  "list_price": 1950,
   "image_url": "https://images.salsify.com/image/upload/s--YCveO2cY--/am5oyqtkbut7zdaiw48p.png",
   "specs": {
-   "Efficiency": "Up to 25.5 SEER2",
-   "Refrigerant": "R-454B (low-GWP)",
-   "Capacity": "12k / 18k / 24k BTU",
-   "Cold climate": "Heats to −22°F",
-   "Model": "CDHAS26-…-C"
+   "Type": "Outdoor Unit",
+   "Nominal capacity": "9,000 BTU/h",
+   "Refrigerant": "R-454B",
+   "Series": "Ultimate (26 SEER2, cold-climate)",
+   "Cold climate": "Heats to -22F",
+   "Model": "CDHAS26BA-09-O"
+  }
+ },
+ {
+  "sku": "cdhas26ba12o",
+  "napoleon_sku": "NDHAS26BA-12-O",
+  "name": "Ultimate Outdoor Unit, 12K",
+  "category": "ductless",
+  "list_price": 2070,
+  "image_url": "https://images.salsify.com/image/upload/s--YCveO2cY--/am5oyqtkbut7zdaiw48p.png",
+  "specs": {
+   "Type": "Outdoor Unit",
+   "Nominal capacity": "12,000 BTU/h",
+   "Refrigerant": "R-454B",
+   "Series": "Ultimate (26 SEER2, cold-climate)",
+   "Cold climate": "Heats to -22F",
+   "Model": "CDHAS26BA-12-O"
+  }
+ },
+ {
+  "sku": "cdhas26ba18o",
+  "napoleon_sku": "NDHAS26BA-18-O",
+  "name": "Ultimate Outdoor Unit, 18K",
+  "category": "ductless",
+  "list_price": 2510,
+  "image_url": "https://images.salsify.com/image/upload/s--YCveO2cY--/am5oyqtkbut7zdaiw48p.png",
+  "specs": {
+   "Type": "Outdoor Unit",
+   "Nominal capacity": "18,000 BTU/h",
+   "Refrigerant": "R-454B",
+   "Series": "Ultimate (26 SEER2, cold-climate)",
+   "Cold climate": "Heats to -22F",
+   "Model": "CDHAS26BA-18-O"
+  }
+ },
+ {
+  "sku": "cdhas26ba24o",
+  "napoleon_sku": "NDHAS26BA-24-O",
+  "name": "Ultimate Outdoor Unit, 24K",
+  "category": "ductless",
+  "list_price": 3705,
+  "image_url": "https://images.salsify.com/image/upload/s--YCveO2cY--/am5oyqtkbut7zdaiw48p.png",
+  "specs": {
+   "Type": "Outdoor Unit",
+   "Nominal capacity": "24,000 BTU/h",
+   "Refrigerant": "R-454B",
+   "Series": "Ultimate (26 SEER2, cold-climate)",
+   "Cold climate": "Heats to -22F",
+   "Model": "CDHAS26BA-24-O"
+  }
+ },
+ {
+  "sku": "cdhas22bb09i",
+  "napoleon_sku": "NDHAS22BB-09-I",
+  "name": "Premium High-Wall Indoor, 9K",
+  "category": "ductless",
+  "list_price": 790,
+  "image_url": "https://images.salsify.com/image/upload/s--LDphtgMY--/yxnqip8adhgfwde2likq.png",
+  "specs": {
+   "Type": "High-Wall Indoor",
+   "Nominal capacity": "9,000 BTU/h",
+   "Refrigerant": "R-454B",
+   "Series": "Premium (22 SEER2)",
+   "Model": "CDHAS22BB-09-I"
+  }
+ },
+ {
+  "sku": "cdhas22bb12i",
+  "napoleon_sku": "NDHAS22BB-12-I",
+  "name": "Premium High-Wall Indoor, 12K",
+  "category": "ductless",
+  "list_price": 825,
+  "image_url": "https://images.salsify.com/image/upload/s--LDphtgMY--/yxnqip8adhgfwde2likq.png",
+  "specs": {
+   "Type": "High-Wall Indoor",
+   "Nominal capacity": "12,000 BTU/h",
+   "Refrigerant": "R-454B",
+   "Series": "Premium (22 SEER2)",
+   "Model": "CDHAS22BB-12-I"
+  }
+ },
+ {
+  "sku": "cdhas22bb18i",
+  "napoleon_sku": "NDHAS22BB-18-I",
+  "name": "Premium High-Wall Indoor, 18K",
+  "category": "ductless",
+  "list_price": 1055,
+  "image_url": "https://images.salsify.com/image/upload/s--LDphtgMY--/yxnqip8adhgfwde2likq.png",
+  "specs": {
+   "Type": "High-Wall Indoor",
+   "Nominal capacity": "18,000 BTU/h",
+   "Refrigerant": "R-454B",
+   "Series": "Premium (22 SEER2)",
+   "Model": "CDHAS22BB-18-I"
+  }
+ },
+ {
+  "sku": "cdhas22bb24i",
+  "napoleon_sku": "NDHAS22BB-24-I",
+  "name": "Premium High-Wall Indoor, 24K",
+  "category": "ductless",
+  "list_price": 1215,
+  "image_url": "https://images.salsify.com/image/upload/s--LDphtgMY--/yxnqip8adhgfwde2likq.png",
+  "specs": {
+   "Type": "High-Wall Indoor",
+   "Nominal capacity": "24,000 BTU/h",
+   "Refrigerant": "R-454B",
+   "Series": "Premium (22 SEER2)",
+   "Model": "CDHAS22BB-24-I"
+  }
+ },
+ {
+  "sku": "cdhas26bb06i",
+  "napoleon_sku": "NDHAS26BB-06-I",
+  "name": "Ultimate High-Wall Indoor, 6K",
+  "category": "ductless",
+  "list_price": 845,
+  "image_url": "https://images.salsify.com/image/upload/s--YCveO2cY--/am5oyqtkbut7zdaiw48p.png",
+  "specs": {
+   "Type": "High-Wall Indoor",
+   "Nominal capacity": "6,000 BTU/h",
+   "Refrigerant": "R-454B",
+   "Series": "Ultimate (26 SEER2, cold-climate)",
+   "Model": "CDHAS26BB-06-I"
+  }
+ },
+ {
+  "sku": "cdhas26bb09i",
+  "napoleon_sku": "NDHAS26BB-09-I",
+  "name": "Ultimate High-Wall Indoor, 9K",
+  "category": "ductless",
+  "list_price": 890,
+  "image_url": "https://images.salsify.com/image/upload/s--YCveO2cY--/am5oyqtkbut7zdaiw48p.png",
+  "specs": {
+   "Type": "High-Wall Indoor",
+   "Nominal capacity": "9,000 BTU/h",
+   "Refrigerant": "R-454B",
+   "Series": "Ultimate (26 SEER2, cold-climate)",
+   "Model": "CDHAS26BB-09-I"
+  }
+ },
+ {
+  "sku": "cdhas26bb12i",
+  "napoleon_sku": "NDHAS26BB-12-I",
+  "name": "Ultimate High-Wall Indoor, 12K",
+  "category": "ductless",
+  "list_price": 915,
+  "image_url": "https://images.salsify.com/image/upload/s--YCveO2cY--/am5oyqtkbut7zdaiw48p.png",
+  "specs": {
+   "Type": "High-Wall Indoor",
+   "Nominal capacity": "12,000 BTU/h",
+   "Refrigerant": "R-454B",
+   "Series": "Ultimate (26 SEER2, cold-climate)",
+   "Model": "CDHAS26BB-12-I"
+  }
+ },
+ {
+  "sku": "cdhas26bb18i",
+  "napoleon_sku": "NDHAS26BB-18-I",
+  "name": "Ultimate High-Wall Indoor, 18K",
+  "category": "ductless",
+  "list_price": 1145,
+  "image_url": "https://images.salsify.com/image/upload/s--YCveO2cY--/am5oyqtkbut7zdaiw48p.png",
+  "specs": {
+   "Type": "High-Wall Indoor",
+   "Nominal capacity": "18,000 BTU/h",
+   "Refrigerant": "R-454B",
+   "Series": "Ultimate (26 SEER2, cold-climate)",
+   "Model": "CDHAS26BB-18-I"
+  }
+ },
+ {
+  "sku": "cdhas26bb24i",
+  "napoleon_sku": "NDHAS26BB-24-I",
+  "name": "Ultimate High-Wall Indoor, 24K",
+  "category": "ductless",
+  "list_price": 1475,
+  "image_url": "https://images.salsify.com/image/upload/s--YCveO2cY--/am5oyqtkbut7zdaiw48p.png",
+  "specs": {
+   "Type": "High-Wall Indoor",
+   "Nominal capacity": "24,000 BTU/h",
+   "Refrigerant": "R-454B",
+   "Series": "Ultimate (26 SEER2, cold-climate)",
+   "Model": "CDHAS26BB-24-I"
+  }
+ },
+ {
+  "sku": "cdhas26bb33i",
+  "napoleon_sku": "NDHAS26BB-33-I",
+  "name": "Ultimate High-Wall Indoor, 33K",
+  "category": "ductless",
+  "list_price": 1690,
+  "image_url": "https://images.salsify.com/image/upload/s--YCveO2cY--/am5oyqtkbut7zdaiw48p.png",
+  "specs": {
+   "Type": "High-Wall Indoor",
+   "Nominal capacity": "33,000 BTU/h",
+   "Refrigerant": "R-454B",
+   "Series": "Ultimate (26 SEER2, cold-climate)",
+   "Model": "CDHAS26BB-33-I"
+  }
+ },
+ {
+  "sku": "cdhas4cbb12",
+  "napoleon_sku": "NDHAS4CBB-12",
+  "name": "4-Way Cassette Indoor, 12K",
+  "category": "ductless",
+  "list_price": 900,
+  "image_url": "https://images.salsify.com/image/upload/s--YCveO2cY--/am5oyqtkbut7zdaiw48p.png",
+  "specs": {
+   "Type": "4-Way Cassette Indoor",
+   "Nominal capacity": "12,000 BTU/h",
+   "Refrigerant": "R-454B",
+   "Model": "CDHAS4CBB-12"
+  }
+ },
+ {
+  "sku": "cdhas4cbb18",
+  "napoleon_sku": "NDHAS4CBB-18",
+  "name": "4-Way Cassette Indoor, 18K",
+  "category": "ductless",
+  "list_price": 1000,
+  "image_url": "https://images.salsify.com/image/upload/s--YCveO2cY--/am5oyqtkbut7zdaiw48p.png",
+  "specs": {
+   "Type": "4-Way Cassette Indoor",
+   "Nominal capacity": "18,000 BTU/h",
+   "Refrigerant": "R-454B",
+   "Model": "CDHAS4CBB-18"
+  }
+ },
+ {
+  "sku": "cdhascbb09",
+  "napoleon_sku": "NDHASCBB-09",
+  "name": "Floor Console Indoor, 9K",
+  "category": "ductless",
+  "list_price": 930,
+  "image_url": "https://images.salsify.com/image/upload/s--YCveO2cY--/am5oyqtkbut7zdaiw48p.png",
+  "specs": {
+   "Type": "Floor Console Indoor",
+   "Nominal capacity": "9,000 BTU/h",
+   "Refrigerant": "R-454B",
+   "Model": "CDHASCBB-09"
+  }
+ },
+ {
+  "sku": "cdhascbb12",
+  "napoleon_sku": "NDHASCBB-12",
+  "name": "Floor Console Indoor, 12K",
+  "category": "ductless",
+  "list_price": 980,
+  "image_url": "https://images.salsify.com/image/upload/s--YCveO2cY--/am5oyqtkbut7zdaiw48p.png",
+  "specs": {
+   "Type": "Floor Console Indoor",
+   "Nominal capacity": "12,000 BTU/h",
+   "Refrigerant": "R-454B",
+   "Model": "CDHASCBB-12"
+  }
+ },
+ {
+  "sku": "cdhascbb18",
+  "napoleon_sku": "NDHASCBB-18",
+  "name": "Floor Console Indoor, 18K",
+  "category": "ductless",
+  "list_price": 1030,
+  "image_url": "https://images.salsify.com/image/upload/s--YCveO2cY--/am5oyqtkbut7zdaiw48p.png",
+  "specs": {
+   "Type": "Floor Console Indoor",
+   "Nominal capacity": "18,000 BTU/h",
+   "Refrigerant": "R-454B",
+   "Model": "CDHASCBB-18"
+  }
+ },
+ {
+  "sku": "cdhashdbb09",
+  "napoleon_sku": "NDHASHDBB-09",
+  "name": "Slim Duct Indoor, 9K",
+  "category": "ductless",
+  "list_price": 1135,
+  "image_url": "https://images.salsify.com/image/upload/s--YCveO2cY--/am5oyqtkbut7zdaiw48p.png",
+  "specs": {
+   "Type": "Slim Duct Indoor",
+   "Nominal capacity": "9,000 BTU/h",
+   "Refrigerant": "R-454B",
+   "Model": "CDHASHDBB-09"
+  }
+ },
+ {
+  "sku": "cdhashdbb12",
+  "napoleon_sku": "NDHASHDBB-12",
+  "name": "Slim Duct Indoor, 12K",
+  "category": "ductless",
+  "list_price": 1290,
+  "image_url": "https://images.salsify.com/image/upload/s--YCveO2cY--/am5oyqtkbut7zdaiw48p.png",
+  "specs": {
+   "Type": "Slim Duct Indoor",
+   "Nominal capacity": "12,000 BTU/h",
+   "Refrigerant": "R-454B",
+   "Model": "CDHASHDBB-12"
+  }
+ },
+ {
+  "sku": "cdhashdbb18",
+  "napoleon_sku": "NDHASHDBB-18",
+  "name": "Slim Duct Indoor, 18K",
+  "category": "ductless",
+  "list_price": 1440,
+  "image_url": "https://images.salsify.com/image/upload/s--YCveO2cY--/am5oyqtkbut7zdaiw48p.png",
+  "specs": {
+   "Type": "Slim Duct Indoor",
+   "Nominal capacity": "18,000 BTU/h",
+   "Refrigerant": "R-454B",
+   "Model": "CDHASHDBB-18"
+  }
+ },
+ {
+  "sku": "cdhashdbb24",
+  "napoleon_sku": "NDHASHDBB-24",
+  "name": "Slim Duct Indoor, 24K",
+  "category": "ductless",
+  "list_price": 1600,
+  "image_url": "https://images.salsify.com/image/upload/s--YCveO2cY--/am5oyqtkbut7zdaiw48p.png",
+  "specs": {
+   "Type": "Slim Duct Indoor",
+   "Nominal capacity": "24,000 BTU/h",
+   "Refrigerant": "R-454B",
+   "Model": "CDHASHDBB-24"
   }
  },
  {
@@ -849,6 +1204,216 @@
    "Dimensions": "28½ x 24½ x 21¼ in",
    "Weight": "110 lb",
    "Model": "WPCC60ABA1-C"
+  }
+ },
+ {
+  "sku": "cc24b2j175l",
+  "napoleon_sku": "CC24B2J-175L-000",
+  "name": "Cased Coil CC24B2J-175L, 2 Ton",
+  "category": "coils",
+  "list_price": 980,
+  "image_url": "/aspen-coil.png",
+  "specs": {
+   "Tonnage": "2 ton",
+   "Cabinet width": "17.5\"",
+   "Type": "Cased evaporator coil",
+   "Refrigerant": "R-454B ready",
+   "Model": "CC24B2J-175L-000"
+  }
+ },
+ {
+  "sku": "cc24b3j175l",
+  "napoleon_sku": "CC24B3J-175L-000",
+  "name": "Cased Coil CC24B3J-175L, 2 Ton",
+  "category": "coils",
+  "list_price": 1085,
+  "image_url": "/aspen-coil.png",
+  "specs": {
+   "Tonnage": "2 ton",
+   "Cabinet width": "17.5\"",
+   "Type": "Cased evaporator coil",
+   "Refrigerant": "R-454B ready",
+   "Model": "CC24B3J-175L-000"
+  }
+ },
+ {
+  "sku": "cc36b3j175l",
+  "napoleon_sku": "CC36B3J-175L-000",
+  "name": "Cased Coil CC36B3J-175L, 3 Ton",
+  "category": "coils",
+  "list_price": 1235,
+  "image_url": "/aspen-coil.png",
+  "specs": {
+   "Tonnage": "3 ton",
+   "Cabinet width": "17.5\"",
+   "Type": "Cased evaporator coil",
+   "Refrigerant": "R-454B ready",
+   "Model": "CC36B3J-175L-000"
+  }
+ },
+ {
+  "sku": "cc36b3j225l",
+  "napoleon_sku": "CC36B3J-225L-000",
+  "name": "Cased Coil CC36B3J-225L, 3 Ton",
+  "category": "coils",
+  "list_price": 1290,
+  "image_url": "/aspen-coil.png",
+  "specs": {
+   "Tonnage": "3 ton",
+   "Cabinet width": "22.5\"",
+   "Type": "Cased evaporator coil",
+   "Refrigerant": "R-454B ready",
+   "Model": "CC36B3J-225L-000"
+  }
+ },
+ {
+  "sku": "cc36d3j175l",
+  "napoleon_sku": "CC36D3J-175L-000",
+  "name": "Cased Coil CC36D3J-175L, 3 Ton",
+  "category": "coils",
+  "list_price": 1340,
+  "image_url": "/aspen-coil.png",
+  "specs": {
+   "Tonnage": "3 ton",
+   "Cabinet width": "17.5\"",
+   "Type": "Cased evaporator coil",
+   "Refrigerant": "R-454B ready",
+   "Model": "CC36D3J-175L-000"
+  }
+ },
+ {
+  "sku": "cc42c3j225l",
+  "napoleon_sku": "CC42C3J-225L-000",
+  "name": "Cased Coil CC42C3J-225L, 3.5 Ton",
+  "category": "coils",
+  "list_price": 1390,
+  "image_url": "/aspen-coil.png",
+  "specs": {
+   "Tonnage": "3.5 ton",
+   "Cabinet width": "22.5\"",
+   "Type": "Cased evaporator coil",
+   "Refrigerant": "R-454B ready",
+   "Model": "CC42C3J-225L-000"
+  }
+ },
+ {
+  "sku": "cc48c3j225l",
+  "napoleon_sku": "CC48C3J-225L-000",
+  "name": "Cased Coil CC48C3J-225L, 4 Ton",
+  "category": "coils",
+  "list_price": 1495,
+  "image_url": "/aspen-coil.png",
+  "specs": {
+   "Tonnage": "4 ton",
+   "Cabinet width": "22.5\"",
+   "Type": "Cased evaporator coil",
+   "Refrigerant": "R-454B ready",
+   "Model": "CC48C3J-225L-000"
+  }
+ },
+ {
+  "sku": "ce24b2j175l",
+  "napoleon_sku": "CE24B2J-175L-000",
+  "name": "Cased Coil CE24B2J-175L, 2 Ton",
+  "category": "coils",
+  "list_price": 1030,
+  "image_url": "/aspen-coil.png",
+  "specs": {
+   "Tonnage": "2 ton",
+   "Cabinet width": "17.5\"",
+   "Type": "Cased evaporator coil",
+   "Refrigerant": "R-454B ready",
+   "Model": "CE24B2J-175L-000"
+  }
+ },
+ {
+  "sku": "ce24b3j175l",
+  "napoleon_sku": "CE24B3J-175L-000",
+  "name": "Cased Coil CE24B3J-175L, 2 Ton",
+  "category": "coils",
+  "list_price": 1185,
+  "image_url": "/aspen-coil.png",
+  "specs": {
+   "Tonnage": "2 ton",
+   "Cabinet width": "17.5\"",
+   "Type": "Cased evaporator coil",
+   "Refrigerant": "R-454B ready",
+   "Model": "CE24B3J-175L-000"
+  }
+ },
+ {
+  "sku": "ce36b3j175l",
+  "napoleon_sku": "CE36B3J-175L-000",
+  "name": "Cased Coil CE36B3J-175L, 3 Ton",
+  "category": "coils",
+  "list_price": 1290,
+  "image_url": "/aspen-coil.png",
+  "specs": {
+   "Tonnage": "3 ton",
+   "Cabinet width": "17.5\"",
+   "Type": "Cased evaporator coil",
+   "Refrigerant": "R-454B ready",
+   "Model": "CE36B3J-175L-000"
+  }
+ },
+ {
+  "sku": "ce36b3j225l",
+  "napoleon_sku": "CE36B3J-225L-000",
+  "name": "Cased Coil CE36B3J-225L, 3 Ton",
+  "category": "coils",
+  "list_price": 1290,
+  "image_url": "/aspen-coil.png",
+  "specs": {
+   "Tonnage": "3 ton",
+   "Cabinet width": "22.5\"",
+   "Type": "Cased evaporator coil",
+   "Refrigerant": "R-454B ready",
+   "Model": "CE36B3J-225L-000"
+  }
+ },
+ {
+  "sku": "ce36d3j175l",
+  "napoleon_sku": "CE36D3J-175L-000",
+  "name": "Cased Coil CE36D3J-175L, 3 Ton",
+  "category": "coils",
+  "list_price": 1390,
+  "image_url": "/aspen-coil.png",
+  "specs": {
+   "Tonnage": "3 ton",
+   "Cabinet width": "17.5\"",
+   "Type": "Cased evaporator coil",
+   "Refrigerant": "R-454B ready",
+   "Model": "CE36D3J-175L-000"
+  }
+ },
+ {
+  "sku": "ce42c3j225l",
+  "napoleon_sku": "CE42C3J-225L-000",
+  "name": "Cased Coil CE42C3J-225L, 3.5 Ton",
+  "category": "coils",
+  "list_price": 1440,
+  "image_url": "/aspen-coil.png",
+  "specs": {
+   "Tonnage": "3.5 ton",
+   "Cabinet width": "22.5\"",
+   "Type": "Cased evaporator coil",
+   "Refrigerant": "R-454B ready",
+   "Model": "CE42C3J-225L-000"
+  }
+ },
+ {
+  "sku": "ce48c3j225l",
+  "napoleon_sku": "CE48C3J-225L-000",
+  "name": "Cased Coil CE48C3J-225L, 4 Ton",
+  "category": "coils",
+  "list_price": 1545,
+  "image_url": "/aspen-coil.png",
+  "specs": {
+   "Tonnage": "4 ton",
+   "Cabinet width": "22.5\"",
+   "Type": "Cased evaporator coil",
+   "Refrigerant": "R-454B ready",
+   "Model": "CE48C3J-225L-000"
   }
  }
 ]
