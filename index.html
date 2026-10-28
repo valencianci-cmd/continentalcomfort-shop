@@ -516,7 +516,7 @@ const P=[
   {id:"wtacs0060",cat:"air-conditioners",name:"13.4 SEER2 Air Conditioner, 5 Ton",model:"WTACS0060BA1-C",img:AC_IMG,url:"https://www.continentalcomfort.com/en/products/hvac/",price:4185,
     specs:{"Tonnage":"5 ton","Efficiency":"13.4 SEER2","Cooling capacity":"53,000 BTU/h","Dimensions":"47.875 x 29.5 x 29.5 in","Net weight":"250 lbs","Refrigerant":"R-454B"},
     feat:["Scroll compressor with R-454B refrigerant","Microchannel condenser and swept fan blades","Factory-installed liquid line dryer","Service valves outside the cabinet for easy servicing","Removable service panel for electrical access"]},
-  {id:"hp2436",cat:"heat-pumps",name:"Cold Climate Heat Pump, 2 to 3 Ton",model:"WSEHV2436BA1-C",img:"/hp-2436.png",url:"https://www.continentalcomfort.com/en/products/hvac/",price:4090,
+  {id:"hp2436",cat:"heat-pumps",name:"Cold Climate Heat Pump, 2 to 3 Ton",model:"WSEHV2436BA1-C",img:"/hp-2436.png?v=2",url:"https://www.continentalcomfort.com/en/products/hvac/",price:4090,
     specs:{"Capacity":"2 to 3 ton (24k-36k BTU/h)","Efficiency":"Up to 17 SEER2","Cold climate":"Heats to −22°F","Compressor":"Hyper Heat DC inverter","Dimensions":"32¼ in H × 37 in W × 19⅛ in D","Net weight":"217 lbs","Refrigerant":"R-454B"},
     feat:["Hyper Heat DC inverter rotary compressor, rated to −22°F","100% heating capacity at −5°F and 100% cooling at 115°F","Side-discharge design with a smaller footprint for narrow spaces","NEEP cold-climate certified; NRCan Greener Homes listed when paired with a furnace or air handler","Works with the EQHub smart thermostat, standard thermostats, or home automation"]},
   {id:"hp4860",cat:"heat-pumps",name:"Cold Climate Heat Pump, 4 to 5 Ton",model:"WSEHV4860BA1-C",img:"/hp-4860.png",url:"https://www.continentalcomfort.com/en/products/hvac/",price:5200,
@@ -755,7 +755,7 @@ const DUCTLESS_SYSTEMS=[
   {id:"p18",series:"Premium",btu:18,seer:"22 SEER2",out:"CDHAS22BA-18-O",ind:"CDHAS22BB-18-I",msrp:3235},
   {id:"p24",series:"Premium",btu:24,seer:"22 SEER2",out:"CDHAS22BA-24-O",ind:"CDHAS22BB-24-I",msrp:4270},
 ];
-const HP_IMG="/hp-2436.png";
+const HP_IMG="/hp-2436.png?v=2";
 const CROSS=[
   {comp:"Goodman GSXN4 / GSXH5",to:"wtbcs0036"},
   {comp:"Carrier 24ACC6",to:"wtbcs0036"},
@@ -988,7 +988,7 @@ function hpBlock(ton){
 }
 function hpCard(s){
   const price=s.msrp*(tier==="home"?1:tier==="contractor"?0.80:0.70);
-  const parts=[{img:(s.hp.indexOf("4860")>-1?"/hp-4860.png":"/hp-2436.png"),name:s.hp+" Heat Pump",model:"Cold Climate · R-454B"},{img:COIL_IMG,name:s.coil+" Cased Coil",model:(s.cool).toLocaleString()+" BTU/h cooling"}];
+  const parts=[{img:(s.hp.indexOf("4860")>-1?"/hp-4860.png":"/hp-2436.png?v=2"),name:s.hp+" Heat Pump",model:"Cold Climate · R-454B"},{img:COIL_IMG,name:s.coil+" Cased Coil",model:(s.cool).toLocaleString()+" BTU/h cooling"}];
   return `<div class="bundle">
     <div class="bh"><h4>${s.seer2} SEER2 Heat Pump</h4><span class="ton">${s.ton} Ton</span></div>
     <div class="rate"><span class="badge">${s.seer2} SEER2 · ${s.eer2} EER2 · ${s.hspf2} HSPF2</span><span class="badge warm">AHRI# ${s.ahri}</span></div>
