@@ -158,8 +158,8 @@ const API="https://continentalcomfort-api.onrender.com";
 const TOK_KEY="cc_admin_tok";
 let challenge=null;
 
-function token(){ try{return sessionStorage.getItem(TOK_KEY)}catch(e){return null} }
-function setToken(t){ try{t?sessionStorage.setItem(TOK_KEY,t):sessionStorage.removeItem(TOK_KEY)}catch(e){} }
+function token(){ try{return localStorage.getItem(TOK_KEY)||sessionStorage.getItem(TOK_KEY)}catch(e){return null} }
+function setToken(t){ try{ if(t){localStorage.setItem(TOK_KEY,t)} else {localStorage.removeItem(TOK_KEY);sessionStorage.removeItem(TOK_KEY)} }catch(e){} }
 function esc(s){return String(s==null?"":s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
 function money(n){return "$"+Number(n||0).toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2})}
 function when(s){ if(!s)return ""; const d=new Date(s); return d.toLocaleString([], {year:"numeric",month:"short",day:"numeric",hour:"numeric",minute:"2-digit"}) }

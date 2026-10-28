@@ -51,7 +51,7 @@ const checkoutLimiter = rateLimit({ windowMs: 15 * 60 * 1000, max: 40 }); // Dro
 const orderLimiter = rateLimit({ windowMs: 15 * 60 * 1000, max: 12, message: { error: "too many checkout attempts, please wait a few minutes and try again" } });
 
 // ---------- helpers ----------
-const sign = (payload) => jwt.sign(payload, JWT_SECRET, { expiresIn: "12h" });
+const sign = (payload, exp = "12h") => jwt.sign(payload, JWT_SECRET, { expiresIn: exp });
 function auth(required = true) {
   return (req, res, next) => {
     const h = req.headers.authorization || "";
@@ -168,7 +168,8 @@ app.post("/api/admin/2fa", authLimiter, async (req, res) => {
   const ok = speakeasy.totp.verify({ secret: a.totp_secret, encoding: "base32", token: String(code || ""), window: 1 });
   if (!ok) return res.status(401).json({ error: "invalid 2FA code" });
   if (!a.totp_enabled) await pool.query("UPDATE admin_users SET totp_enabled=TRUE WHERE id=$1", [a.id]);
-  res.json({ token: sign({ kind: "admin", id: a.id, role: a.role, email: a.email }) });
+  // Long-lived admin session so you stay signed in (persisted in the browser).
+  res.json({ token: sign({ kind: "admin", id: a.id, role: a.role, email: a.email }, "30d") });
 });
 
 // ---------- admin: approvals and tier/discount pricing ----------
