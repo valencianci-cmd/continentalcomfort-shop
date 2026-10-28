@@ -226,7 +226,14 @@ app.get("/api/checkout/token", checkoutLimiter, async (_req, res) => {
 // ---------- orders ----------
 app.get("/api/admin/orders", auth(), requireAdmin, async (req, res) => {
   const { rows } = await pool.query("SELECT * FROM orders ORDER BY created_at DESC LIMIT 200");
-  res.json({ orders: rows });
+  const ids = rows.map(o => o.id);
+  const itemsByOrder = {};
+  if (ids.length) {
+    const { rows: items } = await pool.query(
+      "SELECT order_id,sku,name,qty,unit_price FROM order_items WHERE order_id = ANY($1::int[]) ORDER BY id", [ids]);
+    for (const it of items) (itemsByOrder[it.order_id] = itemsByOrder[it.order_id] || []).push(it);
+  }
+  res.json({ orders: rows.map(o => ({ ...o, items: itemsByOrder[o.id] || [] })) });
 });
 
 // Create an order. Prices are recomputed server-side from the account's tier —

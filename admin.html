@@ -289,15 +289,27 @@ async function loadOrders(){
     const r=await api("/api/admin/orders");
     const list=r.orders||[];
     if(!list.length){ box.innerHTML='<div class="empty">No orders yet.</div>'; return; }
-    let h='<table><thead><tr><th>Order</th><th>Customer</th><th class="hidesm">Tier</th><th>Status</th><th class="right">Subtotal</th></tr></thead><tbody>';
+    let h='<table><thead><tr><th>Order</th><th>Customer &amp; ship-to</th><th class="hidesm">Tier</th><th>Status</th><th class="right">Subtotal</th></tr></thead><tbody>';
     for(const o of list){
+      const ship=[o.ship_name,o.ship_addr,[o.ship_city,o.ship_state,o.ship_zip].filter(Boolean).join(", ")].filter(Boolean);
+      const items=o.items||[];
+      const itemRows=items.length
+        ? items.map(it=>`<div style="display:flex;justify-content:space-between;gap:1rem;padding:.18rem 0;border-top:1px solid rgba(255,255,255,.06)">
+            <span>${esc(it.qty)} &times; ${esc(it.name||it.sku)} <span class="muted" style="font-size:.78rem">(${esc(it.sku)})</span></span>
+            <span class="nowrap">${money(it.unit_price)} ea · ${money(it.unit_price*it.qty)}</span></div>`).join("")
+        : '<div class="muted" style="padding:.2rem 0">No line items recorded.</div>';
       h+=`<tr>
         <td><div class="rowtitle">#${esc(o.id)}</div><div class="rowsub">${esc(when(o.created_at))}</div></td>
-        <td>${esc(o.email||"")}<div class="rowsub">${esc([o.ship_city,o.ship_state].filter(Boolean).join(", "))}${o.po_number?(" · PO "+esc(o.po_number)):""}</div></td>
+        <td><div class="rowtitle" style="font-size:.95rem">${esc(o.email||"")}</div><div class="rowsub">${esc(ship.join(" · "))}${o.po_number?(" · PO "+esc(o.po_number)):""}</div></td>
         <td class="hidesm"><span class="badge">${esc(tierLabel(o.tier))}</span></td>
         <td><span class="badge ${o.status==="paid"?"paid":""}">${esc(o.status)}</span></td>
         <td class="right nowrap">${money(o.subtotal)}</td>
-      </tr>`;
+      </tr>
+      <tr><td colspan="5" style="padding:.3rem 1rem .8rem">
+        <div style="background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);border-radius:8px;padding:.5rem .8rem">
+          <div class="muted" style="font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;margin-bottom:.2rem">Items ordered</div>
+          ${itemRows}
+        </div></td></tr>`;
     }
     h+='</tbody></table>';
     box.innerHTML=h;
