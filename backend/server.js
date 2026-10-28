@@ -302,5 +302,82 @@ app.post("/api/orders", orderLimiter, auth(false), async (req, res) => {
   } finally { client.release(); }
 });
 
+// ---------- sizing estimator ----------
+// Sizes come from the ClawSoft quick-quote engine (so Continental matches ClawSoft);
+// equipment and prices come from our own catalog. The client sends only ZIP/rooms/sqft.
+const CS_BASE = process.env.CS_BASE || "https://www.clawsoft.tech";
+const estimateLimiter = rateLimit({ windowMs: 15 * 60 * 1000, max: 60, standardHeaders: true, legacyHeaders: false });
+
+const HEAD_SKU = { 6: "cdhas26bb06i", 9: "cdhas26bb09i", 12: "cdhas26bb12i", 18: "cdhas26bb18i", 24: "cdhas26bb24i", 33: "cdhas26bb33i" };
+const HEAD_LADDER = [6, 9, 12, 18, 24, 33];
+const MZ_OUTDOORS = [{ k: 18, z: 3, sku: "cdhambb18o" }, { k: 27, z: 4, sku: "cdhambb27o" }, { k: 36, z: 5, sku: "cdhambb36o" }, { k: 48, z: 6, sku: "cdhambb48o" }];
+const SZ_SYS = { 9: "ds-u9", 12: "ds-u12", 18: "ds-u18", 24: "ds-u24" }; // single-zone Ultimate bundles
+const DUCTED_TON = { 1.5: "sys-216778935", 2: "sys-216778936", 2.5: "sys-216778937", 3: "sys-216778938", 3.5: "sys-216778943", 4: "sys-217619763", 5: "sys-217598687" };
+const DUCTED_TONS = [1.5, 2, 2.5, 3, 3.5, 4, 5];
+const snap = (v, arr) => arr.reduce((a, b) => Math.abs(b - v) < Math.abs(a - v) ? b : a, arr[0]);
+function parseHeads(sys) { const m = String(sys || "").match(/\(([^)]*BTU[^)]*)\)/i); if (!m) return []; return (m[1].match(/(\d+)\s*k/gi) || []).map(s => parseInt(s, 10)); }
+
+async function priceSku(sku, m) {
+  const b = BUNDLES[sku];
+  if (b) return { sku, name: b.name, unit: priced(b.base, m) };
+  const { rows } = await pool.query("SELECT name,list_price FROM products WHERE sku=$1 AND active=TRUE", [sku]);
+  if (!rows[0]) return null;
+  return { sku, name: rows[0].name, unit: priced(rows[0].list_price, m) };
+}
+async function csFetch(path, body) {
+  const r = await fetch(CS_BASE + path, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(body) });
+  const j = await r.json().catch(() => ({}));
+  if (!r.ok) throw new Error(j.error || "sizing engine is unavailable");
+  return j;
+}
+
+app.post("/api/estimate/ductless", estimateLimiter, auth(false), async (req, res) => {
+  try {
+    const { zip, rooms } = req.body || {};
+    if (!/^\d{5}$/.test(String(zip || ""))) return res.status(400).json({ error: "a 5-digit ZIP code is required" });
+    const clean = (Array.isArray(rooms) ? rooms : [])
+      .map(r => ({ name: String(r.name || "Room").slice(0, 40), area: String(parseInt(r.area, 10) || 0) }))
+      .filter(r => Number(r.area) > 0).slice(0, 12);
+    if (!clean.length) return res.status(400).json({ error: "add at least one room with its square footage" });
+    const j = await csFetch("/api/public/quick-quote/minisplit", { zip, rooms: clean });
+    let heads = parseHeads(j.system);
+    if (heads.length !== clean.length) heads = clean.map((_, i) => heads[i] || 9);
+    heads = heads.map(k => snap(k, HEAD_LADDER));
+    const tier = await tierFor(req.user); const m = await multiplier(tier);
+    const heat = (j.loads && j.loads.heating) || heads.reduce((a, k) => a + k * 1000, 0);
+    const items = []; const lines = [];
+    if (heads.length === 1) {
+      const k = snap(heads[0], [9, 12, 18, 24]); const sku = SZ_SYS[k];
+      const p = await priceSku(sku, m);
+      if (p) { items.push({ sku, qty: 1 }); lines.push({ ...p, qty: 1, detail: k + "K single-zone system" }); }
+    } else {
+      const n = heads.length;
+      let outs = []; const single = MZ_OUTDOORS.find(o => o.z >= n && o.k * 1000 * 1.10 >= heat);
+      if (single) outs = [single]; else outs = Array.from({ length: Math.ceil(n / 6) }, () => MZ_OUTDOORS[3]);
+      for (const o of outs) { const p = await priceSku(o.sku, m); if (p) { items.push({ sku: o.sku, qty: 1 }); lines.push({ ...p, qty: 1, detail: o.k + "K · up to " + o.z + " zones" }); } }
+      const counts = {}; heads.forEach(k => { const sku = HEAD_SKU[k]; counts[sku] = (counts[sku] || 0) + 1; });
+      for (const sku in counts) { const p = await priceSku(sku, m); if (p) { items.push({ sku, qty: counts[sku] }); lines.push({ ...p, qty: counts[sku] }); } }
+    }
+    const subtotal = Math.round(lines.reduce((a, l) => a + l.unit * l.qty, 0) * 100) / 100;
+    res.json({ type: "ductless", zip, rooms: clean.length, heads, loads: j.loads || { heating: heat }, system: j.system, items, lines, subtotal, tier });
+  } catch (e) { res.status(502).json({ error: String(e.message || e) }); }
+});
+
+app.post("/api/estimate/ducted", estimateLimiter, auth(false), async (req, res) => {
+  try {
+    const { zip, sqft, bedrooms } = req.body || {};
+    if (!/^\d{5}$/.test(String(zip || ""))) return res.status(400).json({ error: "a 5-digit ZIP code is required" });
+    if (!(Number(sqft) > 0)) return res.status(400).json({ error: "enter the square footage" });
+    const j = await csFetch("/api/public/quick-quote", { zip, sqft: String(sqft), bedrooms: String(bedrooms || "3") });
+    const low = (j.options || []).find(o => o.key === "low_velocity") || (j.options || []).find(o => o.tons);
+    const tons = snap(Number(low && low.tons) || 3, DUCTED_TONS);
+    const key = DUCTED_TON[tons];
+    const tier = await tierFor(req.user); const m = await multiplier(tier);
+    const p = await priceSku(key, m);
+    if (!p) throw new Error("no matching Continental system for that size");
+    res.json({ type: "ducted", zip, sqft: Number(sqft), tons, system: p.name, loads: j.loads || null, assumptions: j.assumptions || [], items: [{ sku: key, qty: 1 }], lines: [{ ...p, qty: 1 }], subtotal: p.unit, tier });
+  } catch (e) { res.status(502).json({ error: String(e.message || e) }); }
+});
+
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log("ContinentalComfort.Shop API on :" + PORT));
