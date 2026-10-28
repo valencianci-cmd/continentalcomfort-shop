@@ -131,28 +131,36 @@ nav.cats a:hover{color:var(--fg);background:var(--surface-2)}
 nav.cats a.on{color:var(--accent);background:var(--surface-2)}
 
 /* hero with brochure-style diagonal */
-.hero{position:relative;overflow:hidden;background:
-  linear-gradient(120deg,#141011 0%,#1b1718 46%,#242a2e 100%)}
-:root[data-theme="light"] .hero,:root:not([data-theme="dark"]) .hero{background:linear-gradient(120deg,#17131400,#201c1d)}
-:root[data-theme="light"] .hero{background:linear-gradient(120deg,#141011,#232a2f)}
-.hero::after{content:"";position:absolute;top:0;right:0;width:44%;height:100%;
-  background:linear-gradient(115deg,transparent 46%,rgba(110,158,192,.22) 47% 52%,transparent 53%),
-             radial-gradient(60% 80% at 80% 10%,rgba(110,158,192,.25),transparent 60%);
-  pointer-events:none}
-.hero .wrap{position:relative;z-index:1;padding-block:clamp(2.4rem,6vw,4.2rem)}
+.hero{position:relative;overflow:hidden;--herobg:#060912;background:var(--herobg)}
+:root[data-brand="napoleon"] .hero{--herobg:#0a0607}
+.hero .flamebg{position:absolute;top:0;right:0;bottom:0;width:60%;z-index:0;background:url(/hero-flame-blue.jpg) right center/cover no-repeat;pointer-events:none}
+:root[data-brand="napoleon"] .hero .flamebg{background-image:url(/hero-flame-red.jpg)}
+.hero::after{content:"";position:absolute;inset:0;z-index:1;pointer-events:none;background:linear-gradient(100deg,rgba(6,9,18,.97) 0%,rgba(6,9,18,.72) 30%,rgba(6,9,18,.08) 58%,transparent 68%)}
+:root[data-brand="napoleon"] .hero::after{background:linear-gradient(100deg,rgba(10,6,7,.97) 0%,rgba(10,6,7,.72) 30%,rgba(10,6,7,.08) 58%,transparent 68%)}
+.hero .wrap{position:relative;z-index:2;padding-block:clamp(2.4rem,6vw,4.2rem)}
 .hero h1{font-size:clamp(2.1rem,6vw,3.6rem);color:#fff;max-width:15ch;text-transform:none}
 .hero .rule{width:92px;height:4px;background:var(--warm);margin:1rem 0 1.1rem;border-radius:2px}
 .hero p{color:#d5cfca;max-width:48ch;margin:0 0 1.4rem;font-size:1.03rem}
 .hero .cta{display:flex;gap:.7rem;flex-wrap:wrap}
 .hero .btn.ghost{color:#fff;border-color:rgba(255,255,255,.55)}
 .hero .btn.ghost:hover{background:rgba(255,255,255,.12)}
-.hero::before{content:"";position:absolute;left:0;right:0;bottom:-8%;height:88%;z-index:0;pointer-events:none;background:radial-gradient(34% 62% at 70% 104%,rgba(255,138,40,.65),transparent 60%),radial-gradient(24% 48% at 70% 82%,rgba(255,96,22,.55),transparent 62%),radial-gradient(60% 52% at 26% 114%,rgba(255,160,50,.42),transparent 66%),radial-gradient(100% 60% at 55% 124%,rgba(255,66,18,.4),transparent 72%);filter:blur(7px);mix-blend-mode:screen;animation:flame 5s ease-in-out infinite}
-@keyframes flame{0%,100%{opacity:.82;transform:translateY(0) scaleY(1)}20%{opacity:.98;transform:translateY(-6px) scaleY(1.06)}40%{opacity:.72;transform:translateY(3px) scaleY(.96)}60%{opacity:.93;transform:translateY(-3px) scaleY(1.04)}80%{opacity:.8;transform:translateY(1px) scaleY(.99)}}
-:root[data-brand="napoleon"] .hero::before{background:radial-gradient(34% 62% at 70% 104%,rgba(255,74,44,.7),transparent 60%),radial-gradient(24% 48% at 70% 82%,rgba(228,0,43,.6),transparent 62%),radial-gradient(60% 52% at 26% 114%,rgba(255,110,40,.44),transparent 66%),radial-gradient(100% 60% at 55% 124%,rgba(205,0,32,.46),transparent 72%)}
-@media (prefers-reduced-motion:reduce){.hero::before{animation:none}}
-.hero-furnace{display:none;position:absolute;right:0;bottom:0;width:60%;max-width:900px;height:auto;z-index:0;pointer-events:none}
-:root[data-brand="napoleon"] .hero-furnace{display:block}
-@media (max-width:900px){.hero-furnace{opacity:.2;right:-5%;filter:none}}
+:root:not([data-brand="napoleon"]) .hero .rule{background:#2f7bff}
+:root:not([data-brand="napoleon"]) .hero .btn.warm{background:#2f7bff;color:#fff}
+.hero-lineup{position:absolute;right:0;bottom:0;z-index:1;height:84%;max-height:430px;max-width:64%;width:auto;object-fit:contain;object-position:bottom right;pointer-events:none;filter:drop-shadow(0 12px 26px rgba(0,0,0,.5))}
+.lu-nap{display:none}
+:root[data-brand="napoleon"] .lu-cont{display:none}
+:root[data-brand="napoleon"] .lu-nap{display:block}
+.made{display:inline-flex;align-items:center;gap:.5rem;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.34);border-radius:999px;padding:.4rem .8rem .4rem .45rem;font-family:var(--head);font-weight:700;font-size:.74rem;letter-spacing:.09em;text-transform:uppercase;color:#fff;margin-bottom:.5rem}
+.made .flags{display:inline-flex;gap:3px}
+.made .flags img{width:30px;height:19px;object-fit:cover;border-radius:4px;box-shadow:0 1px 3px rgba(0,0,0,.45)}
+@media (max-width:820px){
+  .hero{min-height:430px}
+  .hero .flamebg{width:100%;opacity:.5}
+  .hero-lineup{height:48%;max-width:96%;right:2%;opacity:.95}
+  .hero::after{background:linear-gradient(180deg,rgba(6,9,18,.5) 0%,rgba(6,9,18,.25) 32%,rgba(6,9,18,.8) 74%)}
+  :root[data-brand="napoleon"] .hero::after{background:linear-gradient(180deg,rgba(10,6,7,.5) 0%,rgba(10,6,7,.25) 32%,rgba(10,6,7,.8) 74%)}
+  .hero .wrap{min-height:430px}
+}
 .flagchip{display:inline-flex;align-items:center;gap:.5rem;font-family:var(--head);font-weight:800;text-transform:uppercase;letter-spacing:.12em;font-size:.86rem;color:#1a1410;background:var(--warm);border:1px solid var(--warm);padding:.5rem 1rem;border-radius:999px;margin-bottom:1.1rem;box-shadow:0 4px 16px rgba(0,0,0,.3)}
 .flagchip b{color:#1a1410;font-weight:800}
 
@@ -853,15 +861,17 @@ function vHome(){
   const feat=["wtbcs0036","wuv070t3aa","hp2436","cdhas26ba18o"].map(byId).filter(Boolean);
   return `
   <section class="hero">
+    <div class="flamebg" aria-hidden="true"></div>
+    <img class="hero-lineup lu-cont" src="/lineup-continental.png" alt="Continental HVAC equipment lineup" loading="eager">
+    <img class="hero-lineup lu-nap" src="/lineup-napoleon.png" alt="Napoleon HVAC equipment lineup" loading="eager">
     <div class="wrap">
-      <span class="flagchip">★ <b>Made in the Americas</b></span>
+      <span class="made"><span class="flags"><img src="/flag-us.jpg" alt="United States flag" width="30" height="19"><img src="/flag-ca.jpg" alt="Canadian flag" width="30" height="19"></span> Made in the Americas</span>
       <div class="eyebrow" style="color:var(--accent-2)">${brand==="napoleon"?"Napoleon HVAC · Authorized Dealer Portal":"Exclusive online distributor · Continental HVAC"}</div>
-      <h1>Comfort systems, built to move real volume.</h1>
+      <h1>${brand==="napoleon"?"Innovation, built better.":"Comfort systems, built to move real volume."}</h1>
       <div class="rule"></div>
       <p>Shop ${brand==="napoleon"?"Napoleon":"Continental"} furnaces, air conditioners, heat pumps and AHRI-matched systems, with contractor and distributor pricing, crossover search, and national fulfillment by Skip The Warehouse.${brand==="napoleon"?"":" Napoleon-built, private-labeled, AHRI-certified."}</p>
       <div class="cta"><a class="btn warm" href="#/bundles">Build an AHRI system</a><a class="btn ghost" href="#/c/furnaces">Browse equipment</a></div>
     </div>
-    <img class="hero-furnace" src="/napoleon-banner.png" alt="" aria-hidden="true">
   </section>
 
   <div class="trust"><div class="wrap"><div class="row">
