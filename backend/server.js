@@ -77,6 +77,17 @@ async function multiplier(tier) {
 }
 const priced = (listPrice, m) => Math.round(Number(listPrice) * m * 100) / 100;
 
+// Matched systems, heat-pump systems, ductless systems and accessories are not
+// individual catalog rows, so their prices live here, generated from the same
+// numbers the storefront displays (backend/bundles.json). Keyed by the cart key
+// (sys-/hp-/ds-/acc-). base is the Guest/home price; trade tiers apply the same
+// multiplier as catalog products.
+let BUNDLES = {};
+try {
+  BUNDLES = JSON.parse(require("fs").readFileSync(require("path").join(__dirname, "bundles.json"), "utf8"));
+  console.log("bundle prices loaded:", Object.keys(BUNDLES).length);
+} catch (e) { console.error("could not load bundles.json:", String(e.message || e)); }
+
 // ---------- health ----------
 app.get("/api/health", async (_req, res) => {
   try { await pool.query("SELECT 1"); res.json({ ok: true }); }
@@ -231,10 +242,17 @@ app.post("/api/orders", orderLimiter, auth(false), async (req, res) => {
     await client.query("BEGIN");
     let subtotal = 0; const lines = [];
     for (const it of items) {
+      const qty = Math.max(1, parseInt(it.qty, 10) || 1);
+      const b = BUNDLES[it.sku];
+      if (b) {
+        // Matched system / ductless / accessory: price from the server bundle file.
+        const unit = priced(b.base, m);
+        subtotal += unit * qty; lines.push({ sku: it.sku, name: b.name, qty, unit });
+        continue;
+      }
       const { rows } = await client.query("SELECT sku,name,list_price,active FROM products WHERE sku=$1", [it.sku]);
       const p = rows[0];
       if (!p || !p.active) throw new Error("unknown product " + it.sku);
-      const qty = Math.max(1, parseInt(it.qty, 10) || 1);
       const unit = priced(p.list_price, m);
       subtotal += unit * qty; lines.push({ sku: p.sku, name: p.name, qty, unit });
     }

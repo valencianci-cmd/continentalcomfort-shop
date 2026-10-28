@@ -797,7 +797,7 @@ function renderCart(){
     <div class="trow"><span>Pricing tier</span><span>${TIERS[tier].lab}</span></div>
     <div class="trow tot"><span>Estimated total</span><span class="tnum">${fmt(sub)}</span></div>
     <button class="btn" style="justify-content:center" onclick="openCheckout()">Checkout</button>
-    <p style="font-size:.72rem;color:var(--muted);margin:0;text-align:center">Sample pricing for layout. Freight and tax calculated at checkout.</p>`;
+    <p style="font-size:.72rem;color:var(--muted);margin:0;text-align:center">Freight and sales tax are calculated separately.</p>`;
 }
 function checkoutMsg(){const f=document.getElementById("cartFoot");const n=document.createElement("p");n.style.cssText="font-size:.78rem;color:var(--accent);margin:.2rem 0 0;text-align:center";n.textContent="Prototype checkout, payment and fulfillment wire up in the production build.";f.appendChild(n)}
 
@@ -911,7 +911,7 @@ function vProduct(id){
           <div class="price"><div class="lab">${TIERS[tier].lab} price</div><div class="big tnum">${p.from?'<span class="from" style="font-size:.9rem;color:var(--muted)">from </span>':''}${fmt(priceOf(p))}</div></div>
           <button class="btn" style="justify-content:center" onclick="addCart('${p.id}')">Add to cart</button>
           <a class="link" href="${p.url}" target="_blank" rel="noopener">Manufacturer spec sheet →</a>
-          <p style="font-size:.72rem;color:var(--muted);margin:0">Continental is Napoleon private-labeled (model suffix -C); AHRI ratings match the Napoleon equivalent. Sample pricing for layout; full spec tables load from the manufacturer feed.</p>
+          <p style="font-size:.72rem;color:var(--muted);margin:0">Continental is Napoleon private-labeled (model suffix -C); AHRI ratings match the Napoleon equivalent.</p>
         </div>
       </div>
     </div>
@@ -1105,13 +1105,13 @@ let dropinInstance=null,coMethod="card",coAmount=0;
 function coEsc(s){return String(s==null?"":s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
 function coVal(id){const el=document.getElementById(id);return el?el.value.trim():""}
 function setCoMsg(t,c){const el=document.getElementById("coMsg");if(el){el.textContent=t||"";el.className="comsg "+(c||"")}}
-function coPayable(){return cartLines().filter(x=>!/^(sys-|hp-|acc-|ds-)/.test(x.id)).map(x=>{const p=byId(x.id);return p?{id:x.id,name:p.name,qty:x.q,unit:Math.round(p.price*GUEST_M*100)/100}:null}).filter(Boolean)}
-function coExcluded(){return cartLines().filter(x=>/^(sys-|hp-|acc-|ds-)/.test(x.id)).length}
+function coPayable(){return cartLines().map(x=>({id:x.id,name:x.p.name,qty:x.q,unit:Math.round(x.p.price*100)/100}))}
+function coExcluded(){return 0}
 function cartNote(text){const f=document.getElementById("cartFoot");let n=document.getElementById("coCartNote");if(!n){n=document.createElement("p");n.id="coCartNote";n.style.cssText="font-size:.78rem;color:var(--accent);margin:.3rem 0 0;text-align:center";f.appendChild(n)}n.textContent=text}
 function openCheckout(){
   if(!CHECKOUT_ON){cartNote("Online checkout is briefly paused while we finish a pricing update. Call (215) 316-5893 to place an order today.");return}
   const items=coPayable();
-  if(!items.length){cartNote("Online payment for matched systems and add-ons is coming shortly. Add an individual unit to check out, or call (215) 316-5893 for a system quote.");return}
+  if(!items.length){cartNote("Your cart is empty. Add equipment or a system to check out.");return}
   const sub=items.reduce((a,i)=>a+i.unit*i.qty,0);
   const exc=coExcluded();
   document.getElementById("coBody").innerHTML=`

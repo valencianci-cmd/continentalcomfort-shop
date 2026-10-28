@@ -1,0 +1,150 @@
+{
+  "sys-216778935": {
+    "base": 6075,
+    "name": "14.3 SEER2 System · 1.5 Ton (AHRI 216778935: WTBCS0018BA1-N + CE24B3J-175L-000 + WPX040S2AA-N)"
+  },
+  "sys-216778936": {
+    "base": 6330,
+    "name": "14.3 SEER2 System · 2 Ton (AHRI 216778936: WTBCS0024BA1-N + CE24B3J-175L-000 + WPX060S3AA-N)"
+  },
+  "sys-216778937": {
+    "base": 6790,
+    "name": "14.3 SEER2 System · 2.5 Ton (AHRI 216778937: WTBCS0030BA1-N + CE36B3J-175L-000 + WPX060S3AA-N)"
+  },
+  "sys-216778938": {
+    "base": 7000,
+    "name": "14.3 SEER2 System · 3 Ton (AHRI 216778938: WTBCS0036BA1-N + CE36B3J-175L-000 + WPX080S3AA-N)"
+  },
+  "sys-216778943": {
+    "base": 8265,
+    "name": "14.3 SEER2 System · 3.5 Ton (AHRI 216778943: WTBCS0042BA1-N + CE48C3J-225L-000 + WPX100S5BA-N)"
+  },
+  "sys-217619763": {
+    "base": 8475,
+    "name": "14.3 SEER2 System · 4 Ton (AHRI 217619763: WTBCS0048BA1-N + CE48C3J-225L-000 + WPX100S5BA-N)"
+  },
+  "sys-217598687": {
+    "base": 9115,
+    "name": "14.3 SEER2 System · 5 Ton (AHRI 217598687: WTBCS0060BA1-N + DE61B4J-225L-000 + WPX100S5BA-N)"
+  },
+  "sys-216778918": {
+    "base": 5750,
+    "name": "13.4 SEER2 System · 1.5 Ton (AHRI 216778918: WTACS0018BA1-N + CE24B3J-175L-000 + WPX040S2AA-N)"
+  },
+  "sys-216778919": {
+    "base": 6015,
+    "name": "13.4 SEER2 System · 2 Ton (AHRI 216778919: WTACS0024BA1-N + CE24B3J-175L-000 + WPX060S3AA-N)"
+  },
+  "sys-216778920": {
+    "base": 6460,
+    "name": "13.4 SEER2 System · 2.5 Ton (AHRI 216778920: WTACS0030BA1-N + CE36B3J-175L-000 + WPX060S3AA-N)"
+  },
+  "sys-216778921": {
+    "base": 7445,
+    "name": "13.4 SEER2 System · 3 Ton (AHRI 216778921: WTACS0042BA1-N + CE48C3J-225L-000 + WPX080S3AA-N)"
+  },
+  "sys-216778927": {
+    "base": 7930,
+    "name": "13.4 SEER2 System · 3.5 Ton (AHRI 216778927: WTACS0042BA1-N + CE48C3J-225L-000 + WPX100S5BA-N)"
+  },
+  "sys-216778930": {
+    "base": 8145,
+    "name": "13.4 SEER2 System · 4 Ton (AHRI 216778930: WTACS0048BA1-N + CE48C3J-225L-000 + WPX100S5BA-N)"
+  },
+  "sys-217598686": {
+    "base": 8785,
+    "name": "13.4 SEER2 System · 5 Ton (AHRI 217598686: WTACS0060BA1-N + DE61B4J-225L-000 + WPX100S5BA-N)"
+  },
+  "hp-217463583": {
+    "base": 5790,
+    "name": "16 SEER2 Heat Pump System · 2 Ton (AHRI 217463583: WSEHV2436BA1-C + WPCC24ABA1-C)"
+  },
+  "hp-217463581": {
+    "base": 5840,
+    "name": "16 SEER2 Heat Pump System · 2.5 Ton (AHRI 217463581: WSEHV2436BA1-C + WPCC36ABA1-C)"
+  },
+  "hp-217463584": {
+    "base": 7520,
+    "name": "16 SEER2 Heat Pump System · 4 Ton (AHRI 217463584: WSEHV4860BA1-C + WPCC48ABA1-C)"
+  },
+  "hp-217463582": {
+    "base": 7570,
+    "name": "16 SEER2 Heat Pump System · 5 Ton (AHRI 217463582: WSEHV4860BA1-C + WPCC60ABA1-C)"
+  },
+  "ds-u9": {
+    "base": 2840,
+    "name": "Ultimate Ductless Single-Zone · 9K 26 SEER2 (CDHAS26BA-09-O + CDHAS26BB-09-I)"
+  },
+  "ds-u12": {
+    "base": 2985,
+    "name": "Ultimate Ductless Single-Zone · 12K 26 SEER2 (CDHAS26BA-12-O + CDHAS26BB-12-I)"
+  },
+  "ds-u18": {
+    "base": 3655,
+    "name": "Ultimate Ductless Single-Zone · 18K 26 SEER2 (CDHAS26BA-18-O + CDHAS26BB-18-I)"
+  },
+  "ds-u24": {
+    "base": 5180,
+    "name": "Ultimate Ductless Single-Zone · 24K 26 SEER2 (CDHAS26BA-24-O + CDHAS26BB-24-I)"
+  },
+  "ds-p12": {
+    "base": 2495,
+    "name": "Premium Ductless Single-Zone · 12K 22 SEER2 (CDHAS22BA-12-O + CDHAS22BB-12-I)"
+  },
+  "ds-p18": {
+    "base": 3235,
+    "name": "Premium Ductless Single-Zone · 18K 22 SEER2 (CDHAS22BA-18-O + CDHAS22BB-18-I)"
+  },
+  "ds-p24": {
+    "base": 4270,
+    "name": "Premium Ductless Single-Zone · 24K 22 SEER2 (CDHAS22BA-24-O + CDHAS22BB-24-I)"
+  },
+  "acc-WSC43BA-KT": {
+    "base": 348.21,
+    "name": "EQHub Smart Thermostat (WSC43BA-KT)"
+  },
+  "acc-TH6210U2001": {
+    "base": 124.71,
+    "name": "2H/1C Programmable T-Stat (TH6210U2001)"
+  },
+  "acc-TH2110U4004": {
+    "base": 57.67,
+    "name": "1H/1C Programmable T-Stat (TH2110U4004)"
+  },
+  "acc-DDS-60": {
+    "base": 31.84,
+    "name": "60A Non-Fusible Disconnect (DDS-60)"
+  },
+  "acc-36\"×36\"×3\"": {
+    "base": 57.53,
+    "name": "Plastic Equipment Pad (36\"×36\"×3\")"
+  },
+  "acc-110v": {
+    "base": 62.33,
+    "name": "1/2-gal Condensate Pump (110v)"
+  },
+  "acc-W370-0018": {
+    "base": 247.35,
+    "name": "LP Conversion Kit (W370-0018)"
+  },
+  "acc-3/8 & 3/4 × 25": {
+    "base": 227.08,
+    "name": "1.5-3 Ton · Titan Shield (3/8 & 3/4 × 25')"
+  },
+  "acc-3/8 & 7/8 × 25": {
+    "base": 294.49,
+    "name": "3.5-5 Ton · Titan Shield (3/8 & 7/8 × 25')"
+  },
+  "acc-16×25×5": {
+    "base": 178.01,
+    "name": "MERV 11 Filter Rack (16×25×5)"
+  },
+  "acc-20×25×5": {
+    "base": 180.33,
+    "name": "MERV 11 Filter Rack (20×25×5)"
+  },
+  "acc-W370-10010241": {
+    "base": 37.8,
+    "name": "Coil/Furnace Adapter Kit, 22.5 in (GF) (W370-10010241)"
+  }
+}
