@@ -12,8 +12,8 @@
 <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
 <link rel="canonical" href="https://continentalcomfort.shop/">
 <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-<link rel="icon" type="image/png" sizes="512x512" href="/icon-512.png">
-<link rel="icon" type="image/png" sizes="32x32" href="/favicon.png">
+<link rel="icon" type="image/png" sizes="512x512" href="/icon-512.png" id="favicon512">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon.png" id="favicon32">
 <meta name="apple-mobile-web-app-title" content="Continental">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="ContinentalComfort.Shop">
@@ -519,7 +519,7 @@ const P=[
   {id:"hp2436",cat:"heat-pumps",name:"Cold Climate Heat Pump, 2 to 3 Ton",model:"WSEHV2436BA1-C",img:"/hp-2436.png?v=2",url:"https://www.continentalcomfort.com/en/products/hvac/",price:4090,
     specs:{"Capacity":"2 to 3 ton (24k-36k BTU/h)","Efficiency":"Up to 17 SEER2","Cold climate":"Heats to −22°F","Compressor":"Hyper Heat DC inverter","Dimensions":"32¼ in H × 37 in W × 19⅛ in D","Net weight":"217 lbs","Refrigerant":"R-454B"},
     feat:["Hyper Heat DC inverter rotary compressor, rated to −22°F","100% heating capacity at −5°F and 100% cooling at 115°F","Side-discharge design with a smaller footprint for narrow spaces","NEEP cold-climate certified; NRCan Greener Homes listed when paired with a furnace or air handler","Works with the EQHub smart thermostat, standard thermostats, or home automation"]},
-  {id:"hp4860",cat:"heat-pumps",name:"Cold Climate Heat Pump, 4 to 5 Ton",model:"WSEHV4860BA1-C",img:"/hp-4860.png",url:"https://www.continentalcomfort.com/en/products/hvac/",price:5200,
+  {id:"hp4860",cat:"heat-pumps",name:"Cold Climate Heat Pump, 4 to 5 Ton",model:"WSEHV4860BA1-C",img:"/hp-4860.png?v=2",url:"https://www.continentalcomfort.com/en/products/hvac/",price:5200,
     specs:{"Capacity":"4 to 5 ton (48k-54k BTU/h)","Efficiency":"Up to 17 SEER2","Cold climate":"Heats to −22°F","Compressor":"Hyper Heat DC inverter","Dimensions":"53¾ in H × 42¾ in W × 15½ in D","Net weight":"309 lbs","Refrigerant":"R-454B"},
     feat:["Hyper Heat DC inverter rotary compressor, rated to −22°F","100% heating capacity at −5°F and 100% cooling at 115°F","Taller dual-fan cabinet for 4 and 5 ton capacity","NEEP cold-climate certified; NRCan Greener Homes listed when paired with a furnace or air handler","Works with the EQHub smart thermostat, standard thermostats, or home automation"]},
   {id:"wpfx24a",cat:"air-handlers",name:"18 SEER2 Air Handler, 2 Ton",model:"WPFX24A-C",img:IMG+"s--16eJ8ZJZ--/elglgcklexgbuhanoks2.png",url:"https://www.continentalcomfort.com/en/products/hvac/",price:2835,
@@ -741,10 +741,10 @@ const accPrice=a=>a.cost*(tier==="home"?1.40:tier==="contractor"?1.15:1.08);
 /* Napoleon/Continental Cold Climate Heat Pump matched systems (R-454B), AHRI-certified.
    HP + WPCC cased coil; add a Continental gas furnace + W370-10010241 adapter for a hybrid system. */
 const HP_SYSTEMS=[
-  {ton:"2",hp:"WSEHV2436BA1-C",coil:"WPCC24ABA1-C",ahri:"217463583",seer2:16,eer2:11,hspf2:8.5,cool:22000,btuh:24000,msrp:5790},
-  {ton:"2.5",hp:"WSEHV2436BA1-C",coil:"WPCC36ABA1-C",ahri:"217463581",seer2:16,eer2:11,hspf2:8.5,cool:32000,btuh:34000,msrp:5840},
-  {ton:"4",hp:"WSEHV4860BA1-C",coil:"WPCC48ABA1-C",ahri:"217463584",seer2:16,eer2:11,hspf2:8.8,cool:47000,btuh:48000,msrp:7520},
-  {ton:"5",hp:"WSEHV4860BA1-C",coil:"WPCC60ABA1-C",ahri:"217463582",seer2:16,eer2:9.8,hspf2:8.5,cool:52000,btuh:54000,msrp:7570},
+  {ton:"2",hp:"WSEHV2436BA1-C",coil:"WPCC24ABA1-C",ahri:"217463583",seer2:18.5,eer2:11,hspf2:10,cool:22000,btuh:24000,msrp:5790},
+  {ton:"2.5",hp:"WSEHV2436BA1-C",coil:"WPCC36ABA1-C",ahri:"217463581",seer2:18.5,eer2:11,hspf2:10,cool:32000,btuh:34000,msrp:5840},
+  {ton:"4",hp:"WSEHV4860BA1-C",coil:"WPCC48ABA1-C",ahri:"217463584",seer2:18.5,eer2:11,hspf2:9.5,cool:47000,btuh:48000,msrp:7520},
+  {ton:"5",hp:"WSEHV4860BA1-C",coil:"WPCC60ABA1-C",ahri:"217463582",seer2:18.5,eer2:9.8,hspf2:9.5,cool:52000,btuh:54000,msrp:7570},
 ];
 const DUCTLESS_SYSTEMS=[
   {id:"u9",series:"Ultimate",btu:9,seer:"26 SEER2",out:"CDHAS26BA-09-O",ind:"CDHAS26BB-09-I",msrp:2840},
@@ -827,6 +827,8 @@ function applyBrand(){
   document.querySelectorAll(".napImg").forEach(function(e){e.style.display=brand==="napoleon"?"":"none"});
   var bb=document.getElementById("brandBtn"); if(bb){bb.textContent="Shop Napoleon";bb.style.display=brand==="continental"?"":"none";}
   var nb=document.getElementById("napBack"); if(nb) nb.style.display=brand==="napoleon"?"":"none";
+  var f32=document.getElementById("favicon32"); if(f32) f32.href=brand==="napoleon"?"/favicon-napoleon.png":"/favicon.png";
+  var f512=document.getElementById("favicon512"); if(f512) f512.href=brand==="napoleon"?"/icon-512-napoleon.png":"/icon-512.png";
 }
 function switchBrand(){
   if(brand==="continental"){
@@ -937,7 +939,7 @@ function finderBlock(list,withFilters){
     <div class="fhead"><h3>System builder</h3><span style="color:var(--muted);font-size:.84rem;margin-left:auto">${list.length} AHRI-rated system${list.length===1?"":"s"}</span></div>
     ${withFilters?`<div class="filters">
       <div class="field"><label>Efficiency</label><select id="fSeer" onchange="route()">
-        <option value="all">All SEER2</option><option value="14.3">14.3 SEER2</option><option value="13.4">13.4 SEER2</option><option value="16">16 SEER2 · Heat Pump</option></select></div>
+        <option value="all">All SEER2</option><option value="14.3">14.3 SEER2</option><option value="13.4">13.4 SEER2</option><option value="18.5">18.5 SEER2 · Heat Pump</option></select></div>
       <div class="field"><label>Tonnage</label><select id="fTon" onchange="route()">
         <option value="all">Any tonnage</option><option>1.5</option><option>2</option><option>2.5</option><option>3</option><option>3.5</option><option>4</option><option>5</option></select></div>
       <div class="field" style="justify-content:flex-end"><label>&nbsp;</label><a class="btn ghost sm" href="#/crossover" style="justify-content:center">Replacing a competitor? →</a></div>
@@ -967,8 +969,8 @@ function addBundleSys(ahri){
 function vBundles(){
   const seer=(document.getElementById("fSeer")||{}).value||"all";
   const ton=(document.getElementById("fTon")||{}).value||"all";
-  const list=(seer==="16")?[]:SYS_BUNDLES.filter(b=>(seer==="all"||b.series===seer)&&(ton==="all"||b.ton===ton));
-  const showHp=(seer==="all"||seer==="16");
+  const list=(seer==="18.5")?[]:SYS_BUNDLES.filter(b=>(seer==="all"||b.series===seer)&&(ton==="all"||b.ton===ton));
+  const showHp=(seer==="all"||seer==="18.5");
   return `<div class="wrap"><section>
     <div class="crumb"><a href="#/">Home</a> / <span>AHRI System Bundles</span></div>
     <div class="sec-head"><div><div class="eyebrow">Matched systems · ${SYS_BUNDLES.length} certified</div><h2>Build an AHRI-rated system</h2><p>Continental gas / AC matched systems, condenser, coil and furnace, AHRI-certified. ${TIERS[tier].lab} pricing shown.</p></div></div>
@@ -988,7 +990,7 @@ function hpBlock(ton){
 }
 function hpCard(s){
   const price=s.msrp*(tier==="home"?1:tier==="contractor"?0.80:0.70);
-  const parts=[{img:(s.hp.indexOf("4860")>-1?"/hp-4860.png":"/hp-2436.png?v=2"),name:s.hp+" Heat Pump",model:"Cold Climate · R-454B"},{img:COIL_IMG,name:s.coil+" Cased Coil",model:(s.cool).toLocaleString()+" BTU/h cooling"}];
+  const parts=[{img:(s.hp.indexOf("4860")>-1?"/hp-4860.png?v=2":"/hp-2436.png?v=2"),name:s.hp+" Heat Pump",model:"Cold Climate · R-454B"},{img:COIL_IMG,name:s.coil+" Cased Coil",model:(s.cool).toLocaleString()+" BTU/h cooling"}];
   return `<div class="bundle">
     <div class="bh"><h4>${s.seer2} SEER2 Heat Pump</h4><span class="ton">${s.ton} Ton</span></div>
     <div class="rate"><span class="badge">${s.seer2} SEER2 · ${s.eer2} EER2 · ${s.hspf2} HSPF2</span><span class="badge warm">AHRI# ${s.ahri}</span></div>
