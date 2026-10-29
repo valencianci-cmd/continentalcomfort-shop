@@ -865,7 +865,7 @@ function vHome(){
   <section class="hero">
     <div class="flamebg" aria-hidden="true"></div>
     <img class="hero-lineup lu-cont" src="/lineup-continental.png?v=2" alt="Continental HVAC equipment lineup" loading="eager">
-    <img class="hero-lineup lu-nap" src="/lineup-napoleon.png" alt="Napoleon HVAC equipment lineup" loading="eager">
+    <img class="hero-lineup lu-nap" src="/lineup-napoleon.png?v=2" alt="Napoleon HVAC equipment lineup" loading="eager">
     <div class="wrap">
       <span class="made"><span class="flags"><img src="/flag-us.jpg" alt="United States flag" width="30" height="19"><img src="/flag-ca.jpg" alt="Canadian flag" width="30" height="19"></span> Made in the Americas</span>
       <div class="eyebrow" style="color:var(--accent-2)">${brand==="napoleon"?"Napoleon HVAC · Authorized Dealer Portal":"Exclusive online distributor · Continental HVAC"}</div>
@@ -1163,6 +1163,16 @@ async function submitReg(){
 /* ---------------- Build your system (sizing by the ClawSoft engine, priced from our catalog) ---------------- */
 let buildMode="ductless";
 const ROOMN=['Living room','Kitchen','Primary bedroom','Bedroom','Bedroom','Office','Family room','Basement','Sunroom','Bonus room','Dining room','Den'];
+let lastRooms=[];
+const HEAD_OPT={
+  wall:{label:"High-Wall",skus:{6:"cdhas26bb06i",9:"cdhas26bb09i",12:"cdhas26bb12i",18:"cdhas26bb18i",24:"cdhas26bb24i",33:"cdhas26bb33i"}},
+  cassette:{label:"4-Way Cassette",skus:{12:"cdhas4cbb12",18:"cdhas4cbb18"}},
+  console:{label:"Floor Console",skus:{9:"cdhascbb09",12:"cdhascbb12",18:"cdhascbb18"}},
+  slim:{label:"Slim Duct",skus:{9:"cdhashdbb09",12:"cdhashdbb12",18:"cdhashdbb18",24:"cdhashdbb24"}}
+};
+const HEAD_STYLES=["wall","cassette","console","slim"];
+function hSizes(style){return Object.keys(HEAD_OPT[style].skus).map(Number).sort((a,b)=>a-b)}
+function hNearest(style,k){const s=hSizes(style);return s.reduce((a,b)=>Math.abs(b-k)<Math.abs(a-k)?b:a,s[0])}
 function setBMsg(t,c){const e=document.getElementById("bMsg");if(e){e.textContent=t||"";e.className="comsg "+(c||"")}}
 function vBuild(){return `<div class="wrap"><section>
   <div class="crumb"><a href="#/">Home</a> / <span>Build your system</span></div>
@@ -1207,6 +1217,7 @@ function suggestRooms(){
 async function runDuctless(){
   const zip=val("bZip");
   const rooms=[...document.querySelectorAll('#roomBox .mroom')].map(r=>({name:(r.querySelector('.rNm').value||'Room').trim(),area:(r.querySelector('.rAr').value||'').trim()})).filter(r=>Number(r.area)>0);
+  lastRooms=rooms;
   if(!/^\d{5}$/.test(zip)){setBMsg("Enter a 5-digit ZIP code.","err");return}
   if(!rooms.length){setBMsg("Add at least one room with its square footage, or tap Suggest rooms.","err");return}
   setBMsg("Sizing your system…","info");
@@ -1229,6 +1240,7 @@ async function runDucted(){
 }
 function renderEstimate(d){
   const el=document.getElementById("bResult");if(!el)return;
+  if(d.type==="ductless"&&Array.isArray(d.heads)&&d.heads.length>1){return renderMZ(d,el);}
   const lines=(d.lines||[]).map(l=>`<div class="r"><span>${coEsc(mdl(l.name))}${l.qty>1?(" &times;"+l.qty):""}${l.detail?(" <span style='color:var(--muted)'>· "+coEsc(l.detail)+"</span>"):""}</span><span class="tnum">${fmt(l.unit*l.qty)}</span></div>`).join("");
   const load=d.loads&&d.loads.heating?`<p style="color:var(--muted);font-size:.8rem;margin:.5rem 0 0">Estimated load: ${Math.round(d.loads.heating).toLocaleString()} BTU heating${d.loads.cooling?(", "+Math.round(d.loads.cooling).toLocaleString()+" BTU cooling"):""}.</p>`:"";
   const head=d.type==="ducted"?("Ducted matched system · "+d.tons+" ton"):("Ductless · "+d.rooms+" room"+(d.rooms>1?"s":"")+" · "+(d.heads?d.heads.length:0)+" head"+((d.heads&&d.heads.length>1)?"s":""));
@@ -1241,6 +1253,59 @@ function renderEstimate(d){
    <p style="color:var(--muted);font-size:.75rem;margin:.5rem 0 0">Sizing estimate for planning; final selection confirmed with Skip The Warehouse. Freight and sales tax are handled separately.</p>`;
 }
 function addEstimate(items){(items||[]).forEach(i=>{cart[i.sku]=(cart[i.sku]||0)+(i.qty||1)});save("sc_cart",cart);renderCart();bump();openCart();}
+let mzOut=[],mzSel=[],mzRooms=[];
+function renderMZ(d,el){
+  mzOut=(d.items||[]).filter(i=>/^cdhamb/.test(i.sku));
+  const n=(d.heads||[]).length; mzRooms=[]; mzSel=[];
+  for(let i=0;i<n;i++){
+    const nm=(lastRooms[i]&&lastRooms[i].name)?lastRooms[i].name:("Zone "+(i+1));
+    const rec=d.heads[i]||9;
+    mzRooms.push({name:nm,rec:rec});
+    mzSel.push({style:"wall",size:hNearest("wall",rec)});
+  }
+  const outLines=mzOut.map(it=>{const p=byId(it.sku);if(!p)return"";return `<div class="r"><span>${coEsc(mdl(p.name))}${it.qty>1?(" &times;"+it.qty):""} <span style="color:var(--muted)">· ${coEsc(mdl(p.model))}</span></span><span class="tnum">${fmt(p.price*(it.qty||1))}</span></div>`;}).join("");
+  const rows=mzRooms.map((r,i)=>mzRow(r,i)).join("");
+  const load=d.loads&&d.loads.heating?`<p style="color:var(--muted);font-size:.8rem;margin:.5rem 0 0">Estimated load: ${Math.round(d.loads.heating).toLocaleString()} BTU heating${d.loads.cooling?(", "+Math.round(d.loads.cooling).toLocaleString()+" BTU cooling"):""}.</p>`:"";
+  el.innerHTML=`<div class="cosum" style="margin-top:1rem">
+     <div style="font-family:var(--head);text-transform:uppercase;letter-spacing:.03em;margin-bottom:.5rem">Ductless multi-zone · ${n} zone${n>1?"s":""}</div>
+     ${outLines}
+     <div class="r tot"><span>System total (Guest)</span><span class="tnum" id="mzTotal">$0</span></div>
+   </div>
+   <div style="margin-top:1rem">
+     <div style="font-family:var(--head);text-transform:uppercase;letter-spacing:.03em;font-size:.95rem">Choose your indoor units</div>
+     <p style="color:var(--muted);font-size:.8rem;margin:.15rem 0 .7rem">One head per zone. We pre-picked a size for each room from the load — change the style or size to suit.</p>
+     <div id="mzRows">${rows}</div>
+   </div>${load}
+   <button class="btn" style="justify-content:center;margin-top:.9rem;width:100%" onclick="mzAdd()">Add system to cart</button>
+   <p style="color:var(--muted);font-size:.75rem;margin:.5rem 0 0">Sizing estimate for planning; final selection confirmed with Skip The Warehouse. Freight and sales tax are handled separately.</p>`;
+  mzRecalc();
+}
+function mzRow(r,i){
+  const sel=mzSel[i];
+  const styleOpts=HEAD_STYLES.map(s=>`<option value="${s}"${s===sel.style?" selected":""}>${HEAD_OPT[s].label}</option>`).join("");
+  return `<div class="mzitem" style="display:flex;gap:.55rem;align-items:flex-end;flex-wrap:wrap;border:1px solid var(--line);border-radius:8px;padding:.6rem .65rem;margin-bottom:.5rem">
+     <div style="flex:1 1 128px;min-width:118px"><div style="font-family:var(--head);font-weight:600">${coEsc(r.name)}</div><div style="color:var(--muted);font-size:.72rem">Sized ~${r.rec}K</div></div>
+     <div class="field" style="min-width:0;flex:0 0 auto"><label>Style</label><select onchange="mzStyle(${i},this.value)">${styleOpts}</select></div>
+     <div class="field" style="min-width:0;flex:0 0 auto"><label>Size</label><select id="mzSz${i}" onchange="mzSize(${i},this.value)">${mzSizeOpts(i)}</select></div>
+     <div class="tnum" id="mzP${i}" style="flex:0 0 auto;min-width:62px;text-align:right;font-family:var(--head);font-weight:700"></div>
+   </div>`;
+}
+function mzSizeOpts(i){const sel=mzSel[i];return hSizes(sel.style).map(k=>`<option value="${k}"${k===sel.size?" selected":""}>${k}K</option>`).join("");}
+function mzStyle(i,v){mzSel[i].style=v;mzSel[i].size=hNearest(v,mzRooms[i].rec);const sz=document.getElementById("mzSz"+i);if(sz)sz.innerHTML=mzSizeOpts(i);mzRecalc();}
+function mzSize(i,v){mzSel[i].size=Number(v);mzRecalc();}
+function mzHeadSku(i){const s=mzSel[i];return HEAD_OPT[s.style].skus[s.size];}
+function mzRecalc(){
+  let tot=0;
+  mzOut.forEach(it=>{const p=byId(it.sku);if(p)tot+=p.price*(it.qty||1);});
+  mzSel.forEach((s,i)=>{const p=byId(mzHeadSku(i));const el=document.getElementById("mzP"+i);if(p){tot+=p.price;if(el)el.textContent=fmt(p.price);}});
+  const t=document.getElementById("mzTotal");if(t)t.textContent=fmt(tot);
+}
+function mzAdd(){
+  const items=mzOut.map(it=>({sku:it.sku,qty:it.qty||1}));
+  const counts={};mzSel.forEach((s,i)=>{const sku=mzHeadSku(i);counts[sku]=(counts[sku]||0)+1;});
+  for(const sku in counts) items.push({sku,qty:counts[sku]});
+  addEstimate(items);
+}
 let dropinInstance=null,coMethod="card",coAmount=0;
 function coEsc(s){return String(s==null?"":s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
 function coVal(id){const el=document.getElementById(id);return el?el.value.trim():""}
