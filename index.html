@@ -1115,6 +1115,11 @@ function route(){
 }
 window.addEventListener("hashchange",route);
 applyBrand();route();renderCart();
+/* Napoleon home-screen tile: require the passcode (or go straight in if already unlocked) */
+try{ if(new URLSearchParams(location.search).get("np")==="1"){
+  if(load("sc_nap",0)===1){ brand="napoleon"; save("sc_brand","napoleon"); applyBrand(); route(); }
+  else { openPass(); }
+}}catch(e){}
 
 /* ---------------- Checkout (Braintree Drop-in) ---------------- */
 const API="https://continentalcomfort-api.onrender.com";

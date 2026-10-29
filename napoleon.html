@@ -24,14 +24,14 @@
 </head>
 <body>
 <script>
- try{localStorage.setItem('sc_nap','1');localStorage.setItem('sc_brand','"napoleon"');}catch(e){}
- if (window.navigator.standalone) { location.replace('/#/'); }
+ // Launched from the home-screen tile: go to the passcode-gated Napoleon entry.
+ if (window.navigator.standalone) { location.replace('/?np=1'); }
 </script>
 <div class="wrap">
  <span class="flame"><img src="/apple-touch-icon-napoleon.png" alt="Napoleon"></span>
  <h1>Napoleon Dealer Shop</h1>
  <p>Operated by Skip The Warehouse.</p>
- <a class="btn" href="/#/">Enter Napoleon Shop</a>
+ <a class="btn" href="/?np=1">Enter Napoleon Shop</a>
  <div class="hint">Tip: tap Share, then "Add to Home Screen" to save this as a one-tap Napoleon tile.</div>
 </div>
 </body>
