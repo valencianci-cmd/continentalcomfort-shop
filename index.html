@@ -517,10 +517,10 @@ const P=[
     specs:{"Tonnage":"5 ton","Efficiency":"13.4 SEER2","Cooling capacity":"53,000 BTU/h","Dimensions":"47.875 x 29.5 x 29.5 in","Net weight":"250 lbs","Refrigerant":"R-454B"},
     feat:["Scroll compressor with R-454B refrigerant","Microchannel condenser and swept fan blades","Factory-installed liquid line dryer","Service valves outside the cabinet for easy servicing","Removable service panel for electrical access"]},
   {id:"hp2436",cat:"heat-pumps",name:"Cold Climate Heat Pump, 2 to 3 Ton",model:"WSEHV2436BA1-C",img:"/hp-2436.png?v=2",imgN:"/nap-hp1.png",url:"https://www.continentalcomfort.com/en/products/hvac/",price:4090,
-    specs:{"Capacity":"2 to 3 ton (24k-36k BTU/h)","Efficiency":"Up to 17 SEER2","Cold climate":"Heats to −22°F","Compressor":"Hyper Heat DC inverter","Dimensions":"32¼ in H × 37 in W × 19⅛ in D","Net weight":"217 lbs","Refrigerant":"R-454B"},
+    specs:{"Capacity":"2 to 3 ton (24k-34k BTU/h)","Efficiency":"Up to 18.5 SEER2 · 10 HSPF2 (with air handler)","With cased coil":"16 SEER2 · 8.5 HSPF2","Cold climate":"Heats to −22°F","Compressor":"Hyper Heat DC inverter","Dimensions":"37.8 x 39 x 14.6 in","Net weight":"187 lbs","Refrigerant":"R-454B"},
     feat:["Hyper Heat DC inverter rotary compressor, rated to −22°F","100% heating capacity at −5°F and 100% cooling at 115°F","Side-discharge design with a smaller footprint for narrow spaces","NEEP cold-climate certified; NRCan Greener Homes listed when paired with a furnace or air handler","Works with the EQHub smart thermostat, standard thermostats, or home automation"]},
   {id:"hp4860",cat:"heat-pumps",name:"Cold Climate Heat Pump, 4 to 5 Ton",model:"WSEHV4860BA1-C",img:"/hp-4860.png?v=2",imgN:"/nap-hp2.png",url:"https://www.continentalcomfort.com/en/products/hvac/",price:5200,
-    specs:{"Capacity":"4 to 5 ton (48k-54k BTU/h)","Efficiency":"Up to 17 SEER2","Cold climate":"Heats to −22°F","Compressor":"Hyper Heat DC inverter","Dimensions":"53¾ in H × 42¾ in W × 15½ in D","Net weight":"309 lbs","Refrigerant":"R-454B"},
+    specs:{"Capacity":"4 to 5 ton (48k-54k BTU/h)","Efficiency":"Up to 19 SEER2 · 9.5 HSPF2 (with air handler)","With cased coil":"16 SEER2 · 8.5–8.8 HSPF2","Cold climate":"Heats to −22°F","Compressor":"Hyper Heat DC inverter","Dimensions":"49.61 x 35.43 x 13.39 in","Net weight":"241 lbs","Refrigerant":"R-454B"},
     feat:["Hyper Heat DC inverter rotary compressor, rated to −22°F","100% heating capacity at −5°F and 100% cooling at 115°F","Taller dual-fan cabinet for 4 and 5 ton capacity","NEEP cold-climate certified; NRCan Greener Homes listed when paired with a furnace or air handler","Works with the EQHub smart thermostat, standard thermostats, or home automation"]},
   {id:"wpfx24a",cat:"air-handlers",name:"18 SEER2 Air Handler, 2 Ton",model:"WPFX24A-C",img:IMG+"s--16eJ8ZJZ--/elglgcklexgbuhanoks2.png",imgN:"/nap-airhandler.png",url:"https://www.continentalcomfort.com/en/products/hvac/",price:2835,
     specs:{"Nominal capacity":"2 ton","Efficiency":"Up to 18 SEER2","Blower":"ECM variable-speed","Refrigerant":"R-454B","Use":"Cold Climate Heat Pump matchups"},
@@ -738,13 +738,18 @@ const ACCESSORIES=[
   {grp:"Hybrid Kits",model:"W370-10010241",desc:"Coil/Furnace Adapter Kit, 22.5 in (GF)",cost:27.00},
 ];
 const accPrice=a=>a.cost*(tier==="home"?1.40:tier==="contractor"?1.15:1.08);
-/* Napoleon/Continental Cold Climate Heat Pump matched systems (R-454B), AHRI-certified.
-   HP + WPCC cased coil; add a Continental gas furnace + W370-10010241 adapter for a hybrid system. */
+/* Cold Climate Heat Pump systems (R-454B), ratings per Napoleon 2026 price book.
+   AH = heat pump + WPFX air handler = complete all-electric system (18–19 SEER2).
+   COIL = heat pump + WPCC cased coil = AHRI-certified 16 SEER2; add a gas furnace + W370-10010241 adapter for a hybrid. */
 const HP_SYSTEMS=[
-  {ton:"2",hp:"WSEHV2436BA1-C",coil:"WPCC24ABA1-C",ahri:"217463583",seer2:18.5,eer2:11,hspf2:10,cool:22000,btuh:24000,msrp:5790},
-  {ton:"2.5",hp:"WSEHV2436BA1-C",coil:"WPCC36ABA1-C",ahri:"217463581",seer2:18.5,eer2:11,hspf2:10,cool:32000,btuh:34000,msrp:5840},
-  {ton:"4",hp:"WSEHV4860BA1-C",coil:"WPCC48ABA1-C",ahri:"217463584",seer2:18.5,eer2:11,hspf2:9.5,cool:47000,btuh:48000,msrp:7520},
-  {ton:"5",hp:"WSEHV4860BA1-C",coil:"WPCC60ABA1-C",ahri:"217463582",seer2:18.5,eer2:9.8,hspf2:9.5,cool:52000,btuh:54000,msrp:7570},
+  {kind:"ah",ton:"2",hp:"hp2436",match:"wpfx24a",seer2:18,hspf2:10,cool:24000,btuh:24000},
+  {kind:"ah",ton:"3",hp:"hp2436",match:"wpfx36a",seer2:18.5,hspf2:10,cool:34000,btuh:34000},
+  {kind:"ah",ton:"4",hp:"hp4860",match:"wpfx48a",seer2:19,hspf2:9.5,cool:48000,btuh:48000},
+  {kind:"ah",ton:"5",hp:"hp4860",match:"wpfx60a",seer2:18.5,hspf2:9.5,cool:54000,btuh:54000},
+  {kind:"coil",ton:"2",hp:"hp2436",match:"wpcc24",ahri:"217463583",seer2:16,eer2:11,hspf2:8.5,cool:22000,btuh:24000},
+  {kind:"coil",ton:"2.5",hp:"hp2436",match:"wpcc36",ahri:"217463581",seer2:16,eer2:11,hspf2:8.5,cool:32000,btuh:34000},
+  {kind:"coil",ton:"4",hp:"hp4860",match:"wpcc48",ahri:"217463584",seer2:16,eer2:11,hspf2:8.8,cool:47000,btuh:48000},
+  {kind:"coil",ton:"5",hp:"hp4860",match:"wpcc60",ahri:"217463582",seer2:16,eer2:9.8,hspf2:8.5,cool:52000,btuh:54000},
 ];
 const DUCTLESS_SYSTEMS=[
   {id:"u9",series:"Ultimate",btu:9,seer:"26 SEER2",out:"CDHAS26BA-09-O",ind:"CDHAS26BB-09-I",msrp:2840},
@@ -781,8 +786,9 @@ function setQty(id,q){if(q<=0)delete cart[id];else cart[id]=q;save("sc_cart",car
 function resolveLine(key){
   if(key.startsWith("sys-")){const b=SYS_BUNDLES.find(x=>x.ahri===key.slice(4));if(!b)return null;
     return {name:b.seer+" System · "+b.ton+" Ton",model:"AHRI# "+b.ahri+" · "+toC(b.cond),img:AC_IMG,price:bundlePrice(b)};}
-  if(key.startsWith("hp-")){const s=HP_SYSTEMS.find(x=>x.ahri===key.slice(3));if(!s)return null;
-    return {name:s.seer2+" SEER2 Heat Pump System · "+s.ton+" Ton",model:"AHRI# "+s.ahri+" · "+s.hp,img:HP_IMG,price:s.msrp*(tier==="home"?1:tier==="contractor"?0.80:0.70)};}
+  if(key.startsWith("hp-")){const s=HP_SYSTEMS.find(x=>x.ahri&&x.ahri===key.slice(3));if(!s)return null;
+    const hp=byId(s.hp),m=byId(s.match);const pr=((hp?hp.price:0)+(m?m.price:0))*(tier==="home"?1:tier==="contractor"?0.80:0.70);
+    return {name:s.seer2+" SEER2 Heat Pump System · "+s.ton+" Ton",model:"AHRI# "+s.ahri,img:HP_IMG,price:pr};}
   if(key.startsWith("acc-")){const a=ACCESSORIES.find(x=>x.model.replace(/'/g,"")===key.slice(4));if(!a)return null;
     return {name:a.desc,model:a.model,img:COIL_IMG,price:accPrice(a)};}
   if(key.startsWith("ds-")){const s=DUCTLESS_SYSTEMS.find(x=>x.id===key.slice(3));if(!s)return null;
@@ -939,7 +945,7 @@ function finderBlock(list,withFilters){
     <div class="fhead"><h3>System builder</h3><span style="color:var(--muted);font-size:.84rem;margin-left:auto">${list.length} AHRI-rated system${list.length===1?"":"s"}</span></div>
     ${withFilters?`<div class="filters">
       <div class="field"><label>Efficiency</label><select id="fSeer" onchange="route()">
-        <option value="all">All SEER2</option><option value="14.3">14.3 SEER2</option><option value="13.4">13.4 SEER2</option><option value="18.5">18.5 SEER2 · Heat Pump</option></select></div>
+        <option value="all">All systems</option><option value="14.3">14.3 SEER2 · AC/Gas</option><option value="13.4">13.4 SEER2 · AC/Gas</option><option value="hp">Heat Pump systems</option></select></div>
       <div class="field"><label>Tonnage</label><select id="fTon" onchange="route()">
         <option value="all">Any tonnage</option><option>1.5</option><option>2</option><option>2.5</option><option>3</option><option>3.5</option><option>4</option><option>5</option></select></div>
       <div class="field" style="justify-content:flex-end"><label>&nbsp;</label><a class="btn ghost sm" href="#/crossover" style="justify-content:center">Replacing a competitor? →</a></div>
@@ -969,8 +975,8 @@ function addBundleSys(ahri){
 function vBundles(){
   const seer=(document.getElementById("fSeer")||{}).value||"all";
   const ton=(document.getElementById("fTon")||{}).value||"all";
-  const list=(seer==="18.5")?[]:SYS_BUNDLES.filter(b=>(seer==="all"||b.series===seer)&&(ton==="all"||b.ton===ton));
-  const showHp=(seer==="all"||seer==="18.5");
+  const list=(seer==="hp")?[]:SYS_BUNDLES.filter(b=>(seer==="all"||b.series===seer)&&(ton==="all"||b.ton===ton));
+  const showHp=(seer==="all"||seer==="hp");
   return `<div class="wrap"><section>
     <div class="crumb"><a href="#/">Home</a> / <span>AHRI System Bundles</span></div>
     <div class="sec-head"><div><div class="eyebrow">Matched systems · ${SYS_BUNDLES.length} certified</div><h2>Build an AHRI-rated system</h2><p>Continental gas / AC matched systems, condenser, coil and furnace, AHRI-certified. ${TIERS[tier].lab} pricing shown.</p></div></div>
@@ -981,25 +987,40 @@ function vBundles(){
   </section></div>`;
 }
 function hpBlock(ton){
-  const hl=HP_SYSTEMS.filter(s=>!ton||ton==="all"||s.ton===ton);
-  if(!hl.length)return "";
-  return `<div style="margin-top:1.6rem">
-    <div class="sec-head"><div><div class="eyebrow">Heat pump · hybrid-ready</div><h2 style="font-size:1.4rem">Cold Climate Heat Pump systems</h2><p>AHRI-certified heat pump + WPCC cased coil. Add a Continental gas furnace and the W370-10010241 adapter for a hybrid system. ${TIERS[tier].lab} pricing shown.</p></div></div>
-    <div class="bundles" style="padding:0">${hl.map(hpCard).join("")}</div>
-  </div>`;
+  const f=s=>(!ton||ton==="all"||s.ton===ton);
+  const ah=HP_SYSTEMS.filter(s=>s.kind==="ah"&&f(s));
+  const coil=HP_SYSTEMS.filter(s=>s.kind==="coil"&&f(s));
+  if(!ah.length&&!coil.length)return "";
+  let html='<div style="margin-top:1.6rem">';
+  if(ah.length) html+=`<div class="sec-head"><div><div class="eyebrow">Heat pump · all-electric</div><h2 style="font-size:1.4rem">Heat Pump + Air Handler systems</h2><p>Complete all-electric Cold Climate systems — 18 SEER2, heats to −22°F, no furnace needed. ${TIERS[tier].lab} pricing shown.</p></div></div>
+    <div class="bundles" style="padding:0">${ah.map(hpCard).join("")}</div>`;
+  if(coil.length) html+=`<div class="sec-head" style="margin-top:1.4rem"><div><div class="eyebrow">Heat pump · hybrid-ready</div><h2 style="font-size:1.4rem">Heat Pump + Cased Coil systems</h2><p>AHRI-certified heat pump + WPCC cased coil at 16 SEER2. Add a Continental gas furnace and the W370-10010241 adapter for a hybrid, dual-fuel system — you choose the furnace. ${TIERS[tier].lab} pricing shown.</p></div></div>
+    <div class="bundles" style="padding:0">${coil.map(hpCard).join("")}</div>`;
+  return html+'</div>';
 }
 function hpCard(s){
-  const price=s.msrp*(tier==="home"?1:tier==="contractor"?0.80:0.70);
-  const parts=[{img:(s.hp.indexOf("4860")>-1?"/hp-4860.png?v=2":"/hp-2436.png?v=2"),name:s.hp+" Heat Pump",model:"Cold Climate · R-454B"},{img:COIL_IMG,name:s.coil+" Cased Coil",model:(s.cool).toLocaleString()+" BTU/h cooling"}];
+  const hp=byId(s.hp),m=byId(s.match);
+  const price=((hp?hp.price:0)+(m?m.price:0))*(tier==="home"?1:tier==="contractor"?0.80:0.70);
+  const isAH=s.kind==="ah";
+  const parts=[hp,m].filter(Boolean);
+  const rate=isAH
+    ?`<span class="badge">${s.seer2} SEER2 · ${s.hspf2} HSPF2</span><span class="badge warm">All-electric · no furnace</span>`
+    :`<span class="badge">${s.seer2} SEER2 · ${s.eer2} EER2 · ${s.hspf2} HSPF2</span><span class="badge warm">AHRI# ${s.ahri}</span>`;
   return `<div class="bundle">
     <div class="bh"><h4>${s.seer2} SEER2 Heat Pump</h4><span class="ton">${s.ton} Ton</span></div>
-    <div class="rate"><span class="badge">${s.seer2} SEER2 · ${s.eer2} EER2 · ${s.hspf2} HSPF2</span><span class="badge warm">AHRI# ${s.ahri}</span></div>
-    <div class="parts">${parts.map(p=>`<div class="part"><div class="pimg"><img src="${pimg(p)}" alt=""></div><div class="pt">${p.name}<span>${mdl(p.model)}</span></div></div>`).join("")}</div>
+    <div style="font-size:.7rem;color:var(--muted);font-family:var(--head);text-transform:uppercase;letter-spacing:.06em;margin:-.15rem 0 .4rem">${isAH?"+ Air Handler":"+ Cased Coil"}</div>
+    <div class="rate">${rate}</div>
+    <div class="parts">${parts.map(p=>`<div class="part"><div class="pimg"><img src="${pimg(p)}" alt=""></div><div class="pt">${coEsc(p.name)}<span>${mdl(p.model)}</span></div></div>`).join("")}</div>
     <div class="bf"><div class="price"><div class="lab">${TIERS[tier].lab} · system</div><div class="val tnum">${fmt(price)}</div></div>
-      <button class="btn sm" onclick="addHpSys('${s.ahri}')">Add system</button></div>
+      <button class="btn sm" onclick="addHpSys('${s.kind}','${s.ton}')">Add system</button></div>
   </div>`;
 }
-function addHpSys(ahri){const s=HP_SYSTEMS.find(x=>x.ahri===ahri);if(!s)return;const key="hp-"+ahri;cart[key]=(cart[key]||0)+1;save("sc_cart",cart);renderCart();bump();furnacePrompt()}
+function addHpSys(kind,ton){
+  const s=HP_SYSTEMS.find(x=>x.kind===kind&&x.ton===ton);if(!s)return;
+  cart[s.hp]=(cart[s.hp]||0)+1; cart[s.match]=(cart[s.match]||0)+1;
+  save("sc_cart",cart);renderCart();bump();
+  if(kind==="coil") furnacePrompt(); else openCart();
+}
 function furnacePrompt(){
   const ov=document.createElement("div");
   ov.className="comodal open"; ov.style.zIndex="90";
