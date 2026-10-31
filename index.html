@@ -267,6 +267,20 @@ section{padding-block:clamp(1.8rem,4vw,2.8rem)}
 .qty span{width:30px;text-align:center;font-size:.82rem;font-variant-numeric:tabular-nums}
 .citem .ci-p{font-family:var(--head);font-weight:700;font-size:.92rem;text-align:right;white-space:nowrap}
 .rm{font-size:.7rem;color:var(--bad);margin-top:.3rem;cursor:pointer}
+.ci-r{display:flex;flex-direction:column;align-items:flex-end;justify-content:space-between;flex:0 0 auto;gap:.4rem}
+.ci-x{width:30px;height:30px;border-radius:7px;background:var(--surface-2);border:1px solid var(--line);color:var(--muted);font-size:.95rem;line-height:1;display:grid;place-items:center;cursor:pointer}
+.ci-x:hover,.ci-x:active{color:var(--bad);border-color:var(--bad)}
+.clearcart{background:none;border:0;color:var(--muted);font-size:.78rem;text-decoration:underline;cursor:pointer;padding:.5rem;margin:0 auto}
+.clearcart:hover,.clearcart:active{color:var(--bad)}
+.mroom{display:flex;gap:.5rem;align-items:flex-end;margin-bottom:.5rem}
+.mroom .rf{display:flex;flex-direction:column;gap:.2rem;min-width:0}
+.mroom .rf.rf-nm{flex:1 1 auto}
+.mroom .rf.rf-sq{width:88px;flex:0 0 88px}
+.mroom .rf label{font-size:.68rem;color:var(--muted);font-family:var(--head);text-transform:uppercase;letter-spacing:.05em}
+.mroom .rf input{width:100%;box-sizing:border-box;background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:.55rem .6rem;color:var(--fg);font-size:.95rem}
+.mroom .rf input:focus{outline:none;border-color:var(--accent)}
+.mroom .rx{flex:0 0 auto;width:42px;height:42px;border:1px solid var(--line);background:var(--surface-2);border-radius:8px;color:var(--muted);font-size:1.05rem;line-height:1;display:grid;place-items:center;cursor:pointer}
+.mroom .rx:hover,.mroom .rx:active{color:var(--bad);border-color:var(--bad)}
 .drawer .df{border-top:1px solid var(--line);padding:1.1rem;display:flex;flex-direction:column;gap:.7rem;padding-bottom:max(1.1rem,env(safe-area-inset-bottom,0px))}
 .drawer .df .trow{display:flex;justify-content:space-between;font-size:.86rem;color:var(--muted)}
 .drawer .df .trow.tot{font-family:var(--head);font-weight:700;font-size:1.2rem;color:var(--fg)}
@@ -783,6 +797,7 @@ let cart=load("sc_cart",{});
 
 function addCart(id,qty){qty=qty||1;cart[id]=(cart[id]||0)+qty;save("sc_cart",cart);renderCart();bump();openCart()}
 function setQty(id,q){if(q<=0)delete cart[id];else cart[id]=q;save("sc_cart",cart);renderCart()}
+function clearCart(){cart={};save("sc_cart",cart);renderCart();}
 function resolveLine(key){
   if(key.startsWith("sys-")){const b=SYS_BUNDLES.find(x=>x.ahri===key.slice(4));if(!b)return null;
     return {name:b.seer+" System · "+b.ton+" Ton",model:"AHRI# "+b.ahri+" · "+toC(b.cond),img:AC_IMG,price:bundlePrice(b)};}
@@ -808,15 +823,15 @@ function renderCart(){
     <div class="ci-img"><img src="${pimg(p)}" alt="" loading="lazy"></div>
     <div class="ci-b"><h4>${mdl(p.name)}</h4><div class="ci-m">${mdl(p.model)}</div>
       <div class="qty"><button onclick="setQty('${id}',${q-1})" aria-label="Decrease">−</button><span class="tnum">${q}</span><button onclick="setQty('${id}',${q+1})" aria-label="Increase">+</button></div>
-      <div class="rm" onclick="setQty('${id}',0)">Remove</div>
     </div>
-    <div class="ci-p tnum">${fmt(p.price*q)}</div></div>`).join("");
+    <div class="ci-r"><button class="ci-x" onclick="setQty('${id}',0)" aria-label="Remove">✕</button><div class="ci-p tnum">${fmt(p.price*q)}</div></div></div>`).join("");
   const sub=lines.reduce((a,{p,q})=>a+p.price*q,0);
   foot.innerHTML=`<div class="trow"><span>Subtotal (${cartCount()} items)</span><span class="tnum">${fmt(sub)}</span></div>
     <div class="trow"><span>Pricing tier</span><span>${TIERS[tier].lab}</span></div>
     <div class="trow tot"><span>Estimated total</span><span class="tnum">${fmt(sub)}</span></div>
     <button class="btn" style="justify-content:center" onclick="openCheckout()">Checkout</button>
-    <p style="font-size:.72rem;color:var(--muted);margin:0;text-align:center">Freight and sales tax are calculated separately.</p>`;
+    <p style="font-size:.72rem;color:var(--muted);margin:0;text-align:center">Free shipping on every order · sales tax calculated at checkout.</p>
+    <button class="clearcart" onclick="clearCart()">Clear cart</button>`;
 }
 function checkoutMsg(){const f=document.getElementById("cartFoot");const n=document.createElement("p");n.style.cssText="font-size:.78rem;color:var(--accent);margin:.2rem 0 0;text-align:center";n.textContent="Prototype checkout, payment and fulfillment wire up in the production build.";f.appendChild(n)}
 
@@ -886,7 +901,7 @@ function vHome(){
     <div class="it">${flag()}<span><b>Made in the Americas</b></span></div>
     <div class="it">${shield()}<span><b>Exclusive</b> online distributor</span></div>
     <div class="it">${star()}<span><b>4.9</b> · 683 reviews</span></div>
-    <div class="it">${truck()}<span><b>National</b> fulfillment</span></div>
+    <div class="it">${truck()}<span><b>Free</b> shipping</span></div>
     <div class="it">${chat()}<span><b>24-hour</b> support</span></div>
   </div></div></div>
 
@@ -1222,10 +1237,10 @@ function renderBuildPane(){
       <p class="comsg" id="bMsg"></p><div id="bResult"></div>`;
   }
 }
-function roomRow(name,area){return `<div class="mroom" style="display:flex;gap:.5rem;align-items:flex-end;margin-bottom:.45rem">
-   <div style="flex:1"><label style="font-size:.8rem;color:var(--muted)">Room</label><input class="rNm" value="${coEsc(name)}"></div>
-   <div style="width:92px"><label style="font-size:.8rem;color:var(--muted)">Sq ft</label><input class="rAr" inputmode="numeric" value="${coEsc(area)}"></div>
-   <button type="button" class="btn ghost sm" onclick="this.closest('.mroom').remove()">Remove</button>
+function roomRow(name,area){return `<div class="mroom">
+   <div class="rf rf-nm"><label>Room</label><input class="rNm" value="${coEsc(name)}"></div>
+   <div class="rf rf-sq"><label>Sq ft</label><input class="rAr" inputmode="numeric" value="${coEsc(area)}"></div>
+   <button type="button" class="rx" onclick="this.closest('.mroom').remove()" aria-label="Remove room">✕</button>
  </div>`}
 function addRoom(n,a){const b=document.getElementById("roomBox");if(!b)return;const i=b.querySelectorAll('.mroom').length;b.insertAdjacentHTML('beforeend',roomRow(n||ROOMN[i]||'Room',a||''));}
 function suggestRooms(){
@@ -1270,8 +1285,9 @@ function renderEstimate(d){
      ${lines}
      <div class="r tot"><span>System total (Guest)</span><span class="tnum">${fmt(d.subtotal)}</span></div>
    </div>${load}
-   <button class="btn" style="justify-content:center;margin-top:.8rem" onclick='addEstimate(${JSON.stringify(d.items||[])})'>Add system to cart</button>
-   <p style="color:var(--muted);font-size:.75rem;margin:.5rem 0 0">Sizing estimate for planning; final selection confirmed with Skip The Warehouse. Freight and sales tax are handled separately.</p>`;
+   ${d.type==="ductless"?`<button class="btn ghost sm" style="justify-content:center;width:100%;margin-top:.7rem" onclick="runDucted()">Check a ducted system for this home →</button>`:""}
+   <button class="btn" style="justify-content:center;margin-top:.5rem" onclick='addEstimate(${JSON.stringify(d.items||[])})'>Add system to cart</button>
+   <p style="color:var(--muted);font-size:.75rem;margin:.5rem 0 0">Sizing estimate for planning; final selection confirmed with Skip The Warehouse. Free shipping on every order · sales tax handled separately.</p>`;
 }
 function addEstimate(items){(items||[]).forEach(i=>{cart[i.sku]=(cart[i.sku]||0)+(i.qty||1)});save("sc_cart",cart);renderCart();bump();openCart();}
 let mzOut=[],mzSel=[],mzRooms=[];
@@ -1297,8 +1313,9 @@ function renderMZ(d,el){
      <p style="color:var(--muted);font-size:.8rem;margin:.15rem 0 .7rem">One head per zone. We pre-picked a size for each room from the load — change the style or size to suit.</p>
      <div id="mzRows">${rows}</div>
    </div>${load}
-   <button class="btn" style="justify-content:center;margin-top:.9rem;width:100%" onclick="mzAdd()">Add system to cart</button>
-   <p style="color:var(--muted);font-size:.75rem;margin:.5rem 0 0">Sizing estimate for planning; final selection confirmed with Skip The Warehouse. Freight and sales tax are handled separately.</p>`;
+   <button class="btn ghost sm" style="justify-content:center;width:100%;margin-top:.7rem" onclick="runDucted()">Check a ducted system for this home →</button>
+   <button class="btn" style="justify-content:center;margin-top:.5rem;width:100%" onclick="mzAdd()">Add system to cart</button>
+   <p style="color:var(--muted);font-size:.75rem;margin:.5rem 0 0">Sizing estimate for planning; final selection confirmed with Skip The Warehouse. Free shipping on every order · sales tax handled separately.</p>`;
   mzRecalc();
 }
 function mzRow(r,i){
@@ -1363,7 +1380,7 @@ function openCheckout(){
     <div id="poBox" style="display:none"><label>Purchase order number</label><input id="coPO" placeholder="e.g. PO-10432"></div>
     <button class="btn" id="coPay" style="justify-content:center" disabled>Loading payment</button>
     <p class="comsg" id="coMsg"></p>
-    <p style="font-size:.7rem;color:var(--muted);text-align:center;margin:0">Freight and sales tax are handled separately for now.</p>`;
+    <p style="font-size:.7rem;color:var(--muted);text-align:center;margin:0">Free shipping on every order · sales tax handled separately.</p>`;
   coMethod="card";coAmount=sub;
   document.getElementById("coModal").classList.add("open");
   initDropin(sub);
