@@ -558,7 +558,7 @@ const P=[
     specs:{"Capacity":"2 to 3 ton (24k-34k BTU/h)","Efficiency":"Up to 18.5 SEER2 · 10 HSPF2 (with air handler)","With cased coil":"16 SEER2 · 8.5 HSPF2","Cold climate":"Heats to −22°F","Compressor":"Hyper Heat DC inverter","Dimensions":"37.8 x 39 x 14.6 in","Net weight":"187 lbs","Refrigerant":"R-454B"},
     feat:["Hyper Heat DC inverter rotary compressor, rated to −22°F","100% heating capacity at −5°F and 100% cooling at 115°F","Side-discharge design with a smaller footprint for narrow spaces","NEEP cold-climate certified; NRCan Greener Homes listed when paired with a furnace or air handler","Works with the EQHub smart thermostat, standard thermostats, or home automation"]},
   {id:"hp4860",cat:"heat-pumps",name:"Cold Climate Heat Pump, 4 to 5 Ton",model:"WSEHV4860BA1-C",img:"/hp-4860.png?v=2",imgN:"/nap-hp2.png?v=2",url:"https://www.continentalcomfort.com/en/products/hvac/",price:5200,
-    specs:{"Capacity":"4 to 5 ton (48k-54k BTU/h)","Efficiency":"Up to 19 SEER2 · 9.5 HSPF2 (with air handler)","With cased coil":"16 SEER2 · 8.5–8.8 HSPF2","Cold climate":"Heats to −22°F","Compressor":"Hyper Heat DC inverter","Dimensions":"49.61 x 35.43 x 13.39 in","Net weight":"241 lbs","Refrigerant":"R-454B"},
+    specs:{"Capacity":"4 to 5 ton (48k-54k BTU/h)","Efficiency":"Up to 19 SEER2 · 9.5 HSPF2 (with air handler)","With cased coil":"16 SEER2 · 8.5 to 8.8 HSPF2","Cold climate":"Heats to −22°F","Compressor":"Hyper Heat DC inverter","Dimensions":"49.61 x 35.43 x 13.39 in","Net weight":"241 lbs","Refrigerant":"R-454B"},
     feat:["Hyper Heat DC inverter rotary compressor, rated to −22°F","100% heating capacity at −5°F and 100% cooling at 115°F","Taller dual-fan cabinet for 4 and 5 ton capacity","NEEP cold-climate certified; NRCan Greener Homes listed when paired with a furnace or air handler","Works with the EQHub smart thermostat, standard thermostats, or home automation"]},
   {id:"wpfx24a",cat:"air-handlers",name:"18 SEER2 Air Handler, 2 Ton",model:"WPFX24A-C",img:IMG+"s--16eJ8ZJZ--/elglgcklexgbuhanoks2.png",imgN:"/nap-airhandler.png",url:"https://www.continentalcomfort.com/en/products/hvac/",price:2835,
     specs:{"Nominal capacity":"2 ton","Efficiency":"Up to 18 SEER2","Blower":"ECM variable-speed","Refrigerant":"R-454B","Use":"Cold Climate Heat Pump matchups"},
@@ -777,7 +777,7 @@ const ACCESSORIES=[
 ];
 const accPrice=a=>a.cost*(tier==="home"?1.40:tier==="contractor"?1.15:1.08);
 /* Cold Climate Heat Pump systems (R-454B), ratings per Napoleon 2026 price book.
-   AH = heat pump + WPFX air handler = complete all-electric system (18–19 SEER2).
+   AH = heat pump + WPFX air handler = complete all-electric system (18 to 19 SEER2).
    COIL = heat pump + WPCC cased coil = AHRI-certified 16 SEER2; add a gas furnace + W370-10010241 adapter for a hybrid. */
 const HP_SYSTEMS=[
   {kind:"ah",ton:"2",hp:"hp2436",match:"wpfx24a",seer2:18,hspf2:10,cool:24000,btuh:24000},
@@ -1034,9 +1034,9 @@ function hpBlock(ton){
   const coil=HP_SYSTEMS.filter(s=>s.kind==="coil"&&f(s));
   if(!ah.length&&!coil.length)return "";
   let html='<div style="margin-top:1.6rem">';
-  if(ah.length) html+=`<div class="sec-head"><div><div class="eyebrow">Heat pump · all-electric</div><h2 style="font-size:1.4rem">Heat Pump + Air Handler systems</h2><p>Complete all-electric Cold Climate systems — 18 SEER2, heats to −22°F, no furnace needed. ${TIERS[tier].lab} pricing shown.</p></div></div>
+  if(ah.length) html+=`<div class="sec-head"><div><div class="eyebrow">Heat pump · all-electric</div><h2 style="font-size:1.4rem">Heat Pump + Air Handler systems</h2><p>Complete all-electric Cold Climate systems, 18 SEER2, heats to −22°F, no furnace needed. ${TIERS[tier].lab} pricing shown.</p></div></div>
     <div class="bundles" style="padding:0">${ah.map(hpCard).join("")}</div>`;
-  if(coil.length) html+=`<div class="sec-head" style="margin-top:1.4rem"><div><div class="eyebrow">Heat pump · hybrid-ready</div><h2 style="font-size:1.4rem">Heat Pump + Cased Coil systems</h2><p>AHRI-certified heat pump + WPCC cased coil at 16 SEER2. Add a Continental gas furnace and the W370-10010241 adapter for a hybrid, dual-fuel system — you choose the furnace. ${TIERS[tier].lab} pricing shown.</p></div></div>
+  if(coil.length) html+=`<div class="sec-head" style="margin-top:1.4rem"><div><div class="eyebrow">Heat pump · hybrid-ready</div><h2 style="font-size:1.4rem">Heat Pump + Cased Coil systems</h2><p>AHRI-certified heat pump + WPCC cased coil at 16 SEER2. Add a Continental gas furnace and the W370-10010241 adapter for a hybrid, dual-fuel system. You choose the furnace. ${TIERS[tier].lab} pricing shown.</p></div></div>
     <div class="bundles" style="padding:0">${coil.map(hpCard).join("")}</div>`;
   return html+'</div>';
 }
@@ -1176,7 +1176,7 @@ function playCommercial(){
     <div class="cm-stage">
       <div class="cm-s"><img class="cm-mark" src="/apple-touch-icon.png" alt=""><div class="cm-word">Continental</div><div class="cm-sub">Made in the Americas</div></div>
       <div class="cm-s"><div class="cm-eyebrow">Gas Furnaces &middot; Ultimate 9700</div><div class="cm-big">Up to<br>97% AFUE</div><img class="cm-img" src="${furn}" alt=""></div>
-      <div class="cm-s"><div class="cm-eyebrow">Clean air, every cycle</div><div class="cm-uv"><span class="cm-glow"></span><div class="cm-big">UV-C<br>Technology</div></div><div class="cm-sub">Built in &mdash; not bolted on</div></div>
+      <div class="cm-s"><div class="cm-eyebrow">Clean air, every cycle</div><div class="cm-uv"><span class="cm-glow"></span><div class="cm-big">UV-C<br>Technology</div></div><div class="cm-sub">Built in, not bolted on</div></div>
       <div class="cm-s"><div class="cm-eyebrow">One complete lineup</div><div class="cm-big" style="font-size:clamp(1.7rem,5.4vw,3.3rem)">Furnaces &middot; AC<br>Heat Pumps &middot; Ductless</div><img class="cm-lineup" src="/lineup-continental.png?v=3" alt=""></div>
       <div class="cm-s"><div class="cm-word" style="font-size:clamp(2.4rem,7vw,4rem)">Continental</div><div class="cm-sub">Comfort, built to move real volume.</div><a class="cm-cta" href="#/c/furnaces" onclick="closeCommercial()">Explore the lineup &rarr;</a></div>
     </div>`;
@@ -1362,7 +1362,7 @@ function renderMZ(d,el){
    </div>
    <div style="margin-top:1rem">
      <div style="font-family:var(--head);text-transform:uppercase;letter-spacing:.03em;font-size:.95rem">Choose your indoor units</div>
-     <p style="color:var(--muted);font-size:.8rem;margin:.15rem 0 .7rem">One head per zone. We pre-picked a size for each room from the load — change the style or size to suit.</p>
+     <p style="color:var(--muted);font-size:.8rem;margin:.15rem 0 .7rem">One head per zone. We pre-picked a size for each room from the load. Change the style or size to suit.</p>
      <div id="mzRows">${rows}</div>
    </div>${load}
    <button class="btn ghost sm" style="justify-content:center;width:100%;margin-top:.7rem" onclick="runDucted()">Check a ducted system for this home →</button>
