@@ -236,6 +236,8 @@ section{padding-block:clamp(1.8rem,4vw,2.8rem)}
 
 .detail{display:grid;grid-template-columns:1fr 1fr;gap:1.8rem}
 .detail .dimg{background:var(--media);border:1px solid var(--line);border-radius:var(--radius);aspect-ratio:1;display:grid;place-items:center;padding:2rem}
+.detail .dimg video{width:100%;height:100%;object-fit:contain}
+.vid360{position:absolute;top:.6rem;left:.6rem;background:var(--accent);color:#fff;font-family:var(--head);font-weight:700;font-size:.66rem;letter-spacing:.08em;text-transform:uppercase;padding:.25rem .55rem;border-radius:999px;pointer-events:none}
 .detail .dimg img{width:100%;height:100%;object-fit:contain}
 .detail h1{font-size:clamp(1.6rem,3.6vw,2.2rem);margin:.3rem 0;text-transform:uppercase;letter-spacing:.01em}
 .spec{width:100%;border-collapse:collapse;margin:1rem 0;font-size:.9rem}
@@ -530,7 +532,7 @@ const P=[
   {id:"wtacs0060",cat:"air-conditioners",name:"13.4 SEER2 Air Conditioner, 5 Ton",model:"WTACS0060BA1-C",img:AC_IMG,imgN:"/nap-ac.png",url:"https://www.continentalcomfort.com/en/products/hvac/",price:4185,
     specs:{"Tonnage":"5 ton","Efficiency":"13.4 SEER2","Cooling capacity":"53,000 BTU/h","Dimensions":"47.875 x 29.5 x 29.5 in","Net weight":"250 lbs","Refrigerant":"R-454B"},
     feat:["Scroll compressor with R-454B refrigerant","Microchannel condenser and swept fan blades","Factory-installed liquid line dryer","Service valves outside the cabinet for easy servicing","Removable service panel for electrical access"]},
-  {id:"hp2436",cat:"heat-pumps",name:"Cold Climate Heat Pump, 2 to 3 Ton",model:"WSEHV2436BA1-C",img:"/hp-2436.png?v=2",imgN:"/nap-hp1.png?v=2",url:"https://www.continentalcomfort.com/en/products/hvac/",price:4090,
+  {id:"hp2436",cat:"heat-pumps",name:"Cold Climate Heat Pump, 2 to 3 Ton",model:"WSEHV2436BA1-C",img:"/hp-2436.png?v=2",imgN:"/nap-hp1.png?v=2",vid:"/vid-hp360.mp4",vidN:"/vid-hp360.mp4",url:"https://www.continentalcomfort.com/en/products/hvac/",price:4090,
     specs:{"Capacity":"2 to 3 ton (24k-34k BTU/h)","Efficiency":"Up to 18.5 SEER2 · 10 HSPF2 (with air handler)","With cased coil":"16 SEER2 · 8.5 HSPF2","Cold climate":"Heats to −22°F","Compressor":"Hyper Heat DC inverter","Dimensions":"37.8 x 39 x 14.6 in","Net weight":"187 lbs","Refrigerant":"R-454B"},
     feat:["Hyper Heat DC inverter rotary compressor, rated to −22°F","100% heating capacity at −5°F and 100% cooling at 115°F","Side-discharge design with a smaller footprint for narrow spaces","NEEP cold-climate certified; NRCan Greener Homes listed when paired with a furnace or air handler","Works with the EQHub smart thermostat, standard thermostats, or home automation"]},
   {id:"hp4860",cat:"heat-pumps",name:"Cold Climate Heat Pump, 4 to 5 Ton",model:"WSEHV4860BA1-C",img:"/hp-4860.png?v=2",imgN:"/nap-hp2.png?v=2",url:"https://www.continentalcomfort.com/en/products/hvac/",price:5200,
@@ -840,6 +842,7 @@ const BRAND={continental:{name:"Continental",op:'Exclusive online<br>distributor
 let brand=(load("sc_nap",0)===1 && load("sc_brand","continental")==="napoleon")?"napoleon":"continental";
 function mdl(m){if(brand!=="napoleon"||!m)return m;m=String(m).replace(/^CD/,"ND");return m.replace(/-C\b/g,"-N")}
 function pimg(p){return (brand==="napoleon"&&p&&p.imgN)?p.imgN:(p?p.img:"")}
+function pvid(p){return (brand==="napoleon"&&p&&p.vidN)?p.vidN:(p&&p.vid?p.vid:"")}
 function applyBrand(){
   document.documentElement.setAttribute("data-brand",brand);
   document.documentElement.setAttribute("data-theme",brand==="napoleon"?"dark":"light");
@@ -935,10 +938,12 @@ function vCat(id){
 function vProduct(id){
   const p=byId(id); if(!p)return vHome();
   const specRows=Object.entries(p.specs).map(([k,v])=>`<tr><th>${k}</th><td>${v}</td></tr>`).join("");
+  const vurl=pvid(p);
+  const media=vurl?`<video src="${vurl}" poster="${pimg(p)}" autoplay muted loop playsinline controls preload="metadata" style="width:100%;height:100%;object-fit:contain;background:#fff"></video><span class="vid360">360° view</span>`:`<img src="${pimg(p)}" alt="${coEsc(p.name)}">`;
   return `<div class="wrap"><section>
     <div class="crumb"><a href="#/">Home</a> / <a href="#/c/${p.cat}">${catName(p.cat)}</a> / <span>${mdl(p.name)}</span></div>
     <div class="detail">
-      <div class="dimg"><img src="${pimg(p)}" alt="${p.name}"></div>
+      <div class="dimg" style="position:relative">${media}</div>
       <div>
         <div class="kicker" style="font-family:var(--head);color:var(--muted);text-transform:uppercase;letter-spacing:.1em;font-size:.72rem">${catName(p.cat)}</div>
         <h1>${mdl(p.name)}</h1>
