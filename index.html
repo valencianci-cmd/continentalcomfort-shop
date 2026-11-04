@@ -760,7 +760,7 @@ const SYS_BUNDLES=[
 ];
 /* bundle tier pricing from real STW cost: homeowner = tool customer price (40%), trade tiers derived */
 const BTIER={home:b=>b.msrp,contractor:b=>b.msrp*0.80,distributor:b=>b.msrp*0.70};
-const bundlePrice=b=>(BTIER[tier]||BTIER.home)(b);
+const bundlePrice=b=>(BTIER[tier]||BTIER.home)(b)*bf();
 const ACCESSORIES=[
   {grp:"Thermostats",model:"WSC43BA-KT",desc:"EQHub Smart Thermostat",cost:248.72},
   {grp:"Thermostats",model:"TH6210U2001",desc:"2H/1C Programmable T-Stat",cost:89.08},
@@ -775,7 +775,7 @@ const ACCESSORIES=[
   {grp:"Filtration",model:'20×25×5',desc:"MERV 11 Filter Rack",cost:128.81},
   {grp:"Hybrid Kits",model:"W370-10010241",desc:"Coil/Furnace Adapter Kit, 22.5 in (GF)",cost:27.00},
 ];
-const accPrice=a=>a.cost*(tier==="home"?1.40:tier==="contractor"?1.15:1.08);
+const accPrice=a=>a.cost*(tier==="home"?1.40:tier==="contractor"?1.15:1.08)*bf();
 /* Cold Climate Heat Pump systems (R-454B), ratings per Napoleon 2026 price book.
    AH = heat pump + WPFX air handler = complete all-electric system (18 to 19 SEER2).
    COIL = heat pump + WPCC cased coil = AHRI-certified 16 SEER2; add a gas furnace + W370-10010241 adapter for a hybrid. */
@@ -813,7 +813,7 @@ const CROSS=[
 const TIERS={home:{m:1,lab:"Guest"},contractor:{m:.80,lab:"Contractor"},distributor:{m:.70,lab:"Distributor"}};
 let tier="home"; /* locked to homeowner, trade pricing gated to approved accounts in the production build */
 const fmt=n=>"$"+Math.round(n).toLocaleString();
-const priceOf=p=>p.price*TIERS[tier].m;
+const priceOf=p=>p.price*TIERS[tier].m*bf();
 
 function load(k,d){try{const v=localStorage.getItem(k);return v==null?d:JSON.parse(v)}catch(e){return d}}
 function save(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}
@@ -826,12 +826,12 @@ function resolveLine(key){
   if(key.startsWith("sys-")){const b=SYS_BUNDLES.find(x=>x.ahri===key.slice(4));if(!b)return null;
     return {name:b.seer+" System · "+b.ton+" Ton",model:"AHRI# "+b.ahri+" · "+toC(b.cond),img:AC_IMG,price:bundlePrice(b)};}
   if(key.startsWith("hp-")){const s=HP_SYSTEMS.find(x=>x.ahri&&x.ahri===key.slice(3));if(!s)return null;
-    const hp=byId(s.hp),m=byId(s.match);const pr=((hp?hp.price:0)+(m?m.price:0))*(tier==="home"?1:tier==="contractor"?0.80:0.70);
+    const hp=byId(s.hp),m=byId(s.match);const pr=((hp?hp.price:0)+(m?m.price:0))*(tier==="home"?1:tier==="contractor"?0.80:0.70)*bf();
     return {name:s.seer2+" SEER2 Heat Pump System · "+s.ton+" Ton",model:"AHRI# "+s.ahri,img:HP_IMG,price:pr};}
   if(key.startsWith("acc-")){const a=ACCESSORIES.find(x=>x.model.replace(/'/g,"")===key.slice(4));if(!a)return null;
     return {name:a.desc,model:a.model,img:COIL_IMG,price:accPrice(a)};}
   if(key.startsWith("ds-")){const s=DUCTLESS_SYSTEMS.find(x=>x.id===key.slice(3));if(!s)return null;
-    return {name:s.series+" Single-Zone · "+s.btu+"K",model:mdl(s.out)+" + "+mdl(s.ind),img:dsImg(s),price:s.msrp*(tier==="home"?1:tier==="contractor"?0.80:0.70)};}
+    return {name:s.series+" Single-Zone · "+s.btu+"K",model:mdl(s.out)+" + "+mdl(s.ind),img:dsImg(s),price:s.msrp*(tier==="home"?1:tier==="contractor"?0.80:0.70)*bf()};}
   const p=byId(key);return p?{name:p.name,model:p.model,img:pimg(p),price:priceOf(p)}:null;
 }
 function cartLines(){return Object.keys(cart).map(id=>({p:resolveLine(id),q:cart[id],id})).filter(x=>x.p)}
@@ -862,6 +862,7 @@ function checkoutMsg(){const f=document.getElementById("cartFoot");const n=docum
 function setTier(v){tier=v;save("sc_tier",v);route();renderCart()}
 const BRAND={continental:{name:"Continental",op:'Exclusive online<br>distributor'},napoleon:{name:"Napoleon",op:'Innovation<br>Built Better'}};
 let brand=(load("sc_nap",0)===1 && load("sc_brand","continental")==="napoleon")?"napoleon":"continental";
+function bf(){return brand==="napoleon"?0.9:1;} /* Napoleon list price runs 10% under Continental */
 function mdl(m){if(brand!=="napoleon"||!m)return m;m=String(m).replace(/^CD/,"ND");return m.replace(/-C\b/g,"-N")}
 function pimg(p){return (brand==="napoleon"&&p&&p.imgN)?p.imgN:(p?p.img:"")}
 function pvid(p){if(brand==="napoleon")return (p&&p.vidN)?p.vidN:"";return (p&&p.vid)?p.vid:""}
@@ -1042,7 +1043,7 @@ function hpBlock(ton){
 }
 function hpCard(s){
   const hp=byId(s.hp),m=byId(s.match);
-  const price=((hp?hp.price:0)+(m?m.price:0))*(tier==="home"?1:tier==="contractor"?0.80:0.70);
+  const price=((hp?hp.price:0)+(m?m.price:0))*(tier==="home"?1:tier==="contractor"?0.80:0.70)*bf();
   const isAH=s.kind==="ah";
   const parts=[hp,m].filter(Boolean);
   const rate=isAH
@@ -1352,7 +1353,7 @@ function renderMZ(d,el){
     mzRooms.push({name:nm,rec:rec});
     mzSel.push({style:"wall",size:hNearest("wall",rec)});
   }
-  const outLines=mzOut.map(it=>{const p=byId(it.sku);if(!p)return"";return `<div class="r"><span>${coEsc(mdl(p.name))}${it.qty>1?(" &times;"+it.qty):""} <span style="color:var(--muted)">· ${coEsc(mdl(p.model))}</span></span><span class="tnum">${fmt(p.price*(it.qty||1))}</span></div>`;}).join("");
+  const outLines=mzOut.map(it=>{const p=byId(it.sku);if(!p)return"";return `<div class="r"><span>${coEsc(mdl(p.name))}${it.qty>1?(" &times;"+it.qty):""} <span style="color:var(--muted)">· ${coEsc(mdl(p.model))}</span></span><span class="tnum">${fmt(p.price*(it.qty||1)*bf())}</span></div>`;}).join("");
   const rows=mzRooms.map((r,i)=>mzRow(r,i)).join("");
   const load=d.loads&&d.loads.heating?`<p style="color:var(--muted);font-size:.8rem;margin:.5rem 0 0">Estimated load: ${Math.round(d.loads.heating).toLocaleString()} BTU heating${d.loads.cooling?(", "+Math.round(d.loads.cooling).toLocaleString()+" BTU cooling"):""}.</p>`:"";
   el.innerHTML=`<div class="cosum" style="margin-top:1rem">
@@ -1386,8 +1387,8 @@ function mzSize(i,v){mzSel[i].size=Number(v);mzRecalc();}
 function mzHeadSku(i){const s=mzSel[i];return HEAD_OPT[s.style].skus[s.size];}
 function mzRecalc(){
   let tot=0;
-  mzOut.forEach(it=>{const p=byId(it.sku);if(p)tot+=p.price*(it.qty||1);});
-  mzSel.forEach((s,i)=>{const p=byId(mzHeadSku(i));const el=document.getElementById("mzP"+i);if(p){tot+=p.price;if(el)el.textContent=fmt(p.price);}});
+  mzOut.forEach(it=>{const p=byId(it.sku);if(p)tot+=p.price*(it.qty||1)*bf();});
+  mzSel.forEach((s,i)=>{const p=byId(mzHeadSku(i));const el=document.getElementById("mzP"+i);if(p){tot+=p.price*bf();if(el)el.textContent=fmt(p.price*bf());}});
   const t=document.getElementById("mzTotal");if(t)t.textContent=fmt(tot);
 }
 function mzAdd(){
