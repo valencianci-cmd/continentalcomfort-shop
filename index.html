@@ -862,7 +862,11 @@ function checkoutMsg(){const f=document.getElementById("cartFoot");const n=docum
 function setTier(v){tier=v;save("sc_tier",v);route();renderCart()}
 const BRAND={continental:{name:"Continental",op:'Exclusive online<br>distributor'},napoleon:{name:"Napoleon",op:'Innovation<br>Built Better'}};
 let brand=(load("sc_nap",0)===1 && load("sc_brand","continental")==="napoleon")?"napoleon":"continental";
-function bf(){return brand==="napoleon"?0.9:1;} /* Napoleon list price runs 10% under Continental */
+let PRICING=null; /* per-brand Guest multipliers from the admin grid, fetched at load */
+function bf(){
+  if(PRICING&&PRICING[brand]&&PRICING[brand].homeowner!=null) return Number(PRICING[brand].homeowner);
+  return brand==="napoleon"?0.9:1;
+}
 function mdl(m){if(brand!=="napoleon"||!m)return m;m=String(m).replace(/^CD/,"ND");return m.replace(/-C\b/g,"-N")}
 function pimg(p){return (brand==="napoleon"&&p&&p.imgN)?p.imgN:(p?p.img:"")}
 function pvid(p){if(brand==="napoleon")return (p&&p.vidN)?p.vidN:"";return (p&&p.vid)?p.vid:""}
@@ -1217,6 +1221,12 @@ const API="https://continentalcomfort-api.onrender.com";
 const GUEST_M=1; // Guest pays full MSRP (list); trade discounts require an approved account
 const CHECKOUT_ON=true; // catalog verified against 2026 book; checkout live
 
+/* Pull the admin-set per-brand pricing grid so displayed prices match the backend. */
+async function loadPricingMatrix(){
+  try{ const r=await fetch(API+"/api/pricing"); const j=await r.json(); if(j&&j.pricing){PRICING=j.pricing;route();renderCart();} }catch(e){}
+}
+loadPricingMatrix();
+
 /* ---------------- Register / request access ---------------- */
 function val(id){const e=document.getElementById(id);return e?e.value.trim():""}
 function setRg(t,c){const e=document.getElementById("rgMsg");if(e){e.textContent=t||"";e.className="comsg "+(c||"")}}
@@ -1480,6 +1490,7 @@ async function submitOrder(){
       const pm=await dropinInstance.requestPaymentMethod();
       body={items,ship,nonce:pm.nonce,deviceData:pm.deviceData};
     }
+    body.brand=brand;
     const res=await fetch(API+"/api/orders",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(body)});
     const d=await res.json();
     if(!res.ok||!(d.paid||d.po)) throw new Error(d.error||"order could not be completed");

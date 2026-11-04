@@ -15,8 +15,28 @@ const pool = new Pool({
 (async () => {
   try {
     const sql = fs.readFileSync(path.join(__dirname, "schema.sql"), "utf8");
+    // Upgrade an existing single-tier pricing_tiers to the per-brand shape BEFORE
+    // schema.sql re-seeds, so the branded ON CONFLICT target exists.
+    const pt = await pool.query("SELECT to_regclass('public.pricing_tiers') AS t");
+    if (pt.rows[0].t) {
+      await pool.query("ALTER TABLE pricing_tiers ADD COLUMN IF NOT EXISTS brand TEXT NOT NULL DEFAULT 'continental'");
+      const pk = await pool.query(
+        `SELECT a.attname FROM pg_index i
+           JOIN pg_attribute a ON a.attrelid=i.indrelid AND a.attnum=ANY(i.indkey)
+          WHERE i.indrelid='pricing_tiers'::regclass AND i.indisprimary`);
+      if (!pk.rows.some(r => r.attname === "brand")) {
+        await pool.query("ALTER TABLE pricing_tiers DROP CONSTRAINT IF EXISTS pricing_tiers_pkey");
+        await pool.query("ALTER TABLE pricing_tiers ADD CONSTRAINT pricing_tiers_pkey PRIMARY KEY (brand, tier)");
+      }
+    }
     await pool.query(sql);
     await pool.query("ALTER TABLE orders ADD COLUMN IF NOT EXISTS po_number TEXT");
+    await pool.query("ALTER TABLE orders ADD COLUMN IF NOT EXISTS brand TEXT NOT NULL DEFAULT 'continental'");
+    // Seed Napoleon tiers at 10% under Continental the first time; never overwrites edits.
+    await pool.query(
+      `INSERT INTO pricing_tiers (brand, tier, multiplier, label)
+         SELECT 'napoleon', tier, ROUND(multiplier*0.9, 4), label FROM pricing_tiers WHERE brand='continental'
+         ON CONFLICT (brand, tier) DO NOTHING`);
     console.log("schema applied");
 
     // Catalog: upsert every product so prices/fields stay in sync with the file.

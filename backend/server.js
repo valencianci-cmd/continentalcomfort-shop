@@ -71,9 +71,18 @@ async function tierFor(user) {
   const c = rows[0];
   return c && c.status === "approved" ? c.tier : "homeowner";
 }
-async function multiplier(tier) {
-  const { rows } = await pool.query("SELECT multiplier FROM pricing_tiers WHERE tier=$1", [tier]);
-  return rows[0] ? Number(rows[0].multiplier) : 1;
+// Brand is continental (default) or napoleon. Pricing is a per-brand, per-tier
+// multiplier grid, set in admin. Falls back to a sensible value if a row is missing.
+function brandOf(req, body) {
+  const b = (body && body.brand) || (req && req.query && req.query.brand);
+  return b === "napoleon" ? "napoleon" : "continental";
+}
+async function multiplier(brand, tier) {
+  const { rows } = await pool.query(
+    "SELECT multiplier FROM pricing_tiers WHERE brand=$1 AND tier=$2", [brand, tier]);
+  if (rows[0]) return Number(rows[0].multiplier);
+  const tierM = tier === "contractor" ? 0.8 : tier === "distributor" ? 0.7 : 1;
+  return (brand === "napoleon" ? 0.9 : 1) * tierM;
 }
 const priced = (listPrice, m) => Math.round(Number(listPrice) * m * 100) / 100;
 
@@ -97,7 +106,7 @@ app.get("/api/health", async (_req, res) => {
 // ---------- catalog (tier-aware; trade prices only for approved accounts) ----------
 app.get("/api/products", auth(false), async (req, res) => {
   const tier = await tierFor(req.user);
-  const m = await multiplier(tier);
+  const m = await multiplier(brandOf(req, null), tier);
   const q = req.query.category ? "AND category=$1" : "";
   const params = req.query.category ? [req.query.category] : [];
   const { rows } = await pool.query(
@@ -111,6 +120,17 @@ app.get("/api/products", auth(false), async (req, res) => {
       ahri: p.ahri, stock_qty: p.stock_qty,
     })),
   });
+});
+
+// Public: the per-brand, per-tier multiplier grid, so the storefront can show
+// the correct brand price. Read-only; no account data exposed.
+app.get("/api/pricing", async (_req, res) => {
+  try {
+    const { rows } = await pool.query("SELECT brand, tier, multiplier FROM pricing_tiers");
+    const out = {};
+    for (const r of rows) { (out[r.brand] = out[r.brand] || {})[r.tier] = Number(r.multiplier); }
+    res.json({ pricing: out });
+  } catch (e) { res.status(500).json({ error: String(e.message || e) }); }
 });
 
 // ---------- customer accounts ----------
@@ -198,16 +218,17 @@ app.post("/api/admin/customers/:id/approve", auth(), requireAdmin, async (req, r
 
 // Current tier pricing (for the admin dashboard to display).
 app.get("/api/admin/pricing", auth(), requireAdmin, async (_req, res) => {
-  const { rows } = await pool.query("SELECT tier, multiplier, label FROM pricing_tiers ORDER BY multiplier DESC");
+  const { rows } = await pool.query("SELECT brand, tier, multiplier, label FROM pricing_tiers ORDER BY brand, multiplier DESC");
   res.json({ tiers: rows });
 });
 
 // Set the discount multiplier for a tier (this is where discount-off pricing is controlled).
-app.put("/api/admin/pricing/:tier", auth(), requireAdmin, async (req, res) => {
+app.put("/api/admin/pricing/:brand/:tier", auth(), requireAdmin, async (req, res) => {
   const { multiplier: mult } = req.body || {};
   if (!(mult > 0 && mult <= 1)) return res.status(400).json({ error: "multiplier must be between 0 and 1 (e.g. 0.80 = 20% off list)" });
-  const { rows } = await pool.query("UPDATE pricing_tiers SET multiplier=$1 WHERE tier=$2 RETURNING *", [mult, req.params.tier]);
-  if (!rows[0]) return res.status(404).json({ error: "unknown tier" });
+  const brand = req.params.brand === "napoleon" ? "napoleon" : "continental";
+  const { rows } = await pool.query("UPDATE pricing_tiers SET multiplier=$1 WHERE brand=$2 AND tier=$3 RETURNING *", [mult, brand, req.params.tier]);
+  if (!rows[0]) return res.status(404).json({ error: "unknown brand/tier" });
   res.json({ ok: true, tier: rows[0] });
 });
 
@@ -243,7 +264,8 @@ app.post("/api/orders", orderLimiter, auth(false), async (req, res) => {
   const { items, ship, nonce, deviceData, payment, poNumber } = req.body || {};
   if (!Array.isArray(items) || !items.length) return res.status(400).json({ error: "no items" });
   const tier = await tierFor(req.user);
-  const m = await multiplier(tier);
+  const brand = brandOf(req, req.body);
+  const m = await multiplier(brand, tier);
   const client = await pool.connect();
   let txnId = null;
   try {
@@ -292,9 +314,9 @@ app.post("/api/orders", orderLimiter, auth(false), async (req, res) => {
     }
 
     const o = await client.query(
-      `INSERT INTO orders (customer_id,email,tier,subtotal,status,braintree_txn,po_number,ship_name,ship_addr,ship_city,ship_state,ship_zip)
-       VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12) RETURNING id`,
-      [req.user && req.user.kind === "customer" ? req.user.id : null, email, tier, subtotal, status, txnId, poNum,
+      `INSERT INTO orders (customer_id,email,tier,brand,subtotal,status,braintree_txn,po_number,ship_name,ship_addr,ship_city,ship_state,ship_zip)
+       VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13) RETURNING id`,
+      [req.user && req.user.kind === "customer" ? req.user.id : null, email, tier, brand, subtotal, status, txnId, poNum,
        ship && ship.name, ship && ship.addr, ship && ship.city, ship && ship.state, ship && ship.zip]);
     const orderId = o.rows[0].id;
     for (const l of lines)

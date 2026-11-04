@@ -32,17 +32,21 @@ CREATE TABLE IF NOT EXISTS customers (
   CONSTRAINT status_values CHECK (status IN ('pending','approved','rejected'))
 );
 
--- Tier pricing multipliers, editable in admin (this is where you set discount off pricing)
+-- Per-brand, per-tier pricing multipliers, editable in admin (this is where you
+-- set discount-off-list pricing). Continental is the baseline; Napoleon is seeded
+-- in migrate.js at 10% under Continental and is independently editable after that.
 CREATE TABLE IF NOT EXISTS pricing_tiers (
-  tier       TEXT PRIMARY KEY,
+  brand      TEXT NOT NULL DEFAULT 'continental',
+  tier       TEXT NOT NULL,
   multiplier NUMERIC(6,4) NOT NULL,         -- applied to base/list price
-  label      TEXT NOT NULL
+  label      TEXT NOT NULL,
+  PRIMARY KEY (brand, tier)
 );
-INSERT INTO pricing_tiers (tier, multiplier, label) VALUES
-  ('homeowner',   1.0000, 'Homeowner'),
-  ('contractor',  0.8000, 'Contractor'),
-  ('distributor', 0.7000, 'Distributor')
-ON CONFLICT (tier) DO NOTHING;
+INSERT INTO pricing_tiers (brand, tier, multiplier, label) VALUES
+  ('continental','homeowner',   1.0000, 'Guest'),
+  ('continental','contractor',  0.8000, 'Contractor'),
+  ('continental','distributor', 0.7000, 'Distributor')
+ON CONFLICT (brand, tier) DO NOTHING;
 
 CREATE TABLE IF NOT EXISTS products (
   id          SERIAL PRIMARY KEY,

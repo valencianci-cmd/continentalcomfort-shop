@@ -148,7 +148,7 @@
 
   <div id="tab-pricing" style="display:none">
     <div class="card" id="priceBox"><div class="empty">Loading…</div></div>
-    <p class="hint">Multiplier is applied to list price. 0.80 means 20% off list. Guest pricing on the storefront currently uses 0.80.</p>
+    <p class="hint">Multiplier is applied to list price. 0.80 means 20% off list. Continental and Napoleon are set independently per tier. The storefront shows each brand's Guest row; Contractor and Distributor apply to approved trade accounts at checkout.</p>
   </div>
 </div>
 
@@ -316,30 +316,40 @@ async function loadOrders(){
   }catch(e){ if(guard(e))return; box.innerHTML='<div class="empty">Could not load: '+esc(e.message)+'</div>'; }
 }
 
+const BRAND_LABEL={continental:"Continental",napoleon:"Napoleon"};
+const TIER_ORDER={homeowner:0,contractor:1,distributor:2};
 async function loadPricing(){
   const box=document.getElementById("priceBox");
   box.innerHTML='<div class="empty">Loading…</div>';
   try{
     const r=await api("/api/admin/pricing");
-    const tiers=r.tiers||[];
-    let h='<table><thead><tr><th>Tier</th><th>Multiplier</th><th>Off list</th><th class="right">Save</th></tr></thead><tbody>';
-    for(const t of tiers){
-      const off=Math.round((1-Number(t.multiplier))*100);
-      h+=`<tr>
-        <td><div class="rowtitle">${esc(t.label)}</div><div class="rowsub">${esc(t.tier)}</div></td>
-        <td style="max-width:130px"><input id="mult-${esc(t.tier)}" type="number" step="0.01" min="0.1" max="1" value="${Number(t.multiplier).toFixed(2)}"></td>
-        <td class="muted" id="off-${esc(t.tier)}">${off}% off</td>
-        <td class="right"><button class="btn sm" onclick="savePrice('${esc(t.tier)}')">Save</button></td>
-      </tr>`;
+    const rows=r.tiers||[];
+    const byBrand={};
+    for(const t of rows){ (byBrand[t.brand]=byBrand[t.brand]||[]).push(t); }
+    let h='';
+    for(const brand of ["continental","napoleon"]){
+      const list=(byBrand[brand]||[]).slice().sort((a,b)=>(TIER_ORDER[a.tier]-TIER_ORDER[b.tier]));
+      if(!list.length) continue;
+      h+=`<div class="rowtitle" style="font-size:1.05rem;color:var(--accent2);margin:.2rem 0 .5rem">${BRAND_LABEL[brand]||esc(brand)}</div>`;
+      h+='<table style="margin-bottom:1.4rem"><thead><tr><th>Tier</th><th>Multiplier</th><th>Off list</th><th class="right">Save</th></tr></thead><tbody>';
+      for(const t of list){
+        const off=Math.round((1-Number(t.multiplier))*100);
+        h+=`<tr>
+          <td><div class="rowtitle">${esc(t.label)}</div><div class="rowsub">${esc(t.tier)}</div></td>
+          <td style="max-width:130px"><input id="mult-${esc(brand)}-${esc(t.tier)}" type="number" step="0.01" min="0.1" max="1" value="${Number(t.multiplier).toFixed(2)}"></td>
+          <td class="muted" id="off-${esc(brand)}-${esc(t.tier)}">${off}% off</td>
+          <td class="right"><button class="btn sm" onclick="savePrice('${esc(brand)}','${esc(t.tier)}')">Save</button></td>
+        </tr>`;
+      }
+      h+='</tbody></table>';
     }
-    h+='</tbody></table>';
-    box.innerHTML=h;
+    box.innerHTML=h||'<div class="empty">No pricing rows.</div>';
   }catch(e){ if(guard(e))return; box.innerHTML='<div class="empty">Could not load: '+esc(e.message)+'</div>'; }
 }
-async function savePrice(tier){
-  const v=parseFloat(document.getElementById("mult-"+tier).value);
+async function savePrice(brand,tier){
+  const v=parseFloat(document.getElementById("mult-"+brand+"-"+tier).value);
   if(!(v>0&&v<=1)){ alert("Multiplier must be between 0 and 1, e.g. 0.80"); return; }
-  try{ await api("/api/admin/pricing/"+tier,{method:"PUT",body:JSON.stringify({multiplier:v})}); loadPricing(); }
+  try{ await api("/api/admin/pricing/"+brand+"/"+tier,{method:"PUT",body:JSON.stringify({multiplier:v})}); loadPricing(); }
   catch(e){ if(guard(e))return; alert("Could not save: "+e.message); }
 }
 
