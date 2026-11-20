@@ -1143,13 +1143,16 @@ function vCross(q){
     </div>
   </section></div>`;
 }
+function tokMatch(h,t){return /^[0-9]+(\.[0-9]+)?$/.test(t)?new RegExp("(^|[^0-9.])"+t.replace(".","\\.")+"([^0-9.]|$)").test(h):h.includes(t);}
 function vSearch(q){
   const s=(q||"").toLowerCase().trim();
-  const STOP={for:1,my:1,the:1,a:1,an:1,and:1,with:1,of:1,in:1,on:1,me:1,i:1,need:1,want:1,system:1,unit:1};
+  const STOP={for:1,my:1,the:1,a:1,an:1,and:1,with:1,of:1,in:1,on:1,me:1,i:1,need:1,want:1,system:1,unit:1,looking:1,find:1,new:1,get:1};
   const toks=s.split(/[^a-z0-9.]+/).filter(t=>t&&!STOP[t]);
-  const hay=p=>{let t=p.name+" "+p.model+" "+catName(p.cat);if(p.specs)t+=" "+Object.values(p.specs).join(" ");if(p.feat)t+=" "+p.feat.join(" ");return t.toLowerCase();};
-  // match when every search word appears somewhere in the product's text, not as one literal phrase
-  const hits=toks.length?P.filter(p=>{const h=hay(p);return toks.every(t=>h.includes(t));}):P.filter(p=>hay(p).includes(s));
+  const hay=p=>(p.name+" "+p.model+" "+catName(p.cat)).toLowerCase();
+  // ignore query words that match no product at all (e.g. "house"); require every remaining word, number words matched whole so "3 ton" != the 3 in "14.3"
+  const known=toks.filter(t=>P.some(p=>tokMatch(hay(p),t)));
+  const use=known.length?known:toks;
+  const hits=use.length?P.filter(p=>{const h=hay(p);return use.every(t=>tokMatch(h,t));}):[];
   const x=CROSS.filter(c=>c.comp.toLowerCase().includes(s));
   return `<div class="wrap"><section>
     <div class="crumb"><a href="#/">Home</a> / <span>Search</span></div>
